@@ -8,20 +8,17 @@ const tabs: { label: string; to: string; variant: LandingVariant }[] = [
   { label: 'Style 4', to: '/clarity-v4', variant: 'style-4' },
 ]
 
-const showSwitcher =
-  import.meta.env.DEV || import.meta.env.VITE_SHOW_VARIANT_SWITCHER === 'true'
-
 export function VariantSwitcher() {
-  if (!showSwitcher) return null
-
   return (
     <div
       className="border-b border-white/10 bg-gs-text-primary text-white"
       role="navigation"
-      aria-label="Landing page style preview"
+      aria-label="Landing page style switcher"
     >
       <div className="container-wide flex flex-wrap items-center justify-center gap-1 px-4 py-2 sm:px-8 lg:px-12">
-        <span className="mr-3 hidden text-xs text-white/60 sm:inline">Preview:</span>
+        <span className="mr-3 hidden text-xs font-semibold uppercase tracking-wider text-white/60 sm:inline">
+          Styles
+        </span>
         {tabs.map((tab) => (
           <NavLink
             key={tab.variant}
