@@ -1207,11 +1207,10 @@
 
   .onboard-shell {
     @apply relative flex h-full min-h-0 flex-1 flex-col;
-    padding-top: calc(var(--variant-switcher-h) + 0.5rem);
   }
 
   .onboard-app-header {
-    @apply z-30 shrink-0 px-3 sm:px-4;
+    @apply z-30 shrink-0 px-3 pb-1 pt-2 sm:px-4;
   }
 
   .onboard-app-header-bar {
@@ -1258,15 +1257,15 @@
 
   .onboard-viewport {
     @apply min-h-0 flex-1 overflow-y-auto overscroll-y-contain;
-    padding-top: 0.15rem;
+    padding-top: 0;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
   }
 
   .onboard-section {
-    @apply relative flex scroll-mt-0 flex-col border-b-0 px-2 pb-3;
-    min-height: 93%;
+    @apply relative flex scroll-mt-0 flex-col border-b-0 px-2 pb-2;
+    min-height: 100%;
     scroll-snap-align: start;
     scroll-snap-stop: always;
   }
@@ -1325,13 +1324,6 @@
 
   .onboard-section--coral .onboard-section-micro {
     @apply text-gs-coral;
-  }
-
-  .onboard-section-content {
-    @apply flex min-h-0 flex-1 flex-col rounded-3xl border border-gs-border px-3 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.08)];
-    background: color-mix(in srgb, var(--gs-card) 92%, transparent);
-    backdrop-filter: blur(12px) saturate(145%);
-    -webkit-backdrop-filter: blur(12px) saturate(145%);
   }
 
   .onboard-section-stage {
