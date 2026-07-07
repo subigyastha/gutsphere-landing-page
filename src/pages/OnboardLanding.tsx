@@ -31,6 +31,21 @@ import {
 import { COPILOT_ROUTE } from '../components/journey/constants'
 
 export const ONBOARD_SECTION_COUNT = 13
+const ONBOARD_SECTION_LABELS = [
+  'Hero',
+  'Journey',
+  'Problem',
+  'Shift',
+  'Self Care',
+  'Clinical Navigation',
+  'Clinical Intelligence',
+  'Why GutSphere',
+  'Connected Journey',
+  'Trust',
+  'Journey Moments',
+  'Daily Value',
+  'Begin',
+] as const
 
 function OnboardLandingContent() {
   const { scrollToSection } = useOnboard()
@@ -140,15 +155,15 @@ function OnboardLandingContent() {
 
   return (
     <div className="onboard-landing">
-      <OnboardViewport>
+      <OnboardViewport sectionLabels={ONBOARD_SECTION_LABELS}>
         <OnboardSection
           index={0}
           id="journey-hero"
-          eyebrow="Welcome aboard"
-          title="Your digestive health copilot — before diagnosis, between visits, and beyond treatment."
+          eyebrow="For the questions before answers"
+          title="Your app copilot for digestive discovery."
           titleAs="h1"
-          intro="Digestive symptoms are hard to navigate when every day brings different clues."
-          microcopy="GutSphere does not diagnose, treat, or replace your doctor."
+          intro="Track what changed, review what may matter, and prepare clearer next steps."
+          microcopy="GutSphere supports your journey. It does not diagnose, treat, or replace clinical care."
           slides={heroSlides}
           background="white"
           isHero
@@ -157,9 +172,9 @@ function OnboardLandingContent() {
         <OnboardSection
           index={1}
           id="hero-three-things"
-          eyebrow="How GutSphere supports you"
-          title="Three moments. One continuous copilot."
-          intro="A quick view of where the product helps most."
+          eyebrow="How it helps"
+          title="Three moments. One guided flow."
+          intro="Start with today, prepare for care, then review patterns over time."
           slides={heroThreeThingsSlides}
           background="sand-light"
         />
@@ -168,8 +183,8 @@ function OnboardLandingContent() {
           index={2}
           id="the-problem"
           eyebrow={COPILOT_PROBLEM_SECTION.eyebrow}
-          title={COPILOT_PROBLEM_SECTION.title}
-          microcopy={COPILOT_PROBLEM_SECTION.microcopy}
+          title="Digestive symptoms can feel like a full-time investigation."
+          microcopy="The clues are not missing. They are scattered."
           slides={COPILOT_PROBLEM_SLIDES}
           background="sand-light"
         />
@@ -178,8 +193,8 @@ function OnboardLandingContent() {
           index={3}
           id="the-shift"
           eyebrow={COPILOT_SHIFT_SECTION.eyebrow}
-          title={COPILOT_SHIFT_SECTION.title}
-          intro={COPILOT_SHIFT_SECTION.intro}
+          title="From scattered clues to guided next steps."
+          intro="Tracking is only the start. GutSphere helps you organize, connect, and prepare."
           slides={COPILOT_SHIFT_SLIDES}
           background="white"
           actions={
@@ -193,8 +208,8 @@ function OnboardLandingContent() {
           index={4}
           id="self-care"
           eyebrow={COPILOT_SELF_CARE_SECTION.eyebrow}
-          title={COPILOT_SELF_CARE_SECTION.title}
-          microcopy={COPILOT_SELF_CARE_SECTION.microcopy}
+          title="Self-care that starts with one check-in."
+          microcopy="Capture today. Build useful context for tomorrow."
           slides={COPILOT_SELF_CARE_SLIDES}
           background="sand"
           actions={
@@ -208,8 +223,8 @@ function OnboardLandingContent() {
           index={5}
           id="clinical-navigation"
           eyebrow={COPILOT_CLINICAL_NAV_SECTION.eyebrow}
-          title={COPILOT_CLINICAL_NAV_SECTION.title}
-          microcopy={COPILOT_CLINICAL_NAV_SECTION.microcopy}
+          title="Appointments should not depend only on memory."
+          microcopy="Bring clear context, questions, and summaries to every visit."
           slides={COPILOT_CLINICAL_NAV_SLIDES}
           background="white"
           actions={
@@ -223,8 +238,8 @@ function OnboardLandingContent() {
           index={6}
           id="clinical-intelligence"
           eyebrow={COPILOT_CLINICAL_INTEL_SECTION.eyebrow}
-          title={COPILOT_CLINICAL_INTEL_SECTION.title}
-          microcopy={COPILOT_CLINICAL_INTEL_SECTION.microcopy}
+          title="Review patterns worth discussing."
+          microcopy="Signals to review with your care team, not self-diagnosis."
           slides={COPILOT_CLINICAL_INTEL_SLIDES}
           background="sand-light"
           actions={
@@ -238,7 +253,7 @@ function OnboardLandingContent() {
           index={7}
           id="differentiation"
           eyebrow={COPILOT_DIFFERENTIATION_SECTION.eyebrow}
-          title={COPILOT_DIFFERENTIATION_SECTION.title}
+          title="More than logging. Built for guided decisions."
           slides={COPILOT_DIFFERENTIATION_SLIDES}
           background="white"
           actions={
@@ -252,7 +267,7 @@ function OnboardLandingContent() {
           index={8}
           id="connection"
           eyebrow={COPILOT_CONNECTION_SECTION.eyebrow}
-          title={COPILOT_CONNECTION_SECTION.title}
+          title="One connected path across your gut journey."
           microcopy={COPILOT_CONNECTION_SECTION.microcopy}
           slides={connectionSlides}
           background="sand-light"
@@ -277,7 +292,7 @@ function OnboardLandingContent() {
           index={10}
           id="journey-moments"
           eyebrow={COPILOT_JOURNEY_MOMENTS_SECTION.eyebrow}
-          title={COPILOT_JOURNEY_MOMENTS_SECTION.title}
+          title="Support for each stage that matters."
           slides={COPILOT_JOURNEY_MOMENTS_SLIDES}
           background="white"
           actions={
@@ -291,7 +306,7 @@ function OnboardLandingContent() {
           index={11}
           id="daily-value"
           eyebrow={COPILOT_DAILY_VALUE_SECTION.eyebrow}
-          title={COPILOT_DAILY_VALUE_SECTION.title}
+          title="Open the app and know your next best step."
           microcopy={COPILOT_DAILY_VALUE_SECTION.microcopy}
           slides={COPILOT_DAILY_VALUE_SLIDES}
           background="sand-light"

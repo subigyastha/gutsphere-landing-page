@@ -1200,44 +1200,95 @@
 
   .onboard-landing {
     @apply mx-auto flex h-full w-full max-w-md flex-col bg-gs-sand;
+    background:
+      radial-gradient(120% 40% at 50% -10%, var(--gs-coral-glow), transparent 65%),
+      linear-gradient(180deg, var(--gs-sand-light) 0%, var(--gs-sand) 100%);
   }
 
   .onboard-shell {
-    @apply relative h-full min-h-0 flex-1;
+    @apply relative flex h-full min-h-0 flex-1 flex-col;
+    padding-top: calc(var(--variant-switcher-h) + 0.5rem);
+  }
+
+  .onboard-app-header {
+    @apply z-30 shrink-0 px-3 sm:px-4;
+  }
+
+  .onboard-app-header-bar {
+    @apply pointer-events-auto flex items-center justify-between gap-2 rounded-2xl border border-gs-border px-2.5 py-2;
+    background: color-mix(in srgb, var(--gs-card) 88%, transparent);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.5) inset,
+      0 10px 32px rgba(28, 25, 23, 0.1);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+  }
+
+  .onboard-app-brand {
+    @apply flex min-w-0 items-center gap-2;
+  }
+
+  .onboard-app-brand-mark {
+    @apply flex h-8 w-8 items-center justify-center rounded-xl bg-gs-coral text-xs font-bold text-white;
+  }
+
+  .onboard-app-brand-text {
+    @apply truncate font-display text-sm font-semibold text-gs-text-primary;
+  }
+
+  .onboard-app-header-menu {
+    @apply pointer-events-auto flex h-9 w-9 items-center justify-center rounded-xl border border-gs-border bg-gs-card text-gs-text-primary shadow-[0_1px_3px_rgba(0,0,0,0.04)];
+  }
+
+  .onboard-app-header-menu svg {
+    @apply h-[18px] w-[18px];
+  }
+
+  .onboard-app-header-meta {
+    @apply mx-auto flex min-w-0 items-center gap-1.5 rounded-full border border-gs-border bg-gs-sand-light px-2.5 py-1;
+  }
+
+  .onboard-app-header-subtitle {
+    @apply max-w-[8.25rem] truncate text-[10px] font-medium text-gs-text-secondary;
+  }
+
+  .onboard-app-header-count {
+    @apply rounded-full bg-gs-card px-1.5 py-0.5 text-[9px] font-medium text-gs-text-muted;
   }
 
   .onboard-viewport {
-    @apply h-full overflow-y-auto overscroll-y-contain;
+    @apply min-h-0 flex-1 overflow-y-auto overscroll-y-contain;
+    padding-top: 0.15rem;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
   }
 
   .onboard-section {
-    @apply relative flex scroll-mt-0 flex-col border-b border-gs-border/40;
+    @apply relative flex scroll-mt-0 flex-col border-b-0 px-2 pb-3;
     min-height: 93%;
     scroll-snap-align: start;
     scroll-snap-stop: always;
   }
 
   .onboard-section--white {
-    @apply bg-white;
+    @apply bg-transparent;
   }
 
   .onboard-section--sand {
-    @apply bg-gs-sand;
+    @apply bg-transparent;
   }
 
   .onboard-section--sand-light {
-    @apply bg-gs-sand-light;
+    @apply bg-transparent;
   }
 
   .onboard-section--coral {
-    @apply border-gs-coral bg-gs-coral text-white;
+    @apply bg-transparent text-white;
   }
 
   .onboard-section-inner {
-    @apply flex min-h-full flex-1 flex-col px-4 py-5 sm:px-5;
+    @apply flex min-h-full flex-1 flex-col px-4 py-4 sm:px-5;
   }
 
   .onboard-section-header {
@@ -1249,35 +1300,42 @@
   }
 
   .onboard-section--coral .onboard-section-eyebrow {
-    @apply text-white/80;
+    @apply text-gs-coral;
   }
 
   .onboard-section-title {
-    @apply mt-1.5 font-display text-xl font-semibold leading-snug tracking-tight text-gs-text-primary sm:text-2xl;
+    @apply mt-1.5 font-display text-[30px] font-semibold leading-[1.1] tracking-tight text-gs-text-primary sm:text-[34px];
   }
 
   .onboard-section--coral .onboard-section-title {
-    @apply text-white;
+    @apply text-gs-text-primary;
   }
 
   .onboard-section-intro {
-    @apply mt-2 text-sm leading-relaxed text-gs-text-secondary;
+    @apply mt-2 text-base leading-relaxed text-gs-text-secondary;
   }
 
   .onboard-section--coral .onboard-section-intro {
-    @apply text-white/90;
+    @apply text-gs-text-secondary;
   }
 
   .onboard-section-micro {
-    @apply mt-2 text-xs font-medium text-gs-coral sm:text-sm;
+    @apply mt-2 text-sm font-medium text-gs-coral;
   }
 
   .onboard-section--coral .onboard-section-micro {
-    @apply text-white/85;
+    @apply text-gs-coral;
+  }
+
+  .onboard-section-content {
+    @apply flex min-h-0 flex-1 flex-col rounded-3xl border border-gs-border px-3 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.08)];
+    background: color-mix(in srgb, var(--gs-card) 92%, transparent);
+    backdrop-filter: blur(12px) saturate(145%);
+    -webkit-backdrop-filter: blur(12px) saturate(145%);
   }
 
   .onboard-section-stage {
-    @apply relative flex min-h-0 flex-1 flex-col justify-center overflow-hidden py-1;
+    @apply relative flex min-h-0 flex-1 flex-col justify-center overflow-hidden;
   }
 
   .onboard-swipe-viewport {
@@ -1307,11 +1365,11 @@
   }
 
   .onboard-swipe-slide .billboard-slide {
-    @apply min-h-[min(380px,50vh)] w-full px-5 py-7 shadow-[0_12px_40px_rgba(0,0,0,0.08)] sm:px-6 sm:py-8;
+    @apply min-h-[min(380px,50vh)] w-full border border-gs-border bg-gs-card px-5 py-7 shadow-[0_12px_36px_rgba(0,0,0,0.1)] sm:px-6 sm:py-8;
   }
 
   .onboard-section--coral .onboard-swipe-slide .billboard-slide {
-    @apply border-white/20 bg-white/95;
+    @apply border-gs-border bg-gs-card;
   }
 
   .onboard-card-dots {
@@ -1344,7 +1402,7 @@
   }
 
   .onboard-rail {
-    @apply pointer-events-none absolute right-2 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-1.5;
+    @apply pointer-events-none absolute right-3 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-1.5;
   }
 
   .onboard-rail-dot {
