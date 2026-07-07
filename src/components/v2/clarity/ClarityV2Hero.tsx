@@ -5,6 +5,7 @@ import { NAVIGATOR_COUNT, PRIMARY_CTA_LABEL, SIGNUP_URL } from '../../../constan
 export function ClarityV2Hero() {
   return (
     <section
+      data-landing-hero
       className="section-pad bg-gs-sand !py-12 sm:!py-16 lg:!py-20"
       aria-labelledby="clarity-v2-hero-heading"
     >

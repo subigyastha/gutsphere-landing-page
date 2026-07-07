@@ -7,6 +7,7 @@ import { PRIMARY_CTA_LABEL, SIGNUP_URL } from '../constants'
 export function Hero() {
   return (
     <section
+      data-landing-hero
       className="section-pad bg-gs-sand !py-12 sm:!py-16 lg:!py-20"
       aria-labelledby="hero-heading"
     >

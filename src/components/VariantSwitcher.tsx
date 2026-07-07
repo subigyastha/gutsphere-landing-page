@@ -2,20 +2,23 @@ import { NavLink } from 'react-router-dom'
 import type { LandingVariant } from '../constants'
 
 const tabs: { label: string; to: string; variant: LandingVariant }[] = [
-  { label: 'Style 1', to: '/', variant: 'style-1' },
-  { label: 'Style 2', to: '/navigators', variant: 'style-2' },
-  { label: 'Style 3', to: '/clarity-v2', variant: 'style-3' },
   { label: 'Style 4', to: '/clarity-v4', variant: 'style-4' },
+  { label: 'Style 6', to: '/flight', variant: 'style-6' },
+  { label: 'Style 7', to: '/guided', variant: 'style-7' },
+  { label: 'Style 8', to: '/copilot', variant: 'style-8' },
+  { label: 'Style 10', to: '/flow', variant: 'style-10' },
+  { label: 'Style 11', to: '/onboard', variant: 'style-11' },
+  { label: 'Style 12', to: '/scroll-gut', variant: 'style-12' },
 ]
 
 export function VariantSwitcher() {
   return (
     <div
-      className="border-b border-white/10 bg-gs-text-primary text-white"
+      className="variant-switcher"
       role="navigation"
       aria-label="Landing page style switcher"
     >
-      <div className="container-wide flex flex-wrap items-center justify-center gap-1 px-4 py-2 sm:px-8 lg:px-12">
+      <div className="container-wide flex flex-wrap items-center justify-center gap-1 px-4 py-2 text-white sm:px-8 lg:px-12">
         <span className="mr-3 hidden text-xs font-semibold uppercase tracking-wider text-white/60 sm:inline">
           Styles
         </span>

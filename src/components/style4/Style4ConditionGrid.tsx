@@ -9,10 +9,10 @@ export function Style4ConditionGrid() {
   return (
     <Style4Section
       id="conditions"
-      eyebrow="What we do"
-      heading="Digital solutions for your GI journey"
+      eyebrow="Your journey"
+      heading="Support for every stage of digestive health"
       headingId="style4-conditions-heading"
-      intro="You do not need a diagnosis to start. Tap what sounds familiar."
+      intro="Whether you are undiagnosed, in limbo, on treatment, or rebuilding long-term — start from what sounds familiar."
       background="white"
     >
       <div className="mt-8 sm:mt-10">

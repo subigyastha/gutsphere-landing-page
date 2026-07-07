@@ -1,6 +1,6 @@
 import { Button } from './Button'
 import { CoralSectionGraphics } from './CoralSectionGraphics'
-import { PRIMARY_CTA_LABEL, SIGNUP_URL } from '../constants'
+import { PRIMARY_CTA_LABEL, SECONDARY_CTA_LABEL, SIGNUP_URL } from '../constants'
 
 interface FinalCTAProps {
   headline?: string
@@ -43,7 +43,7 @@ export function FinalCTA({
             href="#how-it-works"
             className="w-full !text-white hover:!bg-white/10 sm:w-auto"
           >
-            See how it works
+            {SECONDARY_CTA_LABEL}
           </Button>
         </div>
 

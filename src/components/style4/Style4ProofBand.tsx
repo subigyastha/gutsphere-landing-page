@@ -15,10 +15,10 @@ const metrics: { value: string; label: string; placeholder?: boolean }[] = [
 export function Style4ProofBand() {
   return (
     <Style4Section
-      eyebrow="Overview"
-      heading="Metrics speak for themselves"
+      eyebrow="Social proof"
+      heading="People navigating real digestive health journeys"
       headingId="style4-proof-heading"
-      intro="Trusted by people living with real symptoms."
+      intro="Not just logging — building clarity, preparation, and long-term control."
       background="white"
       centered
     >
@@ -32,10 +32,10 @@ export function Style4ProofBand() {
             Trusted by {NAVIGATOR_COUNT} people
           </p>
           <h3 className="section-heading mt-3 text-center style4-gradient-text">
-            Loved by people living with real symptoms
+            A copilot, not another tracker
           </h3>
           <p className="body-lg mx-auto mt-3 max-w-2xl text-center sm:mt-4">
-            What it feels like to have a system, not scattered tools.
+            What it feels like to move through digestive health with guidance — not guesswork alone.
           </p>
           <div className="mt-8">
             <TestimonialCarousel />

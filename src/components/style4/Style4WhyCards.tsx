@@ -2,48 +2,49 @@ import { Style4Section } from './Style4Section'
 import { Style4Card } from './Style4Card'
 import { Style4Reveal } from './Style4Reveal'
 
-const beats = [
+const pains = [
   {
-    title: 'You\u2019re not imagining it.',
-    body: 'Bloating, pain, stool changes, and fatigue you live with are real — even without a diagnosis label.',
-    icon: '✦',
+    title: 'Confusing symptoms',
+    body: 'Bloating, pain, stool changes, and fatigue that feel random — with or without a diagnosis.',
+    icon: '?',
   },
   {
-    title: 'Conflicting advice is exhausting.',
-    body: 'Free guides and tracking in one place beat another late-night search spiral.',
-    icon: '◎',
+    title: 'Diagnosis limbo',
+    body: 'Trial and error, misdiagnosis, underdiagnosis, and months of not knowing what matters.',
+    icon: '…',
   },
   {
-    title: 'Start with what feels off.',
-    body: 'Pick a condition below or log one symptom. You don\u2019t need the full picture today.',
-    icon: '→',
+    title: 'No clear next step',
+    body: 'Unclear test decisions, forgotten doctor questions, and no way to tell if treatment is working.',
+    icon: '!',
   },
 ]
 
 export function Style4WhyCards() {
   return (
     <Style4Section
-      id="validation"
-      eyebrow="Why it works"
-      heading="We build products people can use on real days"
-      headingId="style4-validation-heading"
+      id="the-problem"
+      eyebrow="The problem"
+      heading="Digestive health often feels like a full-time investigation"
+      headingId="style4-problem-heading"
+      intro="Many people living with GI symptoms go through confusion, limbo, and fear of flare-ups — without a system that understands the full journey."
       background="sand-light"
     >
       <div className="mt-8 grid style4-cell-gap sm:mt-10 sm:grid-cols-3">
-        {beats.map((beat, index) => (
-          <Style4Reveal key={beat.title} delay={index * 80} as="article">
+        {pains.map((pain, index) => (
+          <Style4Reveal key={pain.title} delay={index * 80} as="article">
             <Style4Card interactive className="h-full p-5 sm:p-6">
               <span
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-gs-coral to-gs-coral/80 text-sm font-bold text-white"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-gs-sand text-sm font-bold text-gs-text-secondary"
                 aria-hidden="true"
               >
-                {beat.icon}
+                {pain.icon}
               </span>
               <h3 className="mt-4 font-display text-base font-semibold text-gs-text-primary sm:text-lg">
-                {beat.title}
+                {pain.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-gs-text-secondary sm:text-base">
-                {beat.body}
+                {pain.body}
               </p>
             </Style4Card>
           </Style4Reveal>

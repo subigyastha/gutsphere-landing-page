@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom'
+import { usePastHero } from '../hooks/usePastHero'
 import { PRIMARY_CTA_LABEL, SIGNUP_URL, getConditionFrom } from '../constants'
 
 type NavLink = { href: string; label: string }
@@ -21,8 +22,9 @@ function getNavLinks(pathname: string): NavLink[] {
     pathname.startsWith('/conditions')
   ) {
     return [
-      { href: `${prefix}#conditions`, label: 'Your condition' },
-      { href: `${prefix}#validation`, label: 'Is this for me?' },
+      { href: `${prefix}#the-problem`, label: 'The problem' },
+      { href: `${prefix}#pillars`, label: 'How it helps' },
+      { href: `${prefix}#why-different`, label: 'Why different' },
       { href: `${prefix}#prepare-visit`, label: 'Upcoming visit' },
       { href: `${prefix}#how-it-works`, label: 'How it works' },
       { href: `${prefix}#privacy`, label: 'Privacy' },
@@ -41,6 +43,16 @@ function getNavLinks(pathname: string): NavLink[] {
     ]
   }
 
+  if (pathname.startsWith('/discovery')) {
+    return [
+      { href: '#how-it-helps', label: 'How it helps' },
+      { href: '#self-care', label: 'Self Care' },
+      { href: '#clinical-navigation', label: 'Clinical Navigation' },
+      { href: '#clinical-intelligence', label: 'Clinical Intelligence' },
+      { href: '#resources', label: 'Resources' },
+    ]
+  }
+
   return [
     { href: '#founder', label: 'Our story' },
     { href: '#undiagnosed', label: 'Is this for me?' },
@@ -52,6 +64,7 @@ function getNavLinks(pathname: string): NavLink[] {
 }
 
 function homeHref(pathname: string): string {
+  if (pathname.startsWith('/discovery')) return '/discovery'
   if (pathname.startsWith('/clarity-v4')) return '/clarity-v4'
   if (pathname.startsWith('/clarity-v2')) return '/clarity-v2'
   if (pathname.startsWith('/conditions')) {
@@ -63,78 +76,77 @@ function homeHref(pathname: string): string {
 
 export function Header() {
   const { pathname } = useLocation()
+  const pastHero = usePastHero()
   const navLinks = getNavLinks(pathname)
   const logoHref = homeHref(pathname)
+  const isDiscovery = pathname.startsWith('/discovery')
+  const ctaLabel = isDiscovery ? 'Start Your Gut Check-In' : PRIMARY_CTA_LABEL
+  const showNav = pastHero
 
   return (
-    <header className="border-b border-gs-border bg-gs-sand/95 backdrop-blur-md">
-      <div className="container-wide flex items-center justify-between px-4 py-4 sm:px-8 lg:px-12">
-        <a href={logoHref} className="flex items-center gap-2.5">
-          <span
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-gs-coral text-sm font-bold text-white"
-            aria-hidden="true"
-          >
+    <header
+      className={`landing-glass-header ${showNav ? 'landing-glass-header--expanded' : 'landing-glass-header--collapsed'}`}
+      data-past-hero={showNav ? 'true' : 'false'}
+    >
+      <div className="landing-glass-header-inner">
+        <a href={logoHref} className="landing-glass-logo">
+          <span className="landing-glass-logo-mark" aria-hidden="true">
             G
           </span>
-          <span className="font-display text-lg font-semibold tracking-tight text-gs-text-primary">
-            Gutsphere
+          <span className="landing-glass-logo-text">
+            {isDiscovery ? 'GutSphere' : 'Gutsphere'}
           </span>
         </a>
 
-        <nav className="hidden items-center gap-6 text-sm font-medium text-gs-text-secondary lg:flex lg:gap-8" aria-label="Primary">
+        <nav
+          className="landing-glass-nav"
+          aria-label="Primary"
+          aria-hidden={!showNav}
+        >
           {navLinks.map((link) => (
-            <a key={link.href} href={link.href} className="transition-colors hover:text-gs-coral">
+            <a key={link.href} href={link.href} className="landing-glass-nav-link" tabIndex={showNav ? 0 : -1}>
               {link.label}
             </a>
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
-          <details className="relative lg:hidden">
-            <summary
-              className="list-none cursor-pointer rounded-lg p-2"
-              aria-label="Open menu"
-            >
-              <svg
-                className="h-6 w-6 text-gs-text-primary"
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </summary>
-            <nav
-              className="absolute right-0 mt-2 flex w-52 flex-col gap-2 rounded-xl border border-gs-border bg-gs-card p-4 shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
-              aria-label="Mobile"
-            >
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="min-h-12 rounded-lg px-3 py-2 text-sm text-gs-text-secondary hover:bg-gs-sand-light"
+        <div className="landing-glass-actions">
+          {showNav && (
+            <details className="landing-glass-menu lg:hidden">
+              <summary className="landing-glass-menu-btn" aria-label="Open menu">
+                <svg
+                  className="h-5 w-5"
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
                 >
-                  {link.label}
+                  <path d="M4 7h16M4 12h16M4 17h16" />
+                </svg>
+              </summary>
+              <nav className="landing-glass-menu-panel" aria-label="Mobile">
+                {navLinks.map((link) => (
+                  <a key={link.href} href={link.href} className="landing-glass-menu-link">
+                    {link.label}
+                  </a>
+                ))}
+                <a href={SIGNUP_URL} className="landing-glass-menu-cta" data-cta="primary">
+                  {ctaLabel}
                 </a>
-              ))}
-              <a
-                href={SIGNUP_URL}
-                className="mt-1 rounded-xl bg-gs-coral px-4 py-3 text-center text-sm font-semibold text-white"
-                data-cta="primary"
-              >
-                {PRIMARY_CTA_LABEL}
-              </a>
-            </nav>
-          </details>
+              </nav>
+            </details>
+          )}
 
           <a
             href={SIGNUP_URL}
-            className="rounded-xl bg-gs-coral px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 min-h-12 inline-flex items-center"
+            className={`landing-glass-cta ${showNav ? '' : 'landing-glass-cta--compact'}`}
             data-cta="primary"
           >
-            {PRIMARY_CTA_LABEL}
+            <span className="landing-glass-cta-full">{ctaLabel}</span>
+            <span className="landing-glass-cta-short" aria-hidden="true">
+              Start
+            </span>
           </a>
         </div>
       </div>

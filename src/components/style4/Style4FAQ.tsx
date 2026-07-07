@@ -5,24 +5,24 @@ import { Style4Reveal } from './Style4Reveal'
 
 const faqs = [
   {
-    question: 'I don\u2019t have a diagnosis — is this for me?',
+    question: 'Is Gutsphere just another symptom tracker?',
     answer:
-      'Yes. Start with what you feel — bloating, pain, stool changes, fatigue. A label like IBS or IBD can come later.',
+      'No. Trackers record what happened. Gutsphere is your GI health copilot — helping you understand what symptoms mean, what to do next, how to prepare for care, and how to manage treatment and long-term gut health.',
   },
   {
-    question: 'Will Gutsphere diagnose me?',
+    question: 'I don\u2019t have a diagnosis — is this for me?',
     answer:
-      'No. Gutsphere is a self-help companion that helps you track, notice patterns, and prepare for care. It does not diagnose conditions or replace a doctor.',
+      'Yes. Many people start in diagnosis limbo with confusing symptoms. Gutsphere supports you from undiagnosis through treatment and long-term control — no label required to begin.',
+  },
+  {
+    question: 'Will Gutsphere diagnose me or replace my doctor?',
+    answer:
+      'No. Gutsphere does not diagnose or provide medical advice. It complements clinical care by helping you organize your journey, prepare for visits, and follow treatment with more clarity.',
   },
   {
     question: 'How is this different from a food diary?',
     answer:
-      'A diary logs meals. Gutsphere connects meals with symptoms, stool, stress, and medications — and suggests what to try or ask next.',
-  },
-  {
-    question: 'Is this just another symptom tracker?',
-    answer:
-      'No. Trackers only log today. Gutsphere builds your full story over time and helps you prepare for visits.',
+      'A diary logs meals. Gutsphere connects meals with symptoms, stool, stress, medications, and routines — then helps you understand patterns, ask better questions, and know what to do next.',
   },
   {
     question: 'Is my data private?',
@@ -32,7 +32,7 @@ const faqs = [
   {
     question: 'Is this medical advice?',
     answer:
-      'No. Gutsphere helps you track and prepare for care. Always talk to your doctor about serious concerns.',
+      'No. Gutsphere helps you navigate and prepare for care. Always talk to your doctor about serious concerns.',
   },
 ]
 
