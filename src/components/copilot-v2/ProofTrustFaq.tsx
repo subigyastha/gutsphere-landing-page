@@ -1,34 +1,57 @@
 import { NAVIGATOR_COUNT, testimonials } from '../../constants'
 
+/** Featured quote — shorter pull from Sabina's full testimonial on gutsphere.com */
+const SABINA_STORY = {
+  ...testimonials[0],
+  quote:
+    'The guidance wasn\u2019t just about symptoms\u2014it helped me monitor my whole life and truly take charge of my journey.',
+  videoDuration: '2:45',
+}
+
 export function ProofSection() {
-  const featured = testimonials.slice(0, 3)
+  const sabina = SABINA_STORY
 
   return (
     <section className="cp2-band cp2-proof" id="proof">
       <div className="cp2-wrap">
-        <div className="cp2-sec-head cp2-reveal">
-          <p className="cp2-eyebrow">Trusted by {NAVIGATOR_COUNT} navigators</p>
-          <h2>Loved by people living with real symptoms.</h2>
-          <p>
-            What it feels like to have a system, not scattered tools. Every quote here is from a real
-            Gutsphere user.
-          </p>
-        </div>
-        <div className="cp2-proof-grid">
-          {featured.map((t) => (
-            <figure key={t.initials} className="cp2-proof-card cp2-reveal">
-              <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
-              <figcaption>
-                <span className="cp2-proof-av" aria-hidden="true">
-                  {t.initials}
-                </span>
-                <span>
-                  <b>{t.name}</b>
-                  <small>{t.detail}</small>
-                </span>
-              </figcaption>
-            </figure>
-          ))}
+        <p className="cp2-proof-trust cp2-reveal">Trusted by {NAVIGATOR_COUNT} navigators</p>
+
+        <div className="cp2-proof-story cp2-reveal">
+          <figure className="cp2-proof-quote">
+            <p className="cp2-proof-story-lbl">A patient journey</p>
+            <blockquote>&ldquo;{sabina.quote}&rdquo;</blockquote>
+            <figcaption>
+              <span className="cp2-proof-av" aria-hidden="true">
+                {sabina.initials}
+              </span>
+              <span>
+                <b>{sabina.name}</b>
+                <small>{sabina.detail}</small>
+              </span>
+            </figcaption>
+          </figure>
+
+          <div className="cp2-proof-video">
+            <div
+              className="cp2-proof-video-ph"
+              role="img"
+              aria-label={`${sabina.name} — interview clip placeholder`}
+            >
+              <span className="cp2-proof-play" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </span>
+              <span className="cp2-proof-video-badge">
+                <span className="cp2-proof-video-dot" aria-hidden="true" />
+                Watch story ({sabina.videoDuration})
+              </span>
+            </div>
+            {/* PLACEHOLDER: replace cp2-proof-video-ph with Sabina's official interview embed */}
+            <p className="cp2-proof-video-note" aria-hidden="true">
+              Video coming soon
+            </p>
+          </div>
         </div>
       </div>
     </section>
