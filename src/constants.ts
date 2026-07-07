@@ -6,10 +6,10 @@ export const ABOUT_URL = 'https://www.gutsphere.com/about-us'
 export const PRIVACY_URL = 'https://www.gutsphere.com/privacy'
 export const CONTACT_URL = 'https://www.gutsphere.com/contact-us'
 
-export type LandingVariant = 'style-1' | 'style-2' | 'style-3' | 'style-4' | 'style-5' | 'style-6' | 'style-7' | 'style-8' | 'style-9' | 'style-10' | 'style-11' | 'style-12'
+export type LandingVariant = 'style-1' | 'style-2' | 'style-3' | 'style-4' | 'style-5' | 'style-6' | 'style-7' | 'style-8' | 'style-9' | 'style-10' | 'style-11' | 'style-12' | 'style-13'
 
 export function variantVersion(variant: LandingVariant): 'v1' | 'v2' {
-  return variant === 'style-3' || variant === 'style-4' || variant === 'style-5' || variant === 'style-6' || variant === 'style-7' || variant === 'style-8' || variant === 'style-9' || variant === 'style-10' || variant === 'style-11' || variant === 'style-12'
+  return variant === 'style-3' || variant === 'style-4' || variant === 'style-5' || variant === 'style-6' || variant === 'style-7' || variant === 'style-8' || variant === 'style-9' || variant === 'style-10' || variant === 'style-11' || variant === 'style-12' || variant === 'style-13'
     ? 'v2'
     : 'v1'
 }

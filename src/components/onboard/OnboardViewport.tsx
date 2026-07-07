@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react'
+import { GutsphereLogo } from '../GutsphereLogo'
 import { useOnboard } from './OnboardContext'
 
 interface OnboardViewportProps {
@@ -19,11 +20,8 @@ export function OnboardViewport({ children, sectionLabels = [] }: OnboardViewpor
     <div className="onboard-shell">
       <header className="onboard-app-header" aria-label="Onboard app header">
         <div className="onboard-app-header-bar">
-          <div className="onboard-app-brand" aria-label="GutSphere">
-            <span className="onboard-app-brand-mark" aria-hidden="true">
-              G
-            </span>
-            <span className="onboard-app-brand-text">GutSphere</span>
+          <div className="onboard-app-brand" aria-label="Gutsphere">
+            <GutsphereLogo height={28} />
           </div>
 
           <div className="onboard-app-header-meta">

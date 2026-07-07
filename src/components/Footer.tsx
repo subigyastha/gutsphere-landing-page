@@ -1,3 +1,4 @@
+import { GutsphereLogo } from './GutsphereLogo'
 import { PRIVACY_URL } from '../constants'
 
 export function Footer() {
@@ -6,17 +7,7 @@ export function Footer() {
       <div className="container-wide">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <div>
-            <div className="flex items-center gap-2.5">
-              <span
-                className="flex h-8 w-8 items-center justify-center rounded-lg bg-gs-coral text-xs font-bold text-white"
-                aria-hidden="true"
-              >
-                G
-              </span>
-              <span className="font-display text-lg font-semibold text-gs-text-primary">
-                Gutsphere
-              </span>
-            </div>
+            <GutsphereLogo height={32} />
             <p className="mt-3 max-w-xs text-sm text-gs-text-secondary">
               The missing record between symptoms and answers.
             </p>

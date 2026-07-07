@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import type { LandingVariant } from '../constants'
 
 function variantFromPath(pathname: string): LandingVariant {
+  if (pathname === '/' || pathname.startsWith('/copilot-v2')) return 'style-13'
   if (pathname.startsWith('/onboard')) return 'style-11'
   if (pathname.startsWith('/scroll-gut')) return 'style-12'
   if (pathname.startsWith('/flow')) return 'style-10'

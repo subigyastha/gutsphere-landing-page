@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { LandingLayout } from './layouts/LandingLayout'
+import { CopilotV2Landing } from './pages/CopilotV2Landing'
 import { RecordLanding } from './pages/RecordLanding'
 import { NavigatorsLanding } from './pages/NavigatorsLanding'
 import { ClarityLandingV2 } from './pages/ClarityLandingV2'
@@ -20,15 +21,16 @@ function App() {
     <>
       <VariantTracker />
       <Routes>
+        <Route path="/" element={<CopilotV2Landing />} />
         <Route
-          path="/"
+          path="/record"
           element={
             <LandingLayout>
               <RecordLanding />
             </LandingLayout>
           }
         />
-        <Route path="/record-v2" element={<Navigate to="/" replace />} />
+        <Route path="/record-v2" element={<Navigate to="/record" replace />} />
         <Route
           path="/navigators"
           element={
@@ -119,6 +121,7 @@ function App() {
             </LandingLayout>
           }
         />
+        <Route path="/copilot-v2" element={<CopilotV2Landing />} />
         <Route path="/conditions/:slug" element={<ConditionStubPage />} />
       </Routes>
     </>

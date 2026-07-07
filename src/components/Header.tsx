@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom'
+import { GutsphereLogoLink } from './GutsphereLogo'
 import { usePastHero } from '../hooks/usePastHero'
 import { PRIMARY_CTA_LABEL, SIGNUP_URL, getConditionFrom } from '../constants'
 
@@ -89,14 +90,7 @@ export function Header() {
       data-past-hero={showNav ? 'true' : 'false'}
     >
       <div className="landing-glass-header-inner">
-        <a href={logoHref} className="landing-glass-logo">
-          <span className="landing-glass-logo-mark" aria-hidden="true">
-            G
-          </span>
-          <span className="landing-glass-logo-text">
-            {isDiscovery ? 'GutSphere' : 'Gutsphere'}
-          </span>
-        </a>
+        <GutsphereLogoLink href={logoHref} className="landing-glass-logo" height={32} />
 
         <nav
           className="landing-glass-nav"

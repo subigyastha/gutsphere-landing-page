@@ -17,6 +17,7 @@
   --gs-insight-section-bg: rgba(239, 83, 80, 0.07);
   --gs-insight-section-border: rgba(239, 83, 80, 0.22);
   --gs-green: #2e7d32;
+  --gs-red: #dc2626;
   --gs-amber-bg: #fef3c7;
   --gs-amber-text: #92400e;
   --gs-radius-md: 12px;
@@ -137,6 +138,10 @@
   }
 
   .variant-switcher {
+    display: none;
+  }
+
+  .variant-switcher {
     @apply pointer-events-auto border-b border-white/10;
     background: rgba(28, 25, 23, 0.72);
     backdrop-filter: blur(20px) saturate(180%);
@@ -176,7 +181,21 @@
   }
 
   .landing-glass-logo {
-    @apply flex min-w-0 shrink-0 items-center gap-2.5;
+    @apply flex min-w-0 shrink-0 items-center;
+    line-height: 0;
+  }
+
+  .landing-glass-logo .gs-logo {
+    @apply block h-8 w-auto max-w-[min(180px,46vw)] sm:h-9;
+  }
+
+  .gs-logo-link {
+    @apply inline-flex items-center no-underline;
+    line-height: 0;
+  }
+
+  .gs-logo {
+    @apply block w-auto select-none;
   }
 
   .landing-glass-logo-mark {
@@ -1094,7 +1113,24 @@
   }
 
   .flow-section--hero .flow-section-inner {
-    @apply py-12 sm:py-14 lg:py-16;
+    @apply pb-14 sm:pb-16 lg:pb-20;
+    padding-top: calc(var(--landing-chrome) + 1.5rem);
+  }
+
+  .flow-section--hero .flow-section-grid {
+    @apply gap-8 lg:gap-12 xl:gap-16;
+  }
+
+  .flow-section--hero .flow-section-title {
+    @apply text-3xl sm:text-4xl lg:text-[44px] lg:leading-[1.1];
+  }
+
+  .flow-section--hero .flow-section-intro {
+    @apply max-w-xl text-base sm:text-lg;
+  }
+
+  .flow-section--hero .flow-section-stage .billboard-slide {
+    @apply max-w-md lg:max-w-lg;
   }
 
   .flow-section--moments .flow-section-inner {
@@ -1224,7 +1260,12 @@
   }
 
   .onboard-app-brand {
-    @apply flex min-w-0 items-center gap-2;
+    @apply flex min-w-0 items-center;
+    line-height: 0;
+  }
+
+  .onboard-app-brand .gs-logo {
+    @apply h-7 w-auto max-w-[min(160px,44vw)];
   }
 
   .onboard-app-brand-mark {
@@ -3947,7 +3988,12 @@
   }
 
   .copilot-top-bar-brand {
-    @apply flex items-center gap-2;
+    @apply flex items-center;
+    line-height: 0;
+  }
+
+  .copilot-top-bar-brand .gs-logo {
+    @apply h-7 w-auto;
   }
 
   .copilot-top-bar-logo {

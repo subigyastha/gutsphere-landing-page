@@ -1,4 +1,5 @@
 import { Button } from '../Button'
+import { GutsphereLogo } from '../GutsphereLogo'
 import { SIGNUP_URL } from '../../constants'
 import { ChapterProgress } from './ChapterProgress'
 import { COPILOT_PRIMARY_CTA } from './constants'
@@ -28,10 +29,7 @@ export function LandingAppShell({ children }: { children: React.ReactNode }) {
     <div className="copilot-app-shell">
       <header className="copilot-top-bar">
         <div className="copilot-top-bar-brand">
-          <span className="copilot-top-bar-logo" aria-hidden="true">
-            G
-          </span>
-          <span className="copilot-top-bar-name">GutSphere</span>
+          <GutsphereLogo height={28} />
         </div>
         <div className="copilot-top-bar-meta">
           <span className="copilot-top-bar-chapter">{activeChapter.label}</span>
