@@ -1117,6 +1117,159 @@
   color: var(--gs-text-secondary);
 }
 
+/* problem icon animations */
+
+.copilot-v2 .cp2-ic--scatter,
+.copilot-v2 .cp2-ic--battery,
+.copilot-v2 .cp2-ic--clock {
+  overflow: visible;
+}
+
+.copilot-v2 .cp2-pain-svg {
+  width: 22px;
+  height: 22px;
+  overflow: visible;
+}
+
+/* scattered — dots drift in different directions */
+.copilot-v2 .cp2-scatter-dot {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.copilot-v2 .cp2-scatter-dot--1 {
+  animation: cp2-scatter-a 2.8s ease-in-out infinite;
+}
+
+.copilot-v2 .cp2-scatter-dot--2 {
+  animation: cp2-scatter-b 3.2s ease-in-out infinite;
+}
+
+.copilot-v2 .cp2-scatter-dot--3 {
+  animation: cp2-scatter-c 2.5s ease-in-out infinite;
+}
+
+.copilot-v2 .cp2-scatter-dot--4 {
+  animation: cp2-scatter-d 3.6s ease-in-out infinite;
+}
+
+.copilot-v2 .cp2-scatter-dot--5 {
+  animation: cp2-scatter-e 2.9s ease-in-out infinite;
+}
+
+.copilot-v2 .cp2-scatter-dot--6 {
+  animation: cp2-scatter-f 3.4s ease-in-out infinite;
+}
+
+@keyframes cp2-scatter-a {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(2px, -2.5px);
+  }
+}
+
+@keyframes cp2-scatter-b {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-2px, 2px);
+  }
+}
+
+@keyframes cp2-scatter-c {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(2.5px, 1.5px);
+  }
+}
+
+@keyframes cp2-scatter-d {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-1.5px, -2px);
+  }
+}
+
+@keyframes cp2-scatter-e {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(2px, 2px);
+  }
+}
+
+@keyframes cp2-scatter-f {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-2.5px, 1px);
+  }
+}
+
+/* battery — low charge blinks */
+.copilot-v2 .cp2-battery-level,
+.copilot-v2 .cp2-battery-strike {
+  animation: cp2-battery-blink 1.6s ease-in-out infinite;
+}
+
+@keyframes cp2-battery-blink {
+  0%,
+  45%,
+  100% {
+    opacity: 1;
+  }
+  55%,
+  90% {
+    opacity: 0.15;
+  }
+}
+
+/* clock — hands spin opposite ways */
+.copilot-v2 .cp2-clock-hand {
+  transform-origin: 12px 12px;
+}
+
+.copilot-v2 .cp2-clock-hand--hour {
+  animation: cp2-clock-hour 10s linear infinite;
+}
+
+.copilot-v2 .cp2-clock-hand--minute {
+  animation: cp2-clock-minute 6s linear infinite;
+}
+
+@keyframes cp2-clock-hour {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cp2-clock-minute {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
 /* ---------- journey map SVG ---------- */
 
 .copilot-v2 .cp2-sky {
@@ -3322,6 +3475,13 @@
 
   .copilot-v2 .cp2-plane-bob,
   .copilot-v2 .cp2-cloud {
+    animation: none;
+  }
+
+  .copilot-v2 .cp2-scatter-dot,
+  .copilot-v2 .cp2-battery-level,
+  .copilot-v2 .cp2-battery-strike,
+  .copilot-v2 .cp2-clock-hand {
     animation: none;
   }
 
