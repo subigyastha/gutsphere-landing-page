@@ -1,3 +1,5 @@
+import { ABOUT_URL } from '../../constants'
+
 const ROWS = [
   {
     job: 'A symptom tracker app',
@@ -144,7 +146,7 @@ export function DifferenceSection() {
         </svg>
       ),
     },
-  ]
+  ] as const
 
   return (
     <section className="cp2-band" id="difference">
@@ -154,15 +156,60 @@ export function DifferenceSection() {
           <h2>Four things nothing else out there can say.</h2>
           <p>Plenty of tools do a piece of this. These are the claims only Gutsphere can make.</p>
         </div>
-        <div className="cp2-diff-grid">
+
+        <div className="cp2-diff-grid cp2-reveal">
           {diffs.map((d) => (
-            <div key={d.num} className="cp2-diff cp2-reveal">
+            <div key={d.num} className="cp2-diff">
               <span className="cp2-ic">{d.icon}</span>
               <span className="cp2-di">{d.num}</span>
               <h3>{d.title}</h3>
               <p>{d.body}</p>
             </div>
           ))}
+        </div>
+
+        <div className="cp2-diff-founder-note cp2-proof-story cp2-reveal">
+          <figure className="cp2-proof-quote">
+            <p className="cp2-proof-story-lbl">Founder note</p>
+            <blockquote>
+              &ldquo;Gut health doesn&apos;t end when you get a diagnosis. You still need to know what changed,
+              whether treatment is working, what to try next, and how to prevent the next flare.&rdquo;
+            </blockquote>
+            <figcaption>
+              <span className="cp2-proof-av" aria-hidden="true">
+                B
+              </span>
+              <span>
+                <b>Bimal</b>
+                <small>Founder of Gutsphere</small>
+              </span>
+            </figcaption>
+            <a href={ABOUT_URL} className="cp2-diff-founder-cta">
+              Read full story <span aria-hidden="true">→</span>
+            </a>
+          </figure>
+
+          <div className="cp2-proof-video">
+            <div
+              className="cp2-proof-video-ph"
+              role="img"
+              aria-label="Bimal — founder story video placeholder"
+            >
+              <span className="cp2-proof-play" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </span>
+              <span className="cp2-proof-video-badge">
+                <span className="cp2-proof-video-dot" aria-hidden="true" />
+                Watch story
+              </span>
+            </div>
+            {/* PLACEHOLDER: replace with Bimal's official founder interview embed */}
+            <p className="cp2-proof-video-note" aria-hidden="true">
+              Video coming soon
+            </p>
+          </div>
         </div>
       </div>
     </section>

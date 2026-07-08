@@ -2095,7 +2095,7 @@
   background: var(--gs-coral-glow);
 }
 
-/* ---------- difference grid ---------- */
+/* ---------- difference grid + founder note ---------- */
 
 .copilot-v2 .cp2-diff-grid {
   display: grid;
@@ -2128,6 +2128,30 @@
   font-size: 15.5px;
   color: var(--gs-text-secondary);
   line-height: 1.6;
+}
+
+.copilot-v2 .cp2-diff-founder-note {
+  margin-top: 72px;
+  padding-bottom: 12px;
+}
+
+.copilot-v2 .cp2-diff-founder-note .cp2-diff-founder-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 22px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gs-coral);
+  text-decoration: none;
+  transition: gap 0.18s ease;
+}
+
+.copilot-v2 .cp2-diff-founder-note .cp2-diff-founder-cta:hover {
+  gap: 10px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* ---------- honesty ---------- */
@@ -2633,6 +2657,10 @@
     grid-template-columns: 1fr;
   }
 
+  .copilot-v2 .cp2-diff-founder-note {
+    margin-top: 48px;
+  }
+
   .copilot-v2 .cp2-flowd {
     flex-direction: column;
   }
@@ -2988,8 +3016,8 @@
 
 .copilot-v2 .cp2-proof-story {
   display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
-  gap: clamp(28px, 5vw, 56px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
   align-items: center;
   position: relative;
 }
@@ -2997,9 +3025,9 @@
 .copilot-v2 .cp2-proof-story::before {
   content: '';
   position: absolute;
-  left: 52%;
+  left: 50%;
   top: 50%;
-  width: clamp(24px, 4vw, 48px);
+  width: 22px;
   height: 1px;
   background: var(--gs-border);
   transform: translate(-50%, -50%);
@@ -3030,6 +3058,7 @@
   line-height: 1.32;
   letter-spacing: -0.02em;
   color: var(--gs-text-primary);
+  text-wrap: pretty;
 }
 
 .copilot-v2 .cp2-proof-quote figcaption {
@@ -3067,12 +3096,14 @@
 
 .copilot-v2 .cp2-proof-video {
   min-width: 0;
+  width: 100%;
 }
 
 .copilot-v2 .cp2-proof-video-ph {
   position: relative;
+  width: 100%;
+  max-width: 100%;
   aspect-ratio: 4 / 5;
-  max-height: 420px;
   border-radius: 22px;
   overflow: hidden;
   background:
