@@ -3015,19 +3015,23 @@
 }
 
 .copilot-v2 .cp2-proof-story {
+  --cp2-story-video: 336px;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
+  grid-template-columns: minmax(0, calc(var(--cp2-story-video) * 1.12 / 0.88)) var(--cp2-story-video);
+  gap: clamp(28px, 5vw, 56px);
   align-items: center;
   position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
 }
 
 .copilot-v2 .cp2-proof-story::before {
   content: '';
   position: absolute;
-  left: 50%;
+  left: 52%;
   top: 50%;
-  width: 22px;
+  width: clamp(24px, 4vw, 48px);
   height: 1px;
   background: var(--gs-border);
   transform: translate(-50%, -50%);
@@ -3096,13 +3100,16 @@
 
 .copilot-v2 .cp2-proof-video {
   min-width: 0;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .copilot-v2 .cp2-proof-video-ph {
   position: relative;
   width: 100%;
-  max-width: 100%;
+  height: 420px;
+  max-height: 420px;
   aspect-ratio: 4 / 5;
   border-radius: 22px;
   overflow: hidden;
@@ -3435,13 +3442,22 @@
   .copilot-v2 .cp2-proof-story {
     grid-template-columns: 1fr;
     gap: 28px;
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
   }
 
   .copilot-v2 .cp2-proof-story::before {
     display: none;
   }
 
+  .copilot-v2 .cp2-proof-video {
+    align-items: stretch;
+  }
+
   .copilot-v2 .cp2-proof-video-ph {
+    width: 100%;
+    height: auto;
     max-height: none;
     aspect-ratio: 16 / 10;
   }
