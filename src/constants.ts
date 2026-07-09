@@ -133,13 +133,26 @@ export const testimonials: readonly Testimonial[] = [
   },
 ] as const
 
-export const conditionHub = [
+export const conditionHubConditions = [
   { slug: 'ibs', label: 'IBS', blurb: 'Changing symptoms, unclear triggers', icon: 'wave' },
   { slug: 'ibd', label: 'IBD', blurb: "Crohn\u2019s & ulcerative colitis", icon: 'shield' },
   { slug: 'gerd', label: 'GERD', blurb: 'Reflux & heartburn', icon: 'flame' },
+] as const
+
+export const conditionHubSymptoms = [
   { slug: 'constipation', label: 'Constipation', blurb: 'Hard stools & straining', icon: 'pause' },
   { slug: 'bloating', label: 'Bloating', blurb: 'Gas & distension', icon: 'circle' },
   { slug: 'diarrhea', label: 'Diarrhea', blurb: 'Urgency & loose stools', icon: 'bolt' },
+] as const
+
+export const conditionHub = [...conditionHubConditions, ...conditionHubSymptoms] as const
+
+export const footerIntegrations = [
+  'Apple Health',
+  'Google Fit',
+  'Oura & wearables',
+  'Lab results import',
+  'Clinician export (EHR)',
 ] as const
 
 export const conditionStubs: Record<

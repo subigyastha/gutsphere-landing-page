@@ -113,6 +113,7 @@
   color: var(--gs-text-muted);
   text-decoration: none;
   cursor: pointer;
+  white-space: nowrap;
   transition: color 0.15s ease;
 }
 
@@ -132,25 +133,25 @@
   font-weight: 700;
   color: var(--gs-text-primary);
   overflow: hidden;
+  vertical-align: baseline;
 }
 
 .copilot-v2 .cp2-platform-shimmer::after {
   content: '';
   position: absolute;
   top: 0;
-  left: -120%;
-  width: 65%;
+  left: -22%;
+  width: 22%;
   height: 100%;
   background: linear-gradient(
-    105deg,
+    90deg,
     transparent 0%,
-    color-mix(in srgb, var(--gs-card) 15%, transparent) 35%,
-    color-mix(in srgb, var(--gs-sand-light) 90%, transparent) 50%,
-    color-mix(in srgb, var(--gs-card) 15%, transparent) 65%,
+    transparent 38%,
+    color-mix(in srgb, var(--gs-card) 92%, transparent) 50%,
+    transparent 62%,
     transparent 100%
   );
-  transform: skewX(-18deg);
-  animation: cp2-platform-shimmer 2.8s ease-in-out infinite;
+  animation: cp2-platform-shimmer 1.15s ease-in-out infinite;
   pointer-events: none;
 }
 
@@ -159,15 +160,18 @@
   margin-top: 10px;
   font-size: 12px;
   text-align: center;
+  white-space: nowrap;
 }
 
 @keyframes cp2-platform-shimmer {
   0% {
-    left: -120%;
+    left: -22%;
   }
-  55%,
+  38% {
+    left: 100%;
+  }
   100% {
-    left: 140%;
+    left: 100%;
   }
 }
 
@@ -2764,6 +2768,38 @@
   color: color-mix(in srgb, var(--gs-sand-light) 45%, transparent);
 }
 
+.copilot-v2 .cp2-foot-works-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 32px;
+  margin-top: 4px;
+}
+
+.copilot-v2 .cp2-foot-works-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--gs-sand-light) 38%, transparent);
+  margin: 0 0 6px;
+}
+
+.copilot-v2 .cp2-foot-integrations {
+  padding: 0 0 28px;
+  border-top: 1px solid color-mix(in srgb, var(--gs-sand-light) 10%, transparent);
+}
+
+.copilot-v2 .cp2-foot-integrations p {
+  font-size: 13.5px;
+  line-height: 2;
+  color: color-mix(in srgb, var(--gs-sand-light) 55%, transparent);
+}
+
+.copilot-v2 .cp2-foot-soon-inline {
+  color: color-mix(in srgb, var(--gs-sand-light) 40%, transparent);
+}
+
 .copilot-v2 .cp2-disc {
   font-size: 12.5px;
   color: color-mix(in srgb, var(--gs-sand-light) 45%, transparent);
@@ -2953,6 +2989,11 @@
   .copilot-v2 .cp2-foot-cols {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 28px;
+  }
+
+  .copilot-v2 .cp2-foot-works-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 

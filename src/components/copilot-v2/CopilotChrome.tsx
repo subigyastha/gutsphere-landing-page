@@ -10,6 +10,9 @@ import {
   SIGNUP_URL,
   YOUTUBE_CHANNEL_URL,
   conditionHub,
+  conditionHubConditions,
+  conditionHubSymptoms,
+  footerIntegrations,
 } from '../../constants'
 
 const EXPLORE_LINKS = [
@@ -115,7 +118,18 @@ export function CopilotNav() {
               ))}
             </NavDropdown>
             <NavDropdown label="Conditions" active={false}>
-              {conditionHub.map((c) => (
+              {conditionHubConditions.map((c) => (
+                <a key={c.slug} href={`/conditions/${c.slug}`}>
+                  {c.label}
+                  <small>{c.blurb}</small>
+                </a>
+              ))}
+              <a href="#start" className="cp2-nav-dd-cta">
+                Not sure? Start here
+              </a>
+            </NavDropdown>
+            <NavDropdown label="Symptoms" active={false}>
+              {conditionHubSymptoms.map((c) => (
                 <a key={c.slug} href={`/conditions/${c.slug}`}>
                   {c.label}
                   <small>{c.blurb}</small>
@@ -158,7 +172,15 @@ export function CopilotNav() {
               <a href="#faq">FAQ</a>
               <span className="cp2-nav-menu-group">Conditions</span>
               <div className="cp2-nav-menu-conditions">
-                {conditionHub.map((c) => (
+                {conditionHubConditions.map((c) => (
+                  <a key={c.slug} href={`/conditions/${c.slug}`}>
+                    {c.label}
+                  </a>
+                ))}
+              </div>
+              <span className="cp2-nav-menu-group">Symptoms</span>
+              <div className="cp2-nav-menu-conditions">
+                {conditionHubSymptoms.map((c) => (
                   <a key={c.slug} href={`/conditions/${c.slug}`}>
                     {c.label}
                   </a>
@@ -226,7 +248,15 @@ export function CopilotFooter() {
         <div className="cp2-foot-cols">
           <div>
             <h4>Conditions</h4>
-            {conditionHub.map((c) => (
+            {conditionHubConditions.map((c) => (
+              <a key={c.slug} href={`/conditions/${c.slug}`}>
+                {c.label}
+              </a>
+            ))}
+          </div>
+          <div>
+            <h4>Symptoms</h4>
+            {conditionHubSymptoms.map((c) => (
               <a key={c.slug} href={`/conditions/${c.slug}`}>
                 {c.label}
               </a>
@@ -249,16 +279,6 @@ export function CopilotFooter() {
             <a href="#journey">Getting ahead of it</a>
           </div>
           <div>
-            <h4>
-              Integrations <span className="cp2-soon-chip">Soon</span>
-            </h4>
-            <span className="cp2-foot-soon">Apple Health</span>
-            <span className="cp2-foot-soon">Google Fit</span>
-            <span className="cp2-foot-soon">Oura &amp; wearables</span>
-            <span className="cp2-foot-soon">Lab results import</span>
-            <span className="cp2-foot-soon">Clinician export (EHR)</span>
-          </div>
-          <div>
             <h4>Company</h4>
             <a href="/for">Who it&apos;s for</a>
             <a href="/#pricing">Pricing</a>
@@ -272,17 +292,41 @@ export function CopilotFooter() {
           </div>
         </div>
 
-        <nav className="cp2-foot-conditions" aria-label="Conditions">
+        <nav className="cp2-foot-conditions" aria-label="Works alongside">
           <h4>Works alongside</h4>
           <p>
             {conditionHub.map((c, i) => (
               <span key={c.slug}>
                 <a href={`/conditions/${c.slug}`}>{c.label}</a>
-                {i < conditionHub.length - 1 && <span className="cp2-foot-sep" aria-hidden="true"> · </span>}
+                {i < conditionHub.length - 1 && (
+                  <span className="cp2-foot-sep" aria-hidden="true">
+                    {' '}
+                    ·{' '}
+                  </span>
+                )}
               </span>
             ))}
             <span className="cp2-foot-sep" aria-hidden="true"> · </span>
             <span className="cp2-foot-more">celiac, SIBO, gastroparesis &amp; more</span>
+          </p>
+        </nav>
+
+        <nav className="cp2-foot-integrations" aria-label="Integrations">
+          <h4>
+            Integrations <span className="cp2-soon-chip">Soon</span>
+          </h4>
+          <p>
+            {footerIntegrations.map((item, i) => (
+              <span key={item}>
+                <span className="cp2-foot-soon-inline">{item}</span>
+                {i < footerIntegrations.length - 1 && (
+                  <span className="cp2-foot-sep" aria-hidden="true">
+                    {' '}
+                    ·{' '}
+                  </span>
+                )}
+              </span>
+            ))}
           </p>
         </nav>
 

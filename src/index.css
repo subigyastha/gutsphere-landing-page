@@ -46,6 +46,16 @@
   --color-gs-green: var(--gs-green);
   --color-gs-amber-bg: var(--gs-amber-bg);
   --color-gs-amber-text: var(--gs-amber-text);
+
+  /* Ploy-style aliases (marketing sections) */
+  --color-ploy-background-primary: var(--gs-card);
+  --color-ploy-text-primary: var(--gs-text-primary);
+  --color-ploy-text-secondary: var(--gs-text-secondary);
+  --color-ploy-text-muted: var(--gs-text-muted);
+  --color-ploy-background-accent-primary: var(--gs-coral);
+  --color-ploy-neutral-primary-s2: var(--gs-sand-light);
+  --color-ploy-neutral-inverse-200: var(--gs-border);
+  --color-ploy-coral-tint: color(srgb 0.837961 0.298196 0.286902);
 }
 
 @layer base {

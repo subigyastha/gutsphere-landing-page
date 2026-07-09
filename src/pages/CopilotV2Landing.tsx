@@ -6,7 +6,7 @@ import { CopilotHero } from '../components/copilot-v2/CopilotHero'
 import { ProblemSection } from '../components/copilot-v2/ProblemSection'
 import { JourneyMapSection } from '../components/copilot-v2/JourneyMapSection'
 import { BothSection, SystemSection } from '../components/copilot-v2/SystemSection'
-import { WalkthroughSection } from '../components/copilot-v2/WalkthroughSection'
+import OneFlareStartFinishSection from '../components/sections/one-flare-start-finish-section'
 import { CompareSection, DifferenceSection } from '../components/copilot-v2/CompareSections'
 import { HonestySection, PricingSection, FinalCTASection } from '../components/copilot-v2/ClosingSections'
 import { ProofSection, TrustSection, FAQSection } from '../components/copilot-v2/ProofTrustFaq'
@@ -28,7 +28,7 @@ export function CopilotV2Landing() {
         <JourneyMapSection journey={journey} />
         <BothSection />
         <SystemSection />
-        <WalkthroughSection />
+        <OneFlareStartFinishSection />
         <CompareSection />
         <DifferenceSection />
         <TrustSection />
