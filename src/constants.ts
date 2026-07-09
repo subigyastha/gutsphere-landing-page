@@ -155,6 +155,50 @@ export const footerIntegrations = [
   'Clinician export (EHR)',
 ] as const
 
+export type ProductFeatureGroupId = 'trackers' | 'insights' | 'guidance' | 'care'
+
+export const productFeatureGroups = [
+  { id: 'trackers' as const, label: 'Trackers' },
+  { id: 'insights' as const, label: 'Insights & patterns' },
+  { id: 'guidance' as const, label: 'Guidance & copilot' },
+  { id: 'care' as const, label: 'Care navigation' },
+] as const
+
+export const productFeatures = [
+  // Trackers — gutsphere.com daily check-in + tracker suite
+  { group: 'trackers' as const, label: 'Daily gut check-in', href: '/#start', blurb: 'Quick or detailed — built for low-energy days' },
+  { group: 'trackers' as const, label: 'Symptom tracker', href: '/#system', blurb: 'Severity, duration, and flare context' },
+  { group: 'trackers' as const, label: 'Bowel movement tracker', href: '/#system', blurb: 'Consistency, urgency, and patterns' },
+  { group: 'trackers' as const, label: 'Food & meal tracker', href: '/#system', blurb: 'Meals, reactions, and timing' },
+  { group: 'trackers' as const, label: 'Sleep tracker', href: '/#system', blurb: 'Rest quality linked to gut symptoms' },
+  { group: 'trackers' as const, label: 'Hydration tracker', href: '/#system', blurb: 'Fluids and daily intake' },
+  { group: 'trackers' as const, label: 'Movement tracker', href: '/#system', blurb: 'Activity and gentle gut movement' },
+  { group: 'trackers' as const, label: 'Medication & supplements', href: '/#system', blurb: 'Doses, adherence, and reminders' },
+  { group: 'trackers' as const, label: 'Stress & mood log', href: '/#system', blurb: 'Gut-brain context in one place' },
+  // Insights
+  { group: 'insights' as const, label: 'Connected timeline', href: '/#walkthrough', blurb: 'One flare, start to finish' },
+  { group: 'insights' as const, label: 'Pattern insights', href: '/#system', blurb: 'See what repeats across weeks' },
+  { group: 'insights' as const, label: 'Weekly patterns feed', href: '/#system', blurb: 'Highlights from recent tracking' },
+  { group: 'insights' as const, label: 'Symptom connections', href: '/#system', blurb: 'Food, sleep, stress, and meds linked' },
+  { group: 'insights' as const, label: 'Trends & history', href: '/#system', blurb: 'Bowel, nutrition, and lifestyle over time' },
+  { group: 'insights' as const, label: 'Treatment insights', href: '/#journey', blurb: 'Meds, adherence, and response' },
+  // Guidance
+  { group: 'guidance' as const, label: 'GI Copilot', href: '/#start', blurb: '24/7 support based on your day' },
+  { group: 'guidance' as const, label: 'Self-care guidance', href: '/#system', blurb: 'Calmer routines on hard days' },
+  { group: 'guidance' as const, label: 'Flare-day support', href: '/#system', blurb: 'What to try first and what to watch' },
+  { group: 'guidance' as const, label: 'Personalized habits', href: '/#system', blurb: 'Small actions from your data' },
+  { group: 'guidance' as const, label: 'Gentle reminders', href: '/#system', blurb: 'No streak pressure or guilt' },
+  { group: 'guidance' as const, label: 'Food & product checks', href: '/#system', blurb: 'Can I eat this? Should I buy this?' },
+  // Care navigation
+  { group: 'care' as const, label: 'Visit prep plans', href: '/#journey', blurb: 'Appointments, specialists, follow-ups' },
+  { group: 'care' as const, label: 'Doctor-ready summary', href: '/#walkthrough', blurb: 'Timeline instead of memory' },
+  { group: 'care' as const, label: 'Questions for your doctor', href: '/#walkthrough', blurb: 'Generated from your history' },
+  { group: 'care' as const, label: 'Test results & labs', href: '/#journey', blurb: 'Labs and imaging in one place' },
+  { group: 'care' as const, label: 'Procedure & specialist prep', href: '/#journey', blurb: 'Colonoscopy, EGD, referrals' },
+  { group: 'care' as const, label: 'Red-flag guidance', href: '/#honest', blurb: 'When to seek urgent care' },
+  { group: 'care' as const, label: 'Share with your clinician', href: '/#walkthrough', blurb: 'Export-ready summaries' },
+] as const
+
 export const conditionStubs: Record<
   string,
   { label: string; bullets: [string, string, string] }

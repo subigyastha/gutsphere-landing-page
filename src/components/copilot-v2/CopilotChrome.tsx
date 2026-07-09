@@ -13,6 +13,8 @@ import {
   conditionHubConditions,
   conditionHubSymptoms,
   footerIntegrations,
+  productFeatureGroups,
+  productFeatures,
 } from '../../constants'
 
 const EXPLORE_LINKS = [
@@ -55,10 +57,12 @@ function useActiveSection(ids: string[]): string | null {
 function NavDropdown({
   label,
   active,
+  className = '',
   children,
 }: {
   label: string
   active: boolean
+  className?: string
   children: ReactNode
 }) {
   const ref = useRef<HTMLDetailsElement>(null)
@@ -74,7 +78,7 @@ function NavDropdown({
   }, [])
 
   return (
-    <details ref={ref} className="cp2-nav-dd">
+    <details ref={ref} className={`cp2-nav-dd ${className}`.trim()}>
       <summary className={active ? 'is-active' : ''}>
         {label}
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
@@ -139,6 +143,24 @@ export function CopilotNav() {
                 Not sure? Start here
               </a>
             </NavDropdown>
+            <NavDropdown label="Features" active={false} className="cp2-nav-dd--features">
+              {productFeatureGroups.map((group) => (
+                <span key={group.id}>
+                  <span className="cp2-nav-dd-group">{group.label}</span>
+                  {productFeatures
+                    .filter((f) => f.group === group.id)
+                    .map((f) => (
+                      <a key={f.label} href={f.href}>
+                        {f.label}
+                        <small>{f.blurb}</small>
+                      </a>
+                    ))}
+                </span>
+              ))}
+              <a href="#system" className="cp2-nav-dd-cta">
+                See how it connects
+              </a>
+            </NavDropdown>
             <a href="#journey" className={active === 'journey' ? 'is-active' : ''}>
               Your journey
             </a>
@@ -186,6 +208,19 @@ export function CopilotNav() {
                   </a>
                 ))}
               </div>
+              <span className="cp2-nav-menu-group">Features</span>
+              {productFeatureGroups.map((group) => (
+                <span key={group.id}>
+                  <span className="cp2-nav-menu-subgroup">{group.label}</span>
+                  {productFeatures
+                    .filter((f) => f.group === group.id)
+                    .map((f) => (
+                      <a key={f.label} href={f.href}>
+                        {f.label}
+                      </a>
+                    ))}
+                </span>
+              ))}
               <a href="#start" className="cp2-btn cp2-nav-cta-mobile">
                 Start free
               </a>
@@ -260,6 +295,21 @@ export function CopilotFooter() {
               <a key={c.slug} href={`/conditions/${c.slug}`}>
                 {c.label}
               </a>
+            ))}
+          </div>
+          <div className="cp2-foot-col-features">
+            <h4>Features</h4>
+            {productFeatureGroups.map((group) => (
+              <div key={group.id} className="cp2-foot-feature-group">
+                <p className="cp2-foot-col-group">{group.label}</p>
+                {productFeatures
+                  .filter((f) => f.group === group.id)
+                  .map((f) => (
+                    <a key={f.label} href={f.href}>
+                      {f.label}
+                    </a>
+                  ))}
+              </div>
             ))}
           </div>
           <div>
