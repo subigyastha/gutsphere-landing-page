@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 import { SIGNUP_URL } from '../../constants'
 import { DX_CHIPS, FLAG_CHIPS, SYMPTOM_CHIPS } from './constants'
+import { PlatformFineprint } from './PlatformPills'
 import type { useCopilotPicker } from './useCopilotPicker'
 
 type Picker = ReturnType<typeof useCopilotPicker>
@@ -87,7 +88,7 @@ export function CopilotHero({ picker }: { picker: Picker }) {
                 See how it works <span aria-hidden="true">→</span>
               </a>
             </div>
-            <p className="cp2-fineprint cp2-reveal">Free to start · no card · web, iOS or Android</p>
+            <PlatformFineprint className="cp2-reveal" />
           </div>
           <div className="cp2-hero-media cp2-reveal" aria-hidden="true">
             <div className="cp2-phone">
@@ -257,7 +258,7 @@ export function CopilotHero({ picker }: { picker: Picker }) {
                     <a href={SIGNUP_URL} className="cp2-btn" data-cta="primary">
                       {preview.ctaLabel}
                     </a>
-                    <p className="cp2-cp-cta-fine">Free to start · no card · web, iOS or Android</p>
+                    <PlatformFineprint className="cp2-platform-link--compact" />
                   </div>
                 </div>
               ) : (

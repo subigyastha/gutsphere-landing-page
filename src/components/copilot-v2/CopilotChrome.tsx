@@ -13,14 +13,15 @@ import {
 } from '../../constants'
 
 const EXPLORE_LINKS = [
-  { href: '#system', label: 'How it works' },
-  { href: '#walkthrough', label: 'One flare, start to finish' },
-  { href: '#honest', label: 'Our promise' },
+  { href: '/#system', label: 'How it works' },
+  { href: '/#walkthrough', label: 'One flare, start to finish' },
+  { href: '/#honest', label: 'Our promise' },
+  { href: '/for', label: 'Who it\u2019s for', blurb: 'Four stages, one copilot' },
 ] as const
 
 const COMPARE_LINKS = [
-  { href: '#compare', label: 'Why one system', blurb: 'Trackers, telehealth, AI & test kits — compared' },
-  { href: '#difference', label: 'The difference', blurb: 'Four claims only Gutsphere can make' },
+  { href: '/#compare', label: 'Why one system', blurb: 'Trackers, telehealth, AI & test kits — compared' },
+  { href: '/#difference', label: 'The difference', blurb: 'Four claims only Gutsphere can make' },
 ] as const
 
 const EXPLORE_SECTION_IDS = ['system', 'walkthrough', 'compare', 'difference', 'honest']
@@ -259,9 +260,10 @@ export function CopilotFooter() {
           </div>
           <div>
             <h4>Company</h4>
-            <a href="#pricing">Pricing</a>
-            <a href="#faq">FAQ</a>
-            <a href="#honest">Our promise</a>
+            <a href="/for">Who it&apos;s for</a>
+            <a href="/#pricing">Pricing</a>
+            <a href="/#faq">FAQ</a>
+            <a href="/#honest">Our promise</a>
             <a href={ABOUT_URL}>About</a>
             <a href={CONTACT_URL}>Contact</a>
             <a href={NEWSLETTER_URL}>Newsletter</a>

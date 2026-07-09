@@ -104,6 +104,80 @@
   margin-top: 14px;
 }
 
+/* ---------- platform link (hero + picker) ---------- */
+
+.copilot-v2 .cp2-platform-link {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 13.5px;
+  color: var(--gs-text-muted);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.copilot-v2 .cp2-platform-link:hover {
+  color: var(--gs-text-secondary);
+}
+
+.copilot-v2 .cp2-platform-link:focus-visible {
+  outline: 3px solid var(--gs-coral-light);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.copilot-v2 .cp2-platform-shimmer {
+  position: relative;
+  display: inline-block;
+  font-weight: 700;
+  color: var(--gs-text-primary);
+  overflow: hidden;
+}
+
+.copilot-v2 .cp2-platform-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 65%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    color-mix(in srgb, var(--gs-card) 15%, transparent) 35%,
+    color-mix(in srgb, var(--gs-sand-light) 90%, transparent) 50%,
+    color-mix(in srgb, var(--gs-card) 15%, transparent) 65%,
+    transparent 100%
+  );
+  transform: skewX(-18deg);
+  animation: cp2-platform-shimmer 2.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.copilot-v2 .cp2-platform-link--compact {
+  display: block;
+  margin-top: 10px;
+  font-size: 12px;
+  text-align: center;
+}
+
+@keyframes cp2-platform-shimmer {
+  0% {
+    left: -120%;
+  }
+  55%,
+  100% {
+    left: 140%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copilot-v2 .cp2-platform-shimmer::after {
+    animation: none;
+    display: none;
+  }
+}
+
 /* ---------- buttons ---------- */
 
 .copilot-v2 .cp2-btn {
@@ -1092,6 +1166,59 @@
 
 /* ---------- problem ---------- */
 
+.copilot-v2 .cp2-problem .cp2-wrap {
+  position: relative;
+}
+
+.copilot-v2 .cp2-problem-art-toggle {
+  position: sticky;
+  top: 84px;
+  z-index: 6;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 18px;
+  pointer-events: none;
+}
+
+.copilot-v2 .cp2-problem-art-toggle-in {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px;
+  border-radius: var(--gs-radius-pill);
+  background: color-mix(in srgb, var(--gs-card) 90%, transparent);
+  border: 1px solid var(--gs-border);
+  box-shadow: 0 10px 28px -20px color-mix(in srgb, var(--gs-text-primary) 45%, transparent);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+}
+
+.copilot-v2 .cp2-problem-art-toggle button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--gs-text-secondary);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 9px 14px;
+  border-radius: var(--gs-radius-pill);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.copilot-v2 .cp2-problem-art-toggle button:hover {
+  color: var(--gs-text-primary);
+}
+
+.copilot-v2 .cp2-problem-art-toggle button.is-active {
+  background: var(--gs-coral);
+  color: var(--gs-card);
+  box-shadow: 0 6px 16px -10px color-mix(in srgb, var(--gs-coral) 70%, transparent);
+}
+
 .copilot-v2 .cp2-pains {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1103,13 +1230,48 @@
   background: var(--gs-card);
   border: 1px solid var(--gs-border);
   border-radius: var(--cp2-radius);
-  padding: 26px;
+  padding: 18px;
   box-shadow: var(--cp2-shadow-card);
+}
+
+.copilot-v2 .cp2-pain-media {
+  aspect-ratio: 4 / 3;
+  border-radius: calc(var(--cp2-radius) - 4px);
+  overflow: hidden;
+  background: transparent;
+}
+
+.copilot-v2 .cp2-pain-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  transform-origin: center center;
+  transition: opacity 0.2s ease;
+}
+
+.copilot-v2 .cp2-pain-media--illustration.cp2-pain-media--scatter img {
+  transform: scale(1.6);
+}
+
+.copilot-v2 .cp2-pain-media--illustration.cp2-pain-media--battery img {
+  transform: scale(1.2);
+}
+
+.copilot-v2 .cp2-pain-media--illustration.cp2-pain-media--clock img {
+  transform: scale(1.4);
+}
+
+.copilot-v2 .cp2-pain-media--abstract.cp2-pain-media--scatter img,
+.copilot-v2 .cp2-pain-media--abstract.cp2-pain-media--battery img,
+.copilot-v2 .cp2-pain-media--abstract.cp2-pain-media--clock img {
+  transform: scale(1.3);
 }
 
 .copilot-v2 .cp2-pain h3 {
   font-size: 21px;
-  margin: 14px 0 10px;
+  margin: 16px 0 10px;
 }
 
 .copilot-v2 .cp2-pain p {
@@ -1733,10 +1895,15 @@
 
 .copilot-v2 .cp2-sys-note {
   font-family: var(--font-body);
-  font-size: 12.5px;
-  color: var(--gs-coral);
-  letter-spacing: 0.06em;
+  font-size: 14.5px;
+  color: var(--gs-text-secondary);
   margin-top: 20px;
+  line-height: 1.55;
+}
+
+.copilot-v2 .cp2-sys-note strong {
+  font-weight: 700;
+  color: var(--gs-text-primary);
 }
 
 .copilot-v2 .cp2-flowd {
@@ -2327,27 +2494,95 @@
   width: 100%;
 }
 
+/* ---------- bottom band (CTA + footer on primary) ---------- */
+
+.copilot-v2 .cp2-bottom-band {
+  background: var(--gs-coral);
+  padding: 0 12px 12px;
+}
+
 /* ---------- final CTA ---------- */
 
 .copilot-v2 .cp2-final {
   text-align: center;
+  padding: clamp(56px, 10vw, 88px) 0 clamp(36px, 6vw, 52px);
 }
 
-.copilot-v2 .cp2-final h2 {
-  font-size: clamp(30px, 4.5vw, 46px);
-  max-width: 18ch;
+.copilot-v2 .cp2-final-eyebrow {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--gs-card) 82%, transparent);
+  margin: 0 0 16px;
+}
+
+.copilot-v2 .cp2-final-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--gs-card);
+  max-width: 16ch;
   margin: 0 auto;
 }
 
-.copilot-v2 .cp2-final .cp2-btn {
-  margin-top: 30px;
+.copilot-v2 .cp2-final-lead {
+  font-size: clamp(16px, 2.2vw, 18px);
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--gs-card) 88%, transparent);
+  max-width: 42ch;
+  margin: 18px auto 0;
 }
 
-.copilot-v2 .cp2-app {
-  margin-top: 52px;
-  padding-top: 34px;
-  border-top: 1px solid var(--gs-border);
+.copilot-v2 .cp2-final-btn {
+  margin-top: 32px;
+  padding: 17px 36px;
+  font-size: 17px;
+  background: var(--gs-card);
+  color: var(--gs-coral);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--gs-text-primary) 18%, transparent);
+}
+
+.copilot-v2 .cp2-final-btn:hover {
+  background: color-mix(in srgb, var(--gs-card) 94%, var(--gs-sand-light));
+  color: var(--gs-coral);
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px color-mix(in srgb, var(--gs-text-primary) 22%, transparent);
+}
+
+.copilot-v2 .cp2-final-trust {
+  margin-top: 14px;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--gs-card) 72%, transparent);
+}
+
+.copilot-v2 .cp2-final .cp2-app {
+  margin-top: 44px;
+  padding-top: 32px;
+  border-top: 1px solid color-mix(in srgb, var(--gs-card) 22%, transparent);
   text-align: center;
+}
+
+.copilot-v2 .cp2-final .cp2-lbl {
+  color: color-mix(in srgb, var(--gs-card) 75%, transparent);
+}
+
+.copilot-v2 .cp2-final .cp2-store {
+  border-color: color-mix(in srgb, var(--gs-card) 35%, transparent);
+  background: color-mix(in srgb, var(--gs-card) 12%, transparent);
+  color: color-mix(in srgb, var(--gs-card) 90%, transparent);
+}
+
+.copilot-v2 .cp2-final .cp2-store:hover {
+  border-color: var(--gs-card);
+  background: color-mix(in srgb, var(--gs-card) 22%, transparent);
+}
+
+.copilot-v2 .cp2-final .cp2-store b {
+  color: var(--gs-card);
 }
 
 .copilot-v2 .cp2-lbl {
@@ -2394,7 +2629,7 @@
 /* ---------- footer — inset dark rounded shell (ploy-style) ---------- */
 
 .copilot-v2 .cp2-footer {
-  padding: 12px;
+  padding: 0;
 }
 
 .copilot-v2 .cp2-footer-shell {
@@ -2655,6 +2890,12 @@
   .copilot-v2 .cp2-diff-grid,
   .copilot-v2 .cp2-pains {
     grid-template-columns: 1fr;
+  }
+
+  .copilot-v2 .cp2-problem-art-toggle {
+    justify-content: center;
+    top: 72px;
+    margin-bottom: 14px;
   }
 
   .copilot-v2 .cp2-diff-founder-note {

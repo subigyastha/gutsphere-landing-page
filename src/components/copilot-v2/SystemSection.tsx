@@ -109,9 +109,11 @@ export function SystemSection() {
             managing it day to day. What you log shapes your care; both become the evidence you bring to a
             clinician.
           </p>
-          <p className="cp2-sys-note">
-            Not an isolated tracker · not telehealth · not a test kit — the thread that connects them, for as
-            long as you need it.
+          <p className="cp2-sys-note cp2-reveal">
+            <strong>
+              Not an isolated tracker · not telehealth · not a test kit
+            </strong>{' '}
+            — the thread that connects them, for as long as you need it.
           </p>
         </div>
 

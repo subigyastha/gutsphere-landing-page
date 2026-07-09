@@ -35,10 +35,12 @@ export function CopilotV2Landing() {
         <HonestySection />
         <PricingSection />
         <FAQSection />
-        <FinalCTASection />
       </main>
+      <div className="cp2-bottom-band">
+        <FinalCTASection />
+        <CopilotFooter />
+      </div>
       <StickyCTA />
-      <CopilotFooter />
     </div>
   )
 }

@@ -132,12 +132,19 @@ export function PricingSection() {
 
 export function FinalCTASection() {
   return (
-    <section className="cp2-final" id="cta">
+    <section className="cp2-final" id="cta" aria-labelledby="cp2-final-heading">
       <div className="cp2-wrap">
-        <h2 className="cp2-reveal">Stop managing your gut in five places.</h2>
-        <a href={SIGNUP_URL} className="cp2-btn cp2-reveal" data-cta="primary">
+        <p className="cp2-final-eyebrow cp2-reveal">Ready when you are</p>
+        <h2 id="cp2-final-heading" className="cp2-final-title cp2-reveal">
+          Stop managing your gut in five places.
+        </h2>
+        <p className="cp2-final-lead cp2-reveal">
+          Start free on web, iOS, or Android — one copilot for tracking, care, and visit prep.
+        </p>
+        <a href={SIGNUP_URL} className="cp2-btn cp2-final-btn cp2-reveal" data-cta="primary">
           Start free
         </a>
+        <p className="cp2-final-trust cp2-reveal">No card required · cancel anytime · not medical advice</p>
         <div className="cp2-app cp2-reveal">
           <p className="cp2-lbl">Prefer the app?</p>
           <div className="cp2-badges">

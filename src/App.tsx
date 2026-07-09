@@ -14,6 +14,7 @@ import { FlowLanding } from './pages/FlowLanding'
 import { DiscoveryLanding } from './pages/DiscoveryLanding'
 import { ScrollGutLanding } from './pages/ScrollGutLanding'
 import { ConditionStubPage } from './pages/ConditionStubPage'
+import { WhoIsItForLanding } from './pages/WhoIsItForLanding'
 import { VariantTracker } from './components/VariantTracker'
 
 function App() {
@@ -122,6 +123,7 @@ function App() {
           }
         />
         <Route path="/copilot-v2" element={<CopilotV2Landing />} />
+        <Route path="/for" element={<WhoIsItForLanding />} />
         <Route path="/conditions/:slug" element={<ConditionStubPage />} />
       </Routes>
     </>
