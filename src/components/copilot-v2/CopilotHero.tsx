@@ -1,10 +1,11 @@
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { SIGNUP_URL } from '../../constants'
 import { DX_CHIPS, FLAG_CHIPS, SYMPTOM_CHIPS } from './constants'
 import { PlatformFineprint } from './PlatformPills'
-import type { useCopilotPicker } from './useCopilotPicker'
+import type { CopilotPreview, SystemPreview, useCopilotPicker } from './useCopilotPicker'
 
 type Picker = ReturnType<typeof useCopilotPicker>
+type PreviewMode = 'classic' | 'system'
 
 /** Horizontal link bridge — symptoms tied by shared factors, not a vertical slider. */
 function ConnectionBridge({ labels, shared }: { labels: string[]; shared: string[] }) {
@@ -63,8 +64,119 @@ function ConnectionBridge({ labels, shared }: { labels: string[]; shared: string
   )
 }
 
+function ClassicPreview({ preview }: { preview: CopilotPreview }) {
+  return (
+    <div className={`cp2-copilot${preview.care ? ' care' : ''}`}>
+      <div className="cp2-cp-head">
+        <span className="cp2-cp-dot" />
+        {preview.care ? 'Your copilot · let’s take this seriously' : 'Your copilot · already on it'}
+      </div>
+      <p className="cp2-cp-intro">{preview.intro}</p>
+      {preview.care ? (
+        <>
+          <div className="cp2-cp-row">
+            <span className="cp2-cp-k">Right now</span>
+            <p>
+              Please reach out to a doctor or clinic about this. If it&apos;s severe, heavy, or came on
+              suddenly, use urgent or emergency care.
+            </p>
+          </div>
+          <div className="cp2-cp-row">
+            <span className="cp2-cp-k">How I help</span>
+            <p>
+              I&apos;ll keep a clear, dated record of what you&apos;re noticing, so you can hand it straight
+              to whoever you see.
+            </p>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="cp2-cp-row">
+            <span className="cp2-cp-k">I&apos;d track</span>
+            <p>{preview.track}.</p>
+          </div>
+          <div className="cp2-cp-row">
+            <span className="cp2-cp-k">I&apos;d connect it to</span>
+            <p>{preview.connect} — to find what&apos;s really driving it.</p>
+          </div>
+          <div className="cp2-cp-row">
+            <span className="cp2-cp-k">I&apos;d help you ask</span>
+            <p>&ldquo;{preview.ask}&rdquo;</p>
+          </div>
+        </>
+      )}
+      <p className="cp2-cp-foot">{preview.foot}</p>
+      <p className="cp2-cp-note">{preview.note}</p>
+      <div className="cp2-cp-cta">
+        <a href={SIGNUP_URL} className="cp2-btn" data-cta="primary">
+          {preview.ctaLabel}
+        </a>
+        <PlatformFineprint className="cp2-platform-link--compact" placement="hero-picker" />
+      </div>
+    </div>
+  )
+}
+
+function SystemPreviewPanel({ preview }: { preview: SystemPreview }) {
+  return (
+    <div className={`cp2-copilot cp2-copilot--full${preview.care ? ' care' : ''}`}>
+      <div className="cp2-cp-head">
+        <span className="cp2-cp-dot" />
+        {preview.care ? 'Your copilot · let’s take this seriously' : 'Your copilot · already on it'}
+      </div>
+      <p className="cp2-cp-intro">{preview.intro}</p>
+
+      {preview.pillars.map((pillar) => {
+        const isAsk = pillar.id === 'understand' && !preview.care
+        const body = isAsk
+          ? pillar.body.replace(/^["“]|["”]$/g, '')
+          : pillar.body
+        return (
+          <div
+            key={pillar.id}
+            className={`cp2-cp-row${pillar.primary ? ' is-primary' : ''}`}
+            data-pillar={pillar.id}
+          >
+            <span className="cp2-cp-k">{pillar.label}</span>
+            <p>{isAsk ? <>&ldquo;{body}&rdquo;</> : body.endsWith('.') ? body : `${body}.`}</p>
+          </div>
+        )
+      })}
+
+      {!preview.care && (
+        <div className="cp2-cp-row cp2-cp-row--team">
+          <span className="cp2-cp-k">I’d bring in</span>
+          <div className="cp2-cp-team">
+            <div className="cp2-sys-lenses-row">
+              {preview.lenses.map((lens) => (
+                <span key={lens} className="cp2-sys-lens">
+                  {lens}
+                </span>
+              ))}
+            </div>
+            <p>{preview.lensesNote}</p>
+          </div>
+        </div>
+      )}
+
+      <p className="cp2-cp-foot">{preview.foot}</p>
+      <p className="cp2-cp-note">{preview.note}</p>
+      <div className="cp2-cp-cta">
+        <a href={SIGNUP_URL} className="cp2-btn" data-cta="primary">
+          {preview.ctaLabel}
+        </a>
+        <PlatformFineprint className="cp2-platform-link--compact" placement="hero-picker" />
+      </div>
+    </div>
+  )
+}
+
 export function CopilotHero({ picker }: { picker: Picker }) {
-  const { toggleChip, isSelected, threadLabels, sharedLinks, preview } = picker
+  const { toggleChip, isSelected, threadLabels, sharedLinks, preview, systemPreview } = picker
+  const [mode, setMode] = useState<PreviewMode>('system')
+
+  const activePreview = mode === 'system' ? systemPreview : preview
+  const showBridge = threadLabels.length > 0 && !activePreview?.care
 
   return (
     <section className="cp2-hero">
@@ -73,7 +185,7 @@ export function CopilotHero({ picker }: { picker: Picker }) {
           <div className="cp2-hero-copy">
             <p className="cp2-eyebrow cp2-reveal">You&apos;re the pilot · Gutsphere is the copilot</p>
             <h1 className="cp2-reveal" style={{ marginTop: 16 }}>
-              From gut anxiety to gut <span className="cp2-em">confidence</span>.
+              From gut <span className="cp2-em">anxiety</span> to gut <span className="cp2-em">confidence</span>.
             </h1>
             <p className="cp2-sub cp2-reveal">
               Know what&apos;s wrong. Know what to do. Gutsphere is the copilot that helps you make sense of
@@ -134,8 +246,33 @@ export function CopilotHero({ picker }: { picker: Picker }) {
           </div>
         </div>
 
-        <div className={`cp2-picker${preview ? ' cp2-picker--live' : ''}`} id="start">
-          <p className="cp2-q">Where are you right now?</p>
+        <div className={`cp2-picker${activePreview ? ' cp2-picker--live' : ''}`} id="start">
+          <div className="cp2-picker-head">
+            <p className="cp2-q">Where are you right now?</p>
+            <div className="cp2-preview-toggle" role="group" aria-label="Compare preview versions">
+              <button
+                type="button"
+                className={mode === 'classic' ? 'is-active' : ''}
+                aria-pressed={mode === 'classic'}
+                onClick={() => setMode('classic')}
+              >
+                Classic
+              </button>
+              <button
+                type="button"
+                className={mode === 'system' ? 'is-active' : ''}
+                aria-pressed={mode === 'system'}
+                onClick={() => setMode('system')}
+              >
+                Full
+              </button>
+            </div>
+          </div>
+          <p className="cp2-preview-toggle-hint">
+            {mode === 'system'
+              ? 'Full: same “I’d …” voice — now covering track, care, navigate, ask, plus your care team views.'
+              : 'Classic: I’d track / connect / ask — the original three-line reply.'}
+          </p>
 
           <div className="cp2-picker-grid">
             <div className="cp2-picker-chips">
@@ -206,67 +343,27 @@ export function CopilotHero({ picker }: { picker: Picker }) {
             </div>
 
             <div className="cp2-picker-panel">
-              {threadLabels.length > 0 && !preview?.care && (
-                <ConnectionBridge labels={threadLabels} shared={sharedLinks} />
-              )}
+              {showBridge && <ConnectionBridge labels={threadLabels} shared={sharedLinks} />}
 
-              {preview ? (
-                <div className={`cp2-copilot${preview.care ? ' care' : ''}`}>
-                  <div className="cp2-cp-head">
-                    <span className="cp2-cp-dot" />
-                    {preview.care
-                      ? 'Your copilot · let’s take this seriously'
-                      : 'Your copilot · already on it'}
-                  </div>
-                  <p className="cp2-cp-intro">{preview.intro}</p>
-                  {preview.care ? (
-                    <>
-                      <div className="cp2-cp-row">
-                        <span className="cp2-cp-k">Right now</span>
-                        <p>
-                          Please reach out to a doctor or clinic about this. If it&apos;s severe, heavy, or came
-                          on suddenly, use urgent or emergency care.
-                        </p>
-                      </div>
-                      <div className="cp2-cp-row">
-                        <span className="cp2-cp-k">How I help</span>
-                        <p>
-                          I&apos;ll keep a clear, dated record of what you&apos;re noticing, so you can hand it
-                          straight to whoever you see.
-                        </p>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="cp2-cp-row">
-                        <span className="cp2-cp-k">I&apos;d track</span>
-                        <p>{preview.track}.</p>
-                      </div>
-                      <div className="cp2-cp-row">
-                        <span className="cp2-cp-k">I&apos;d connect it to</span>
-                        <p>{preview.connect} — to find what&apos;s really driving it.</p>
-                      </div>
-                      <div className="cp2-cp-row">
-                        <span className="cp2-cp-k">I&apos;d help you ask</span>
-                        <p>&ldquo;{preview.ask}&rdquo;</p>
-                      </div>
-                    </>
-                  )}
-                  <p className="cp2-cp-foot">{preview.foot}</p>
-                  <p className="cp2-cp-note">{preview.note}</p>
-                  <div className="cp2-cp-cta">
-                    <a href={SIGNUP_URL} className="cp2-btn" data-cta="primary">
-                      {preview.ctaLabel}
-                    </a>
-                    <PlatformFineprint className="cp2-platform-link--compact" />
-                  </div>
-                </div>
+              {mode === 'system' && systemPreview ? (
+                <SystemPreviewPanel preview={systemPreview} />
+              ) : mode === 'classic' && preview ? (
+                <ClassicPreview preview={preview} />
               ) : (
                 <div className="cp2-cp-empty">
                   <span className="cp2-cp-dot" />
                   <p className="cp2-cp-empty-title">Your copilot is standing by</p>
                   <p>
-                    Tap a symptom above and watch how your copilot responds to <em>you</em>.
+                    {mode === 'system' ? (
+                      <>
+                        Tap a symptom above — I&apos;ll show how I&apos;d track, care, navigate, and help you
+                        ask, with the care views that matter.
+                      </>
+                    ) : (
+                      <>
+                        Tap a symptom above and watch how your copilot responds to <em>you</em>.
+                      </>
+                    )}
                   </p>
                 </div>
               )}

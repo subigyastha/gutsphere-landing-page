@@ -109,6 +109,10 @@ export function SystemSection() {
             managing it day to day. What you log shapes your care; both become the evidence you bring to a
             clinician.
           </p>
+          <p className="cp2-sys-preview-bridge cp2-reveal">
+            The preview above is the same journey in your words — track, care, navigate, and understand —
+            with GI, nutrition, gut–brain, and holistic views sharing one context.
+          </p>
           <p className="cp2-sys-note cp2-reveal">
             <strong>
               Not an isolated tracker · not telehealth · not a test kit

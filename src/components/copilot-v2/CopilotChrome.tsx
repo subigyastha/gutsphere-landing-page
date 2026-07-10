@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
+import type { ProductSolutionGroupId } from '../../constants'
 import type { ReactNode } from 'react'
 import { GutsphereLogoLink } from '../GutsphereLogo'
 import {
-  ABOUT_URL,
   CONTACT_URL,
   INSTAGRAM_URL,
   NEWSLETTER_URL,
@@ -13,8 +13,10 @@ import {
   conditionHubConditions,
   conditionHubSymptoms,
   footerIntegrations,
-  productFeatureGroups,
-  productFeatures,
+  footerVisitPrepExtras,
+  productSolutionGroups,
+  productSolutionItems,
+  SOLUTIONS_NAV_LABEL,
 } from '../../constants'
 
 const EXPLORE_LINKS = [
@@ -27,6 +29,10 @@ const EXPLORE_LINKS = [
 const COMPARE_LINKS = [
   { href: '/#compare', label: 'Why one system', blurb: 'Trackers, telehealth, AI & test kits — compared' },
   { href: '/#difference', label: 'The difference', blurb: 'Four claims only Gutsphere can make' },
+  { href: '/compare/symptom-trackers', label: 'vs Symptom trackers', blurb: 'Logs vs a connected system' },
+  { href: '/compare/ai-chat', label: 'vs ChatGPT & AI chat', blurb: 'General answers vs your history' },
+  { href: '/compare/telehealth', label: 'vs Telehealth', blurb: 'Visits vs the daily layer between them' },
+  { href: '/compare/test-kits', label: 'vs Test kits', blurb: 'A snapshot vs a living system' },
 ] as const
 
 const EXPLORE_SECTION_IDS = ['system', 'walkthrough', 'compare', 'difference', 'honest']
@@ -97,6 +103,82 @@ function NavDropdown({
   )
 }
 
+function SolutionsNavDropdown() {
+  const ref = useRef<HTMLDetailsElement>(null)
+  const [activeGroup, setActiveGroup] = useState<ProductSolutionGroupId>('trackers')
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const closeOnOutside = (e: MouseEvent) => {
+      if (el.open && !el.contains(e.target as Node)) el.open = false
+    }
+    document.addEventListener('click', closeOnOutside)
+    return () => document.removeEventListener('click', closeOnOutside)
+  }, [])
+
+  const activeItems = productSolutionItems.filter((item) => item.group === activeGroup)
+  const activeMeta = productSolutionGroups.find((group) => group.id === activeGroup)
+
+  return (
+    <details ref={ref} className="cp2-nav-dd cp2-nav-dd--solutions">
+      <summary>
+        {SOLUTIONS_NAV_LABEL}
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+          <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </summary>
+      <div
+        className="cp2-nav-dd-panel cp2-nav-solutions-panel"
+        onClick={(e) => {
+          if ((e.target as HTMLElement).closest('a')) {
+            if (ref.current) ref.current.open = false
+          }
+        }}
+      >
+        <div className="cp2-nav-solutions-cols">
+          <div className="cp2-nav-solutions-left">
+            <div className="cp2-nav-solutions-groups" role="tablist" aria-label="Solution categories">
+              {productSolutionGroups.map((group) => (
+                <button
+                  key={group.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeGroup === group.id}
+                  className={activeGroup === group.id ? 'is-active' : ''}
+                  onMouseEnter={() => setActiveGroup(group.id)}
+                  onFocus={() => setActiveGroup(group.id)}
+                  onClick={() => setActiveGroup(group.id)}
+                >
+                  <span className="cp2-nav-solutions-group-label">{group.label}</span>
+                  <span className="cp2-nav-solutions-group-summary">{group.summary}</span>
+                </button>
+              ))}
+            </div>
+            <a href="/features" className="cp2-nav-solutions-cta">
+              Browse all features
+            </a>
+          </div>
+          <div className="cp2-nav-solutions-items" role="tabpanel">
+            {activeMeta && (
+              <a href={activeMeta.href} className="cp2-nav-solutions-overview">
+                All {activeMeta.label.toLowerCase()}
+                <small>{activeMeta.summary}</small>
+              </a>
+            )}
+            {activeItems.map((item) => (
+              <a key={item.label} href={item.href}>
+                {item.label}
+                <small>{item.blurb}</small>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </details>
+  )
+}
+
 export function CopilotNav() {
   const active = useActiveSection(SECTION_IDS)
 
@@ -143,24 +225,7 @@ export function CopilotNav() {
                 Not sure? Start here
               </a>
             </NavDropdown>
-            <NavDropdown label="Features" active={false} className="cp2-nav-dd--features">
-              {productFeatureGroups.map((group) => (
-                <span key={group.id}>
-                  <span className="cp2-nav-dd-group">{group.label}</span>
-                  {productFeatures
-                    .filter((f) => f.group === group.id)
-                    .map((f) => (
-                      <a key={f.label} href={f.href}>
-                        {f.label}
-                        <small>{f.blurb}</small>
-                      </a>
-                    ))}
-                </span>
-              ))}
-              <a href="#system" className="cp2-nav-dd-cta">
-                See how it connects
-              </a>
-            </NavDropdown>
+            <SolutionsNavDropdown />
             <a href="#journey" className={active === 'journey' ? 'is-active' : ''}>
               Your journey
             </a>
@@ -191,7 +256,9 @@ export function CopilotNav() {
               <span className="cp2-nav-menu-group">More</span>
               <a href="#journey">Your journey</a>
               <a href="#pricing">Pricing</a>
-              <a href="#faq">FAQ</a>
+              <a href="/faq">FAQ</a>
+              <a href="/about">About</a>
+              <a href="/for">Who it&apos;s for</a>
               <span className="cp2-nav-menu-group">Conditions</span>
               <div className="cp2-nav-menu-conditions">
                 {conditionHubConditions.map((c) => (
@@ -208,18 +275,17 @@ export function CopilotNav() {
                   </a>
                 ))}
               </div>
-              <span className="cp2-nav-menu-group">Features</span>
-              {productFeatureGroups.map((group) => (
-                <span key={group.id}>
-                  <span className="cp2-nav-menu-subgroup">{group.label}</span>
-                  {productFeatures
-                    .filter((f) => f.group === group.id)
-                    .map((f) => (
-                      <a key={f.label} href={f.href}>
-                        {f.label}
-                      </a>
-                    ))}
-                </span>
+              <span className="cp2-nav-menu-group">{SOLUTIONS_NAV_LABEL}</span>
+              {productSolutionGroups.map((group) => (
+                <a key={group.id} href={group.href}>
+                  {group.label}
+                </a>
+              ))}
+              <span className="cp2-nav-menu-subgroup">Visit prep</span>
+              {footerVisitPrepExtras.map((item) => (
+                <a key={item.label} href={item.href}>
+                  {item.label}
+                </a>
               ))}
               <a href="#start" className="cp2-btn cp2-nav-cta-mobile">
                 Start free
@@ -297,29 +363,29 @@ export function CopilotFooter() {
               </a>
             ))}
           </div>
-          <div className="cp2-foot-col-features">
-            <h4>Features</h4>
-            {productFeatureGroups.map((group) => (
-              <div key={group.id} className="cp2-foot-feature-group">
-                <p className="cp2-foot-col-group">{group.label}</p>
-                {productFeatures
-                  .filter((f) => f.group === group.id)
-                  .map((f) => (
-                    <a key={f.label} href={f.href}>
-                      {f.label}
-                    </a>
-                  ))}
-              </div>
+          <div className="cp2-foot-col-solutions">
+            <h4>{SOLUTIONS_NAV_LABEL}</h4>
+            {productSolutionGroups.map((group) => (
+              <a key={group.id} href={group.href}>
+                {group.label}
+              </a>
+            ))}
+            <a href="/features">All features</a>
+            <p className="cp2-foot-col-group">Visit prep</p>
+            {footerVisitPrepExtras.map((item) => (
+              <a key={item.label} href={item.href}>
+                {item.label}
+              </a>
             ))}
           </div>
           <div>
             <h4>Compare</h4>
-            <a href="#compare">Why one system</a>
-            <a href="#compare">vs Symptom trackers</a>
-            <a href="#compare">vs ChatGPT &amp; AI chat</a>
-            <a href="#compare">vs Telehealth</a>
-            <a href="#compare">vs Test kits</a>
-            <a href="#difference">The difference</a>
+            <a href="/#compare">Why one system</a>
+            <a href="/compare/symptom-trackers">vs Symptom trackers</a>
+            <a href="/compare/ai-chat">vs ChatGPT &amp; AI chat</a>
+            <a href="/compare/telehealth">vs Telehealth</a>
+            <a href="/compare/test-kits">vs Test kits</a>
+            <a href="/#difference">The difference</a>
           </div>
           <div>
             <h4>Your journey</h4>
@@ -332,9 +398,9 @@ export function CopilotFooter() {
             <h4>Company</h4>
             <a href="/for">Who it&apos;s for</a>
             <a href="/#pricing">Pricing</a>
-            <a href="/#faq">FAQ</a>
+            <a href="/faq">FAQ</a>
             <a href="/#honest">Our promise</a>
-            <a href={ABOUT_URL}>About</a>
+            <a href="/about">About</a>
             <a href={CONTACT_URL}>Contact</a>
             <a href={NEWSLETTER_URL}>Newsletter</a>
             <a href={YOUTUBE_CHANNEL_URL}>YouTube</a>

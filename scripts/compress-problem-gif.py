@@ -1,15 +1,14 @@
-"""Compress the scattered problem GIF for web delivery."""
+"""Compress problem-section GIFs for web delivery with transparency."""
 
 from __future__ import annotations
 
+import argparse
 import sys
 from pathlib import Path
 
 from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "Images" / "scattered_gif.gif"
-OUTPUT = ROOT / "public" / "images" / "problem" / "scattered.gif"
 
 MAX_WIDTH = 640
 FRAME_STEP = 3
@@ -107,6 +106,7 @@ def compress_gif(
     transparent_index = colors - 1
     processed = [frame_to_palette(frame, palette_image, transparent_index) for frame in selected]
 
+    output.parent.mkdir(parents=True, exist_ok=True)
     processed[0].save(
         output,
         save_all=True,
@@ -127,13 +127,22 @@ def compress_gif(
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("source", type=Path, help="Source GIF path")
+    parser.add_argument("output", type=Path, help="Output GIF path")
+    parser.add_argument("--max-width", type=int, default=MAX_WIDTH)
+    parser.add_argument("--frame-step", type=int, default=FRAME_STEP)
+    parser.add_argument("--colors", type=int, default=COLORS)
+    parser.add_argument("--duration-ms", type=int, default=DURATION_MS)
+    args = parser.parse_args()
+
     compress_gif(
-        SOURCE,
-        OUTPUT,
-        max_width=MAX_WIDTH,
-        frame_step=FRAME_STEP,
-        colors=COLORS,
-        duration_ms=DURATION_MS,
+        args.source,
+        args.output,
+        max_width=args.max_width,
+        frame_step=args.frame_step,
+        colors=args.colors,
+        duration_ms=args.duration_ms,
     )
     return 0
 

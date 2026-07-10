@@ -41,8 +41,18 @@ export function Footer() {
               <p className="mb-3 font-semibold text-gs-text-primary">Company</p>
               <ul className="space-y-2 text-gs-text-secondary">
                 <li>
-                  <a href="#founder" className="hover:text-gs-coral">
+                  <a href="/about" className="hover:text-gs-coral">
                     Our story
+                  </a>
+                </li>
+                <li>
+                  <a href="/for" className="hover:text-gs-coral">
+                    Who it&apos;s for
+                  </a>
+                </li>
+                <li>
+                  <a href="/faq" className="hover:text-gs-coral">
+                    FAQ
                   </a>
                 </li>
                 <li>

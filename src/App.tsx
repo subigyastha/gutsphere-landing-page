@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useParams } from 'react-router-dom'
 import { LandingLayout } from './layouts/LandingLayout'
 import { CopilotV2Landing } from './pages/CopilotV2Landing'
 import { RecordLanding } from './pages/RecordLanding'
@@ -13,9 +13,19 @@ import { OnboardLanding } from './pages/OnboardLanding'
 import { FlowLanding } from './pages/FlowLanding'
 import { DiscoveryLanding } from './pages/DiscoveryLanding'
 import { ScrollGutLanding } from './pages/ScrollGutLanding'
-import { ConditionStubPage } from './pages/ConditionStubPage'
+import { ConditionPage } from './pages/ConditionPage'
 import { WhoIsItForLanding } from './pages/WhoIsItForLanding'
+import { FaqHubPage } from './pages/FaqHubPage'
+import { ComparePage } from './pages/ComparePage'
+import { FeaturePage } from './pages/FeaturePage'
+import { AboutPage } from './pages/AboutPage'
+import { SystemSectionLanding } from './pages/SystemSectionLanding'
 import { VariantTracker } from './components/VariantTracker'
+
+function FaqTopicRedirect() {
+  const { slug } = useParams<{ slug: string }>()
+  return <Navigate to={slug ? `/conditions/${slug}` : '/faq'} replace />
+}
 
 function App() {
   return (
@@ -123,8 +133,16 @@ function App() {
           }
         />
         <Route path="/copilot-v2" element={<CopilotV2Landing />} />
+        <Route path="/system-section" element={<SystemSectionLanding />} />
         <Route path="/for" element={<WhoIsItForLanding />} />
-        <Route path="/conditions/:slug" element={<ConditionStubPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/faq" element={<FaqHubPage />} />
+        <Route path="/faq/:slug" element={<FaqTopicRedirect />} />
+        <Route path="/conditions/:slug" element={<ConditionPage />} />
+        <Route path="/compare/:slug" element={<ComparePage />} />
+        <Route path="/compare" element={<Navigate to="/compare/symptom-trackers" replace />} />
+        <Route path="/features/:slug" element={<FeaturePage />} />
+        <Route path="/features" element={<Navigate to="/features/trackers" replace />} />
       </Routes>
     </>
   )

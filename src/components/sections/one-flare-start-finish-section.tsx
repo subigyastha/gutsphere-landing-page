@@ -34,10 +34,10 @@ const NAV_SAFE = 60
 const VIEWPORT = 608
 
 const CHIP_CLASS =
-  'inline-flex items-center rounded-full border border-ploy-neutral-inverse-200 bg-ploy-neutral-primary-s2 px-2.5 py-1 text-[11px] font-medium text-ploy-text-secondary'
+  'inline-flex items-center rounded-full border border-gs-border bg-gs-sand-light px-2.5 py-1 text-[11px] font-medium text-gs-text-secondary'
 
 const ACCENT_CHIP_CLASS =
-  'inline-flex items-center rounded-full bg-ploy-background-accent-primary/10 px-2.5 py-1 text-[11px] font-semibold text-ploy-coral-tint'
+  'inline-flex items-center rounded-full bg-gs-coral/10 px-2.5 py-1 text-[11px] font-semibold text-gs-coral'
 
 type StepKey = 'log' | 'connect' | 'care' | 'insight' | 'appointment'
 
@@ -123,8 +123,8 @@ const CHIP_SCATTER = [
 
 function StatRow({ children }: { children: ReactNode }) {
   return (
-    <div className="mt-2 flex items-center gap-2 text-[13px] text-ploy-text-secondary">
-      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-ploy-background-accent-primary/70" />
+    <div className="mt-2 flex items-center gap-2 text-[13px] text-gs-text-secondary">
+      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gs-coral/70" />
       {children}
     </div>
   )
@@ -132,9 +132,9 @@ function StatRow({ children }: { children: ReactNode }) {
 
 function CheckRow({ children }: { children: ReactNode }) {
   return (
-    <div className="flex items-start gap-2.5 text-[13px] text-ploy-text-secondary">
-      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-ploy-background-accent-primary/12">
-        <Check className="h-3 w-3 text-ploy-coral-tint" strokeWidth={2.5} />
+    <div className="flex items-start gap-2.5 text-[13px] text-gs-text-secondary">
+      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gs-coral/12">
+        <Check className="h-3 w-3 text-gs-coral" strokeWidth={2.5} />
       </span>
       <span>{children}</span>
     </div>
@@ -144,7 +144,7 @@ function CheckRow({ children }: { children: ReactNode }) {
 const LogCard = memo(function LogCard() {
   return (
     <div>
-      <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-wide text-ploy-text-muted">
+      <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-wide text-gs-text-muted">
         <span>Log · Tue 9:14 PM</span>
         <span>severity</span>
       </div>
@@ -152,7 +152,7 @@ const LogCard = memo(function LogCard() {
         {[0, 1, 2, 3, 4].map((i) => (
           <span
             key={i}
-            className={`h-1.5 flex-1 rounded-full ${i < 4 ? 'bg-ploy-background-accent-primary' : 'bg-ploy-neutral-inverse-200'}`}
+            className={`h-1.5 flex-1 rounded-full ${i < 4 ? 'bg-gs-coral' : 'bg-gs-border'}`}
           />
         ))}
       </div>
@@ -174,13 +174,13 @@ const ConnectCard = memo(function ConnectCard({ active }: { active: boolean }) {
         <span className={CHIP_CLASS}>short sleep ×3</span>
       </div>
       <motion.div
-        className="mt-3 flex items-center gap-2 rounded-xl border border-ploy-background-accent-primary/35 bg-ploy-background-accent-primary/6 px-3 py-2.5"
+        className="mt-3 flex items-center gap-2 rounded-xl border border-gs-coral/35 bg-gs-coral/6 px-3 py-2.5"
         initial={false}
         animate={active ? { opacity: 1, scale: 1 } : { opacity: 0.85, scale: 0.98 }}
         transition={{ duration: 0.35, ease: 'easeOut' }}
       >
-        <span className="h-2 w-2 shrink-0 rounded-full bg-ploy-background-accent-primary" />
-        <span className="text-[13px] font-semibold text-ploy-text-primary">Possible thread found</span>
+        <span className="h-2 w-2 shrink-0 rounded-full bg-gs-coral" />
+        <span className="text-[13px] font-semibold text-gs-text-primary">Possible thread found</span>
       </motion.div>
     </div>
   )
@@ -189,11 +189,11 @@ const ConnectCard = memo(function ConnectCard({ active }: { active: boolean }) {
 const CareCard = memo(function CareCard() {
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-wide text-ploy-text-muted">
+      <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-wide text-gs-text-muted">
         <span>Today · gentle</span>
         <span>care</span>
       </div>
-      <div className="space-y-2.5 rounded-xl bg-ploy-neutral-primary-s2/80 p-3">
+      <div className="space-y-2.5 rounded-xl bg-gs-sand-light/80 p-3">
         <CheckRow>Warm, simple breakfast</CheckRow>
         <CheckRow>10-min walk, no pressure</CheckRow>
       </div>
@@ -207,7 +207,7 @@ const InsightCard = memo(function InsightCard() {
   const highlights = [1, 3]
   return (
     <div>
-      <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-wide text-ploy-text-muted">
+      <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-wide text-gs-text-muted">
         <span>6-week pattern</span>
         <span>insight</span>
       </div>
@@ -215,7 +215,7 @@ const InsightCard = memo(function InsightCard() {
         {heights.map((h, i) => (
           <span
             key={i}
-            className={`flex-1 rounded-sm ${highlights.includes(i) ? 'bg-ploy-background-accent-primary' : 'bg-ploy-neutral-inverse-200/80'}`}
+            className={`flex-1 rounded-sm ${highlights.includes(i) ? 'bg-gs-coral' : 'bg-gs-border/80'}`}
             style={{ height: `${h}%` }}
           />
         ))}
@@ -229,15 +229,15 @@ const InsightCard = memo(function InsightCard() {
 const AppointmentCard = memo(function AppointmentCard() {
   return (
     <div>
-      <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-wide text-ploy-text-muted">
+      <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-wide text-gs-text-muted">
         <span>Visit summary</span>
         <span>ready</span>
       </div>
-      <div className="relative mt-4 h-1.5 rounded-full bg-ploy-neutral-inverse-200">
+      <div className="relative mt-4 h-1.5 rounded-full bg-gs-border">
         {[0, 33, 66, 100].map((left) => (
           <span
             key={left}
-            className="absolute top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ploy-background-accent-primary"
+            className="absolute top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gs-coral"
             style={{ left: `${left}%` }}
           />
         ))}
@@ -294,18 +294,18 @@ const STEPS: Step[] = [
 
 function PhoneHeader() {
   return (
-    <div className="absolute inset-x-0 top-0 z-30 border-b border-ploy-neutral-inverse-200/60 bg-ploy-background-primary/85 px-4 pb-3 pt-2 backdrop-blur-sm">
-      <div className="flex items-center justify-between text-[10px] font-medium text-ploy-text-muted">
+    <div className="absolute inset-x-0 top-0 z-30 border-b border-gs-border/60 bg-gs-card/85 px-4 pb-3 pt-2 backdrop-blur-sm">
+      <div className="flex items-center justify-between text-[10px] font-medium text-gs-text-muted">
         <span>9:41</span>
         <span className="flex gap-1" aria-hidden="true">
           <span className="h-2.5 w-3.5 rounded-sm border border-current" />
         </span>
       </div>
       <div className="mt-2 flex items-center gap-2">
-        <ArrowLeft className="h-4 w-4 text-ploy-text-muted" aria-hidden="true" />
+        <ArrowLeft className="h-4 w-4 text-gs-text-muted" aria-hidden="true" />
         <div>
-          <p className="font-display text-[15px] font-semibold text-ploy-text-primary">Your flare</p>
-          <p className="text-[11px] text-ploy-text-muted">5 steps · start to finish</p>
+          <p className="font-display text-[15px] font-semibold text-gs-text-primary">Your flare</p>
+          <p className="text-[11px] text-gs-text-muted">5 steps · start to finish</p>
         </div>
       </div>
     </div>
@@ -322,24 +322,24 @@ function PhoneBottomNav() {
   ]
 
   return (
-    <div className="absolute inset-x-0 bottom-0 z-30 border-t border-ploy-neutral-inverse-200/60 bg-ploy-background-primary/90 px-2 pb-2 pt-1 backdrop-blur-sm">
+    <div className="absolute inset-x-0 bottom-0 z-30 border-t border-gs-border/60 bg-gs-card/90 px-2 pb-2 pt-1 backdrop-blur-sm">
       <div className="flex items-end justify-between">
         {tabs.map((tab) => {
           const Icon = tab.icon
           if (tab.active) {
             return (
               <div key={tab.label} className="-mt-5 flex flex-col items-center gap-0.5">
-                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-ploy-background-accent-primary shadow-lg shadow-ploy-background-accent-primary/30">
+                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gs-coral shadow-lg shadow-gs-coral/30">
                   <Icon className="h-5 w-5 text-white" strokeWidth={2.2} />
                 </span>
-                <span className="text-[10px] font-semibold text-ploy-coral-tint">{tab.label}</span>
+                <span className="text-[10px] font-semibold text-gs-coral">{tab.label}</span>
               </div>
             )
           }
           return (
             <div key={tab.label} className="flex flex-col items-center gap-0.5 px-1 pb-1">
-              <Icon className="h-4 w-4 text-ploy-text-muted" strokeWidth={2} />
-              <span className="text-[10px] text-ploy-text-muted">{tab.label}</span>
+              <Icon className="h-4 w-4 text-gs-text-muted" strokeWidth={2} />
+              <span className="text-[10px] text-gs-text-muted">{tab.label}</span>
             </div>
           )
         })}
@@ -390,12 +390,12 @@ function OpeningScreen({ organize }: { organize: MotionValue<number> }) {
               {chip}
             </span>
           ))}
-          <div className="mt-4 w-full rounded-[1.375rem] border border-ploy-neutral-inverse-200 bg-ploy-background-primary p-4">
-            <p className="font-display text-[14px] font-semibold text-ploy-text-primary">Building your timeline</p>
-            <p className="mt-1 text-[12px] text-ploy-text-muted">
+          <div className="mt-4 w-full rounded-[1.375rem] border border-gs-border bg-gs-card p-4">
+            <p className="font-display text-[14px] font-semibold text-gs-text-primary">Building your timeline</p>
+            <p className="mt-1 text-[12px] text-gs-text-muted">
               Connecting symptoms, food, sleep, care notes, and patterns.
             </p>
-            <div className="mt-3 h-1.5 rounded-full bg-ploy-background-accent-primary" />
+            <div className="mt-3 h-1.5 rounded-full bg-gs-coral" />
           </div>
         </div>
       </div>
@@ -410,13 +410,13 @@ function OpeningScreen({ organize }: { organize: MotionValue<number> }) {
         ))}
 
         <motion.div
-          className="pointer-events-none absolute left-1/2 top-1/2 h-28 w-px -translate-x-1/2 bg-ploy-neutral-inverse-200"
+          className="pointer-events-none absolute left-1/2 top-1/2 h-28 w-px -translate-x-1/2 bg-gs-border"
           style={{ opacity: lineOpacity }}
           aria-hidden="true"
         />
 
         <motion.div
-          className="pointer-events-none absolute left-1/2 top-[18%] bottom-[22%] w-px -translate-x-1/2 border-l border-dashed border-ploy-neutral-inverse-200"
+          className="pointer-events-none absolute left-1/2 top-[18%] bottom-[22%] w-px -translate-x-1/2 border-l border-dashed border-gs-border"
           style={{ opacity: railOpacity }}
           aria-hidden="true"
         />
@@ -425,17 +425,17 @@ function OpeningScreen({ organize }: { organize: MotionValue<number> }) {
           className="absolute left-1/2 top-1/2 z-10 w-[13.5rem] -translate-x-1/2 -translate-y-1/2"
           style={{ scale: coreScale, opacity: coreOpacity }}
         >
-          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-ploy-background-accent-primary/12 ring-4 ring-ploy-background-accent-primary/10">
-            <Sparkles className="h-6 w-6 text-ploy-coral-tint" aria-hidden="true" />
+          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-gs-coral/12 ring-4 ring-gs-coral/10">
+            <Sparkles className="h-6 w-6 text-gs-coral" aria-hidden="true" />
           </div>
-          <div className="rounded-[1.375rem] border border-ploy-neutral-inverse-200 bg-ploy-background-primary p-4 shadow-[0_12px_32px_-20px_rgba(28,25,23,0.28)]">
-            <p className="font-display text-[14px] font-semibold text-ploy-text-primary">Building your timeline</p>
-            <p className="mt-1 text-[12px] leading-snug text-ploy-text-muted">
+          <div className="rounded-[1.375rem] border border-gs-border bg-gs-card p-4 shadow-[0_12px_32px_-20px_rgba(28,25,23,0.28)]">
+            <p className="font-display text-[14px] font-semibold text-gs-text-primary">Building your timeline</p>
+            <p className="mt-1 text-[12px] leading-snug text-gs-text-muted">
               Connecting symptoms, food, sleep, care notes, and patterns.
             </p>
-            <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-ploy-neutral-inverse-200">
+            <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-gs-border">
               <motion.div
-                className="h-full origin-left rounded-full bg-ploy-background-accent-primary"
+                className="h-full origin-left rounded-full bg-gs-coral"
                 style={{ scaleX: barScale }}
               />
             </div>
@@ -468,11 +468,11 @@ function TimelineFeed({ active }: { active: number }) {
   return (
     <div className="relative h-full overflow-hidden">
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 z-20 h-16 bg-gradient-to-b from-ploy-background-primary to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 z-20 h-16 bg-gradient-to-b from-gs-card to-transparent"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-14 bg-gradient-to-t from-ploy-background-primary to-transparent"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-14 bg-gradient-to-t from-gs-card to-transparent"
         aria-hidden="true"
       />
 
@@ -495,31 +495,31 @@ function TimelineFeed({ active }: { active: number }) {
               className="relative mb-8 flex gap-3"
             >
               <div className="flex w-10 shrink-0 flex-col items-center pt-1">
-                <span className="text-[9px] font-semibold uppercase tracking-wider text-ploy-text-muted">
+                <span className="text-[9px] font-semibold uppercase tracking-wider text-gs-text-muted">
                   {step.month}
                 </span>
-                <span className="font-display text-[15px] font-bold leading-none text-ploy-text-primary">
+                <span className="font-display text-[15px] font-bold leading-none text-gs-text-primary">
                   {step.day}
                 </span>
                 {isActive ? (
-                  <span className="mt-2 flex h-3.5 w-3.5 items-center justify-center rounded-full ring-2 ring-ploy-background-accent-primary">
-                    <span className="h-2 w-2 rounded-full bg-ploy-background-accent-primary" />
+                  <span className="mt-2 flex h-3.5 w-3.5 items-center justify-center rounded-full ring-2 ring-gs-coral">
+                    <span className="h-2 w-2 rounded-full bg-gs-coral" />
                   </span>
                 ) : (
-                  <span className="mt-2.5 h-2 w-2 rounded-full bg-ploy-neutral-inverse-200" />
+                  <span className="mt-2.5 h-2 w-2 rounded-full bg-gs-border" />
                 )}
               </div>
 
               <motion.div
-                className={`min-w-0 flex-1 rounded-[1.375rem] border bg-ploy-background-primary p-4 shadow-[0_12px_32px_-20px_rgba(28,25,23,0.28)] ${
+                className={`min-w-0 flex-1 rounded-[1.375rem] border bg-gs-card p-4 shadow-[0_12px_32px_-20px_rgba(28,25,23,0.28)] ${
                   isActive
-                    ? 'border-ploy-background-accent-primary/50 opacity-100 shadow-[0_16px_40px_-18px_rgba(239,83,80,0.22)]'
-                    : 'border-ploy-neutral-inverse-200 opacity-45'
+                    ? 'border-gs-coral/50 opacity-100 shadow-[0_16px_40px_-18px_rgba(239,83,80,0.22)]'
+                    : 'border-gs-border opacity-45'
                 }`}
                 animate={{ scale: isActive ? 1 : 0.97 }}
                 transition={{ duration: 0.4, ease: 'easeOut' }}
               >
-                <p className="mb-2 text-[11px] font-medium text-ploy-text-muted">{step.node}</p>
+                <p className="mb-2 text-[11px] font-medium text-gs-text-muted">{step.node}</p>
                 {step.key === 'connect' ? <ConnectCard active={isActive} /> : step.card}
               </motion.div>
             </div>
@@ -530,7 +530,7 @@ function TimelineFeed({ active }: { active: number }) {
       </motion.div>
 
       <div
-        className="pointer-events-none absolute left-[1.35rem] top-[14rem] bottom-[14rem] w-px border-l border-dashed border-ploy-neutral-inverse-200"
+        className="pointer-events-none absolute left-[1.35rem] top-[14rem] bottom-[14rem] w-px border-l border-dashed border-gs-border"
         aria-hidden="true"
       />
     </div>
@@ -546,7 +546,7 @@ function ClosingScreen() {
           Timeline ready
         </span>
       </div>
-      <div className="mt-4 rounded-[1.375rem] border border-ploy-background-accent-primary/35 bg-ploy-background-accent-primary/6 p-4">
+      <div className="mt-4 rounded-[1.375rem] border border-gs-coral/35 bg-gs-coral/6 p-4">
         <div className="space-y-2.5">
           <CheckRow>5 moments connected</CheckRow>
           <CheckRow>1 pattern identified</CheckRow>
@@ -556,7 +556,7 @@ function ClosingScreen() {
       </div>
       <button
         type="button"
-        className="mt-auto w-full rounded-full bg-ploy-background-accent-primary py-3.5 text-[15px] font-semibold text-white"
+        className="mt-auto w-full rounded-full bg-gs-coral py-3.5 text-[15px] font-semibold text-white"
       >
         Start tracking
       </button>
@@ -577,13 +577,13 @@ function Phone({
 
   return (
     <div
-      className="relative w-[19rem] max-w-[84vw] rounded-[2.625rem] bg-ploy-background-primary p-3 shadow-[0_24px_64px_-28px_rgba(28,25,23,0.35),0_8px_24px_-12px_rgba(28,25,23,0.18)]"
+      className="relative w-[19rem] max-w-[84vw] rounded-[2.625rem] bg-gs-card p-3 shadow-[0_24px_64px_-28px_rgba(28,25,23,0.35),0_8px_24px_-12px_rgba(28,25,23,0.18)]"
       aria-hidden="true"
     >
-      <div className="pointer-events-none absolute inset-x-6 top-0 h-16 rounded-t-[2rem] bg-gradient-to-b from-ploy-background-accent-primary/8 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-6 top-0 h-16 rounded-t-[2rem] bg-gradient-to-b from-gs-coral/8 to-transparent" />
       <div className="mx-auto mb-2 h-5 w-24 rounded-full bg-stone-900" aria-hidden="true" />
 
-      <div className="relative h-[38rem] overflow-hidden rounded-[1.875rem] bg-ploy-neutral-primary-s2/40">
+      <div className="relative h-[38rem] overflow-hidden rounded-[1.875rem] bg-gs-sand-light/40">
         <PhoneHeader />
         <PhoneBottomNav />
 
@@ -620,22 +620,22 @@ function StoryCopy({ state, showClosingCtas }: { state: number; showClosingCtas?
         className="max-w-xl"
       >
         {story.eyebrow && (
-          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ploy-coral-tint">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gs-coral">
             {story.eyebrow}
           </p>
         )}
         {story.label && (
-          <p className="mt-3 text-[13px] font-medium text-ploy-text-muted">{story.label}</p>
+          <p className="mt-3 text-[13px] font-medium text-gs-text-muted">{story.label}</p>
         )}
         <h2
-          className={`font-display text-[clamp(1.75rem,3.2vw,2.65rem)] font-semibold leading-[1.12] tracking-[-0.02em] text-ploy-text-primary ${
+          className={`font-display text-[clamp(1.75rem,3.2vw,2.65rem)] font-semibold leading-[1.12] tracking-[-0.02em] text-gs-text-primary ${
             story.eyebrow && !story.label ? 'mt-3' : story.label ? 'mt-2' : 'mt-3'
           }`}
         >
           {story.headline}
         </h2>
-        <p className="mt-4 text-[17px] leading-relaxed text-ploy-text-secondary">{story.body}</p>
-        <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.12em] text-ploy-text-muted">
+        <p className="mt-4 text-[17px] leading-relaxed text-gs-text-secondary">{story.body}</p>
+        <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.12em] text-gs-text-muted">
           {story.caption}
         </p>
 
@@ -643,17 +643,17 @@ function StoryCopy({ state, showClosingCtas }: { state: number; showClosingCtas?
           <div className="mt-8 flex flex-wrap gap-3">
             <a
               href="#start"
-              className="inline-flex items-center justify-center rounded-full bg-ploy-background-accent-primary px-6 py-3 text-[15px] font-semibold text-white"
+              className="inline-flex items-center justify-center rounded-full bg-gs-coral px-6 py-3 text-[15px] font-semibold text-white"
             >
               Start free
             </a>
             <a
               href="#journey"
-              className="inline-flex items-center justify-center rounded-full border border-ploy-neutral-inverse-200 bg-ploy-background-primary px-6 py-3 text-[15px] font-semibold text-ploy-text-primary"
+              className="inline-flex items-center justify-center rounded-full border border-gs-border bg-gs-card px-6 py-3 text-[15px] font-semibold text-gs-text-primary"
             >
               Explore your journey
             </a>
-            <p className="w-full text-[12px] text-ploy-text-muted">Timeline feature preview</p>
+            <p className="w-full text-[12px] text-gs-text-muted">Timeline feature preview</p>
           </div>
         )}
       </motion.div>
@@ -677,7 +677,7 @@ function DesktopPinnedSection() {
 
   return (
     <div ref={trackRef} className="relative h-[500vh]">
-      <div className="sticky top-0 flex h-screen items-center bg-ploy-background-primary">
+      <div className="sticky top-0 flex h-screen items-center bg-gs-card">
         <div className="mx-auto grid w-full max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-10 px-6 lg:gap-16 lg:px-10">
           <div className="min-w-0">
             <div className="mb-6 flex items-center gap-2" aria-hidden="true">
@@ -685,7 +685,7 @@ function DesktopPinnedSection() {
                 <span
                   key={i}
                   className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
-                    i <= state ? 'bg-ploy-background-accent-primary' : 'bg-ploy-neutral-inverse-200'
+                    i <= state ? 'bg-gs-coral' : 'bg-gs-border'
                   }`}
                 />
               ))}
@@ -702,17 +702,17 @@ function DesktopPinnedSection() {
 function MobileTimeline() {
   return (
     <div className="px-5 pb-10 pt-8">
-      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ploy-coral-tint">
+      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gs-coral">
         One flare, start to finish
       </p>
-      <h2 className="mt-3 font-display text-[1.75rem] font-semibold leading-tight text-ploy-text-primary">
+      <h2 className="mt-3 font-display text-[1.75rem] font-semibold leading-tight text-gs-text-primary">
         Here&apos;s what a connected timeline actually looks like.
       </h2>
-      <p className="mt-3 text-[16px] leading-relaxed text-ploy-text-secondary">
+      <p className="mt-3 text-[16px] leading-relaxed text-gs-text-secondary">
         Follow one flare from the moment it hits to the questions you bring into your next GI appointment.
       </p>
 
-      <ol className="relative mt-8 space-y-8 border-l-2 border-ploy-background-accent-primary/25 pl-6">
+      <ol className="relative mt-8 space-y-8 border-l-2 border-gs-coral/25 pl-6">
         {STORIES.slice(1, 6).map((story, i) => (
           <motion.li
             key={story.caption}
@@ -722,15 +722,15 @@ function MobileTimeline() {
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.45, ease: 'easeOut' }}
           >
-            <span className="absolute -left-[1.62rem] top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-ploy-background-primary ring-2 ring-ploy-background-accent-primary">
-              <span className="h-1.5 w-1.5 rounded-full bg-ploy-background-accent-primary" />
+            <span className="absolute -left-[1.62rem] top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-gs-card ring-2 ring-gs-coral">
+              <span className="h-1.5 w-1.5 rounded-full bg-gs-coral" />
             </span>
             {story.label && (
-              <p className="text-[12px] font-medium uppercase tracking-wide text-ploy-text-muted">{story.label}</p>
+              <p className="text-[12px] font-medium uppercase tracking-wide text-gs-text-muted">{story.label}</p>
             )}
-            <h3 className="mt-1 font-display text-[1.15rem] font-semibold text-ploy-text-primary">{story.headline}</h3>
-            <p className="mt-2 text-[15px] leading-relaxed text-ploy-text-secondary">{story.body}</p>
-            <div className="mt-4 rounded-[1.375rem] border border-ploy-neutral-inverse-200 bg-ploy-background-primary p-4 shadow-[0_12px_32px_-20px_rgba(28,25,23,0.2)]">
+            <h3 className="mt-1 font-display text-[1.15rem] font-semibold text-gs-text-primary">{story.headline}</h3>
+            <p className="mt-2 text-[15px] leading-relaxed text-gs-text-secondary">{story.body}</p>
+            <div className="mt-4 rounded-[1.375rem] border border-gs-border bg-gs-card p-4 shadow-[0_12px_32px_-20px_rgba(28,25,23,0.2)]">
               {STEPS[i].key === 'connect' ? <ConnectCard active /> : STEPS[i].card}
             </div>
           </motion.li>
@@ -738,33 +738,33 @@ function MobileTimeline() {
       </ol>
 
       <motion.div
-        className="mt-10 rounded-[1.375rem] border border-ploy-background-accent-primary/30 bg-ploy-background-accent-primary/6 p-5"
+        className="mt-10 rounded-[1.375rem] border border-gs-coral/30 bg-gs-coral/6 p-5"
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-60px' }}
         transition={{ duration: 0.45, ease: 'easeOut' }}
       >
-        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ploy-coral-tint">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gs-coral">
           Ready for your next flare
         </p>
-        <h3 className="mt-2 font-display text-[1.35rem] font-semibold text-ploy-text-primary">
+        <h3 className="mt-2 font-display text-[1.35rem] font-semibold text-gs-text-primary">
           Turn scattered symptoms into a timeline you can use.
         </h3>
         <div className="mt-5 flex flex-wrap gap-3">
           <a
             href="#start"
-            className="inline-flex items-center justify-center rounded-full bg-ploy-background-accent-primary px-5 py-2.5 text-[14px] font-semibold text-white"
+            className="inline-flex items-center justify-center rounded-full bg-gs-coral px-5 py-2.5 text-[14px] font-semibold text-white"
           >
             Start free
           </a>
           <a
             href="#journey"
-            className="inline-flex items-center justify-center rounded-full border border-ploy-neutral-inverse-200 bg-ploy-background-primary px-5 py-2.5 text-[14px] font-semibold text-ploy-text-primary"
+            className="inline-flex items-center justify-center rounded-full border border-gs-border bg-gs-card px-5 py-2.5 text-[14px] font-semibold text-gs-text-primary"
           >
             Explore your journey
           </a>
         </div>
-        <p className="mt-3 text-[12px] text-ploy-text-muted">Timeline feature preview</p>
+        <p className="mt-3 text-[12px] text-gs-text-muted">Timeline feature preview</p>
       </motion.div>
     </div>
   )
@@ -775,7 +775,7 @@ export default function OneFlareStartFinishSection() {
     <MotionConfig reducedMotion="user">
       <section
         id="walkthrough"
-        className="bg-ploy-background-primary"
+        className="bg-gs-card"
         aria-labelledby="one-flare-heading"
       >
         <h2 id="one-flare-heading" className="sr-only">

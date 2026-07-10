@@ -107,11 +107,85 @@
   color: var(--gs-text-primary);
 }
 
+.copilot-v2.who-for .wf-card-outcome {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--gs-insight-section-bg);
+  border: 1px solid var(--gs-insight-section-border);
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--gs-text-primary);
+}
+
 .copilot-v2.who-for .wf-card-intro {
   margin-top: 14px;
   font-size: 15.5px;
   line-height: 1.6;
   color: var(--gs-text-secondary);
+}
+
+.copilot-v2.who-for .wf-outcome-strip {
+  padding: 48px 0 8px;
+}
+
+.copilot-v2.who-for .wf-outcome-strip-in {
+  max-width: 52rem;
+}
+
+.copilot-v2.who-for .wf-outcome-strip-in h2 {
+  margin-top: 12px;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  max-width: 24ch;
+  text-wrap: balance;
+}
+
+.copilot-v2.who-for .wf-outcome-strip-in p {
+  margin-top: 14px;
+  max-width: 58ch;
+  color: var(--gs-text-secondary);
+  line-height: 1.65;
+}
+
+.copilot-v2.who-for .wf-proof-in {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 28px;
+  align-items: end;
+  padding: clamp(24px, 3vw, 32px);
+  border-radius: 22px;
+  border: 1px solid var(--gs-border);
+  background: var(--gs-card);
+}
+
+.copilot-v2.who-for .wf-proof-in h2 {
+  margin-top: 10px;
+  font-size: clamp(1.4rem, 2.8vw, 1.8rem);
+  max-width: 18ch;
+}
+
+.copilot-v2.who-for .wf-proof-in > div > p {
+  margin-top: 12px;
+  color: var(--gs-text-secondary);
+  line-height: 1.6;
+}
+
+.copilot-v2.who-for .wf-proof-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.copilot-v2.who-for .wf-proof-links a {
+  font-weight: 600;
+  color: var(--gs-coral);
+  text-decoration: none;
+}
+
+.copilot-v2.who-for .wf-proof-links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .copilot-v2.who-for .wf-card-list {
@@ -329,7 +403,8 @@
 @media (max-width: 860px) {
   .copilot-v2.who-for .wf-grid,
   .copilot-v2.who-for .wf-platform-in,
-  .copilot-v2.who-for .wf-fit-grid {
+  .copilot-v2.who-for .wf-fit-grid,
+  .copilot-v2.who-for .wf-proof-in {
     grid-template-columns: 1fr;
   }
 

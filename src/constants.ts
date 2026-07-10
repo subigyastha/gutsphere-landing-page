@@ -1,8 +1,32 @@
 export const SIGNUP_URL = 'https://www.gutsphere.com/'
+export const IOS_APP_URL =
+  'https://apps.apple.com/us/app/gutsphere-your-gut-companion/id6560105851'
+export const ANDROID_APP_URL =
+  'https://play.google.com/store/apps/details?id=com.gutsphere.androidapp'
+
+export type PlatformLinkPlacement = 'hero' | 'hero-picker' | 'footer-cta'
+export type PlatformUtmContent = 'web' | 'ios' | 'android'
+
+const PLATFORM_BASE: Record<PlatformUtmContent, string> = {
+  web: SIGNUP_URL,
+  ios: IOS_APP_URL,
+  android: ANDROID_APP_URL,
+}
+
+export function platformUrl(platform: PlatformUtmContent, placement: PlatformLinkPlacement = 'hero') {
+  const url = new URL(PLATFORM_BASE[platform])
+  url.searchParams.set('utm_source', 'gutsphere')
+  url.searchParams.set('utm_medium', 'copilot-landing')
+  url.searchParams.set('utm_campaign', 'platform_cta')
+  url.searchParams.set('utm_content', platform)
+  url.searchParams.set('utm_term', placement)
+  return url.toString()
+}
+
 export const PRIMARY_CTA_LABEL = 'Start your gut health journey'
 export const SECONDARY_CTA_LABEL = 'See how Gutsphere works'
 export const NAVIGATOR_COUNT = '2,341+'
-export const ABOUT_URL = 'https://www.gutsphere.com/about-us'
+export const ABOUT_URL = '/about'
 export const PRIVACY_URL = 'https://www.gutsphere.com/privacy'
 export const CONTACT_URL = 'https://www.gutsphere.com/contact-us'
 
@@ -155,48 +179,111 @@ export const footerIntegrations = [
   'Clinician export (EHR)',
 ] as const
 
-export type ProductFeatureGroupId = 'trackers' | 'insights' | 'guidance' | 'care'
+export type ProductSolutionGroupId = 'trackers' | 'insights' | 'guidance' | 'care'
 
-export const productFeatureGroups = [
-  { id: 'trackers' as const, label: 'Trackers' },
-  { id: 'insights' as const, label: 'Insights & patterns' },
-  { id: 'guidance' as const, label: 'Guidance & copilot' },
-  { id: 'care' as const, label: 'Care navigation' },
-] as const
+export const SOLUTIONS_NAV_LABEL = 'Solutions'
 
-export const productFeatures = [
-  // Trackers — gutsphere.com daily check-in + tracker suite
-  { group: 'trackers' as const, label: 'Daily gut check-in', href: '/#start', blurb: 'Quick or detailed — built for low-energy days' },
-  { group: 'trackers' as const, label: 'Symptom tracker', href: '/#system', blurb: 'Severity, duration, and flare context' },
-  { group: 'trackers' as const, label: 'Bowel movement tracker', href: '/#system', blurb: 'Consistency, urgency, and patterns' },
-  { group: 'trackers' as const, label: 'Food & meal tracker', href: '/#system', blurb: 'Meals, reactions, and timing' },
-  { group: 'trackers' as const, label: 'Sleep tracker', href: '/#system', blurb: 'Rest quality linked to gut symptoms' },
-  { group: 'trackers' as const, label: 'Hydration tracker', href: '/#system', blurb: 'Fluids and daily intake' },
-  { group: 'trackers' as const, label: 'Movement tracker', href: '/#system', blurb: 'Activity and gentle gut movement' },
-  { group: 'trackers' as const, label: 'Medication & supplements', href: '/#system', blurb: 'Doses, adherence, and reminders' },
-  { group: 'trackers' as const, label: 'Stress & mood log', href: '/#system', blurb: 'Gut-brain context in one place' },
-  // Insights
-  { group: 'insights' as const, label: 'Connected timeline', href: '/#walkthrough', blurb: 'One flare, start to finish' },
-  { group: 'insights' as const, label: 'Pattern insights', href: '/#system', blurb: 'See what repeats across weeks' },
-  { group: 'insights' as const, label: 'Weekly patterns feed', href: '/#system', blurb: 'Highlights from recent tracking' },
-  { group: 'insights' as const, label: 'Symptom connections', href: '/#system', blurb: 'Food, sleep, stress, and meds linked' },
-  { group: 'insights' as const, label: 'Trends & history', href: '/#system', blurb: 'Bowel, nutrition, and lifestyle over time' },
-  { group: 'insights' as const, label: 'Treatment insights', href: '/#journey', blurb: 'Meds, adherence, and response' },
-  // Guidance
-  { group: 'guidance' as const, label: 'GI Copilot', href: '/#start', blurb: '24/7 support based on your day' },
-  { group: 'guidance' as const, label: 'Self-care guidance', href: '/#system', blurb: 'Calmer routines on hard days' },
-  { group: 'guidance' as const, label: 'Flare-day support', href: '/#system', blurb: 'What to try first and what to watch' },
-  { group: 'guidance' as const, label: 'Personalized habits', href: '/#system', blurb: 'Small actions from your data' },
-  { group: 'guidance' as const, label: 'Gentle reminders', href: '/#system', blurb: 'No streak pressure or guilt' },
-  { group: 'guidance' as const, label: 'Food & product checks', href: '/#system', blurb: 'Can I eat this? Should I buy this?' },
-  // Care navigation
-  { group: 'care' as const, label: 'Visit prep plans', href: '/#journey', blurb: 'Appointments, specialists, follow-ups' },
-  { group: 'care' as const, label: 'Doctor-ready summary', href: '/#walkthrough', blurb: 'Timeline instead of memory' },
-  { group: 'care' as const, label: 'Questions for your doctor', href: '/#walkthrough', blurb: 'Generated from your history' },
-  { group: 'care' as const, label: 'Test results & labs', href: '/#journey', blurb: 'Labs and imaging in one place' },
-  { group: 'care' as const, label: 'Procedure & specialist prep', href: '/#journey', blurb: 'Colonoscopy, EGD, referrals' },
-  { group: 'care' as const, label: 'Red-flag guidance', href: '/#honest', blurb: 'When to seek urgent care' },
-  { group: 'care' as const, label: 'Share with your clinician', href: '/#walkthrough', blurb: 'Export-ready summaries' },
+const FEATURE_PATH = {
+  trackers: '/features/trackers',
+  insights: '/features/insights',
+  guidance: '/features/guidance',
+  care: '/features/care',
+} as const
+
+export interface ProductSolutionGroup {
+  id: ProductSolutionGroupId
+  label: string
+  summary: string
+  href: string
+}
+
+export interface ProductSolutionItem {
+  group: ProductSolutionGroupId
+  label: string
+  href: string
+  blurb: string
+}
+
+export const productSolutionGroups: readonly ProductSolutionGroup[] = [
+  {
+    id: 'trackers',
+    label: 'Trackers',
+    summary: 'Symptoms, meals, sleep & daily logs',
+    href: FEATURE_PATH.trackers,
+  },
+  {
+    id: 'insights',
+    label: 'Insights',
+    summary: 'Patterns, timelines & trends',
+    href: FEATURE_PATH.insights,
+  },
+  {
+    id: 'guidance',
+    label: 'Copilot',
+    summary: 'Guidance, habits & flare support',
+    href: FEATURE_PATH.guidance,
+  },
+  {
+    id: 'care',
+    label: 'Care',
+    summary: 'Visit prep, summaries & sharing',
+    href: FEATURE_PATH.care,
+  },
+]
+
+const SOLUTION_CATALOG: Record<ProductSolutionGroupId, [string, string][]> = {
+  trackers: [
+    ['Daily gut check-in', 'Quick or detailed — built for low-energy days'],
+    ['Symptom tracker', 'Severity, duration, and flare context'],
+    ['Bowel movement tracker', 'Consistency, urgency, and patterns'],
+    ['Food & meal tracker', 'Meals, reactions, and timing'],
+    ['Sleep tracker', 'Rest quality linked to gut symptoms'],
+    ['Hydration tracker', 'Fluids and daily intake'],
+    ['Movement tracker', 'Activity and gentle gut movement'],
+    ['Medication & supplements', 'Doses, adherence, and reminders'],
+    ['Stress & mood log', 'Gut-brain context in one place'],
+  ],
+  insights: [
+    ['Connected timeline', 'One flare, start to finish'],
+    ['Pattern insights', 'See what repeats across weeks'],
+    ['Weekly patterns feed', 'Highlights from recent tracking'],
+    ['Symptom connections', 'Food, sleep, stress, and meds linked'],
+    ['Trends & history', 'Bowel, nutrition, and lifestyle over time'],
+    ['Treatment insights', 'Meds, adherence, and response'],
+  ],
+  guidance: [
+    ['GI Copilot', '24/7 support based on your day'],
+    ['Self-care guidance', 'Calmer routines on hard days'],
+    ['Flare-day support', 'What to try first and what to watch'],
+    ['Personalized habits', 'Small actions from your data'],
+    ['Gentle reminders', 'No streak pressure or guilt'],
+    ['Food & product checks', 'Can I eat this? Should I buy this?'],
+  ],
+  care: [
+    ['Visit prep plans', 'Appointments, specialists, follow-ups'],
+    ['Colonoscopy prep', 'Diet, timing & day-before checklist'],
+    ['Endoscopy prep', 'EGD prep steps & what to expect'],
+    ['Doctor-ready summary', 'Timeline instead of memory'],
+    ['Questions for your doctor', 'Generated from your history'],
+    ['Test results & labs', 'Labs and imaging in one place'],
+    ['Red-flag guidance', 'When to seek urgent care'],
+    ['Share with your clinician', 'Export-ready summaries'],
+  ],
+}
+
+export const productSolutionItems: ProductSolutionItem[] = productSolutionGroups.flatMap((group) =>
+  SOLUTION_CATALOG[group.id].map(([label, blurb]) => ({
+    group: group.id,
+    label,
+    href: FEATURE_PATH[group.id],
+    blurb,
+  })),
+)
+
+/** Footer: category links plus visit-prep extras */
+export const footerVisitPrepExtras = [
+  { label: 'Colonoscopy prep', href: FEATURE_PATH.care },
+  { label: 'Endoscopy prep', href: FEATURE_PATH.care },
 ] as const
 
 export const conditionStubs: Record<

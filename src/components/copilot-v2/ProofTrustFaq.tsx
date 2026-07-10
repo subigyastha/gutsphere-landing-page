@@ -1,4 +1,5 @@
-import { NAVIGATOR_COUNT, testimonials } from '../../constants'
+import { LockKeyhole, ShieldCheck, TriangleAlert } from 'lucide-react'
+import { testimonials } from '../../constants'
 
 /** Featured quote — shorter pull from Sabina's full testimonial on gutsphere.com */
 const SABINA_STORY = {
@@ -14,11 +15,9 @@ export function ProofSection() {
   return (
     <section className="cp2-band cp2-proof" id="proof">
       <div className="cp2-wrap">
-        <p className="cp2-proof-trust cp2-reveal">Trusted by {NAVIGATOR_COUNT} navigators</p>
-
         <div className="cp2-proof-story cp2-reveal">
           <figure className="cp2-proof-quote">
-            <p className="cp2-proof-story-lbl">A patient journey</p>
+            <p className="cp2-proof-story-lbl">A lived experience</p>
             <blockquote>&ldquo;{sabina.quote}&rdquo;</blockquote>
             <figcaption>
               <span className="cp2-proof-av" aria-hidden="true">
@@ -65,15 +64,11 @@ export function TrustSection() {
       lead: 'Unlike apps that guess, Gutsphere is shaped with clinician input so the system stays grounded.',
       points: [
         'Guidance reviewed with GI-focused experts',
+        'Informed by peer-reviewed digestive-health research',
         'Designed to help you show up with a clear, clinician-ready story',
         'Built to complement care — not replace it',
       ],
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-          <path d="M12 3l7 3v5c0 4.6-3 7-7 9-4-2-7-4.4-7-9V6z" strokeLinejoin="round" />
-          <path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      ),
+      Icon: ShieldCheck,
     },
     {
       title: 'Privacy',
@@ -83,13 +78,7 @@ export function TrustSection() {
         'You decide what to export or share',
         'Clear settings that are easy to understand',
       ],
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-          <rect x="5" y="10" width="14" height="10" rx="2.5" />
-          <path d="M8 10V7a4 4 0 0 1 8 0v3" strokeLinecap="round" />
-          <circle cx="12" cy="15" r="1.4" fill="currentColor" stroke="none" />
-        </svg>
-      ),
+      Icon: LockKeyhole,
     },
     {
       title: 'Safety language',
@@ -99,15 +88,7 @@ export function TrustSection() {
         'No judgment, no fear-mongering — just clarity',
         'Support between visits, with boundaries that keep you safe',
       ],
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-          <path
-            d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      ),
+      Icon: TriangleAlert,
     },
   ]
 
@@ -117,21 +98,31 @@ export function TrustSection() {
         <div className="cp2-sec-head cp2-reveal">
           <p className="cp2-eyebrow">Trust, built in</p>
           <h2>Guided by expertise. Protected with privacy. Centered on your safety.</h2>
-          <p>Gutsphere is designed for real symptoms and real decisions. We keep it simple, but we don&apos;t treat it lightly.</p>
+          <p>
+            Gutsphere is designed for real symptoms and real decisions. We keep it simple, but we
+            don&apos;t treat it lightly.
+          </p>
         </div>
         <div className="cp2-trust-grid">
-          {pillars.map((p) => (
-            <div key={p.title} className="cp2-trust-card cp2-reveal">
-              <span className="cp2-ic">{p.icon}</span>
-              <h3>{p.title}</h3>
-              <p>{p.lead}</p>
-              <ul>
-                {p.points.map((pt) => (
-                  <li key={pt}>{pt}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {pillars.map((p) => {
+            const Icon = p.Icon
+            return (
+              <article key={p.title} className="cp2-trust-card cp2-reveal">
+                <div className="cp2-trust-visual" aria-hidden="true">
+                  <span className="cp2-trust-ic">
+                    <Icon strokeWidth={1.5} absoluteStrokeWidth />
+                  </span>
+                </div>
+                <h3>{p.title}</h3>
+                <p>{p.lead}</p>
+                <ul>
+                  {p.points.map((pt) => (
+                    <li key={pt}>{pt}</li>
+                  ))}
+                </ul>
+              </article>
+            )
+          })}
         </div>
       </div>
     </section>
@@ -189,6 +180,19 @@ export function FAQSection() {
               <p>{item.a}</p>
             </details>
           ))}
+        </div>
+
+        <div className="cp2-faq-hub cp2-reveal">
+          <p className="cp2-faq-hub-lead">Need more answers?</p>
+          <a href="/faq" className="cp2-faq-hub-link">
+            <span>
+              Open the full FAQ hub
+              <small>Searchable categories · IBS, IBD, GERD, bloating &amp; more</small>
+            </span>
+            <span className="cp2-faq-hub-arrow" aria-hidden="true">
+              →
+            </span>
+          </a>
         </div>
       </div>
     </section>

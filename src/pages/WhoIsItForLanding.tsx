@@ -8,48 +8,39 @@ import {
   WHO_FOR_HERO,
   WHO_FOR_NOT,
 } from '../components/who-for/whoForAudiences'
+import { MarketingFinalCta } from '../components/marketing/MarketingFinalCta'
 import { NAVIGATOR_COUNT, SIGNUP_URL } from '../constants'
+import { ArrowRight, Compass, HeartPulse, Search, Shield } from 'lucide-react'
 import '../styles/copilot-v2.css'
 import '../styles/who-for.css'
+import '../styles/marketing-pages.css'
 
 function StageIcon({ id }: { id: string }) {
+  const props = { size: 22, strokeWidth: 2, 'aria-hidden': true as const }
   switch (id) {
     case 'finding-answers':
-      return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-          <circle cx="11" cy="11" r="7" />
-          <path d="M16 16l4 4" strokeLinecap="round" />
-        </svg>
-      )
+      return <Search {...props} />
     case 'in-treatment':
-      return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-          <path d="M12 3l7 3v5c0 4.6-3 7-7 9-4-2-7-4.4-7-9V6z" strokeLinejoin="round" />
-          <path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      )
+      return <Shield {...props} />
     case 'living-with-it':
-      return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-          <path d="M4 14c2-4 6-6 8-6s6 2 8 6" strokeLinecap="round" />
-          <path d="M12 8V4M8 6l-2-2M16 6l2-2" strokeLinecap="round" />
-        </svg>
-      )
+      return <HeartPulse {...props} />
     default:
-      return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-          <path d="M12 3v3M12 18v3M4.2 7.2l2.1 2.1M17.7 14.7l2.1 2.1M3 12h3M18 12h3M4.2 16.8l2.1-2.1M17.7 9.3l2.1-2.1" strokeLinecap="round" />
-          <circle cx="12" cy="12" r="4" />
-        </svg>
-      )
+      return <Compass {...props} />
   }
+}
+
+const OUTCOMES_BY_STAGE: Record<string, string> = {
+  'finding-answers': 'Walk into appointments with a timeline — not a fuzzy story.',
+  'in-treatment': 'See what is actually helping before the next specialist visit.',
+  'living-with-it': 'Catch triggers early and get calm support on hard days.',
+  'staying-ahead': 'Hold a history that compounds — and stay appointment-ready.',
 }
 
 export function WhoIsItForLanding() {
   useReveal()
 
   return (
-    <div className="copilot-v2 who-for" id="top">
+    <div className="copilot-v2 who-for mp-page" id="top">
       <CopilotNav />
       <main>
         <section className="wf-hero">
@@ -62,9 +53,22 @@ export function WhoIsItForLanding() {
               <a href="/#start" className="cp2-btn">
                 Start free
               </a>
-              <Link to="/" className="cp2-btn ghost">
-                See the full story
-              </Link>
+              <a href="#audiences" className="cp2-btn ghost">
+                Find your stage
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section className="wf-outcome-strip">
+          <div className="cp2-wrap">
+            <div className="wf-outcome-strip-in cp2-reveal">
+              <p className="cp2-eyebrow">The outcome</p>
+              <h2>One copilot across the whole GI journey — not a tool for a single moment.</h2>
+              <p>
+                Most products pick one job: log symptoms, book a visit, or mail a kit. Gutsphere connects
+                tracking, care, navigation, and understanding so nothing you learn gets stranded in another app.
+              </p>
             </div>
           </div>
         </section>
@@ -72,11 +76,11 @@ export function WhoIsItForLanding() {
         <section className="cp2-band wf-audiences" id="audiences">
           <div className="cp2-wrap">
             <div className="cp2-sec-head cp2-reveal">
-              <p className="cp2-eyebrow">Four stages, one copilot</p>
-              <h2>Drop in where you are. Nothing you track gets lost.</h2>
+              <p className="cp2-eyebrow">Four stages, one system</p>
+              <h2>Drop in where you are. Keep the thread.</h2>
               <p>
-                Plenty of tools do a piece of this. Gutsphere connects tracking, care, navigation and
-                understanding — for as long as you need it.
+                Pick the stage that sounds like today. Each one has a clear outcome — and the same place to
+                continue when your situation changes.
               </p>
             </div>
 
@@ -91,6 +95,7 @@ export function WhoIsItForLanding() {
                   </div>
                   <h3>{audience.title}</h3>
                   <p className="wf-card-tag">{audience.tagline}</p>
+                  <p className="wf-card-outcome">{OUTCOMES_BY_STAGE[audience.id]}</p>
                   <p className="wf-card-intro">{audience.intro}</p>
                   <ul className="wf-card-list">
                     {audience.bullets.map((bullet) => (
@@ -99,7 +104,7 @@ export function WhoIsItForLanding() {
                   </ul>
                   <div className="wf-card-actions">
                     <a href={audience.exploreHref} className="wf-card-link">
-                      {audience.exploreLabel} <span aria-hidden="true">→</span>
+                      {audience.exploreLabel} <ArrowRight size={16} aria-hidden="true" />
                     </a>
                     <a href="/#start" className="wf-card-cta">
                       Start free
@@ -122,7 +127,7 @@ export function WhoIsItForLanding() {
                   prepare. Turn patterns into appointment-ready evidence — all in one place you own.
                 </p>
                 <a href="/#system" className="wf-card-link">
-                  See how it works <span aria-hidden="true">→</span>
+                  See how it works <ArrowRight size={16} aria-hidden="true" />
                 </a>
               </div>
               <div className="wf-platform-steps" aria-label="Four connected stages">
@@ -132,6 +137,27 @@ export function WhoIsItForLanding() {
                     <span className="wf-platform-name">{step}</span>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="cp2-band wf-proof">
+          <div className="cp2-wrap">
+            <div className="wf-proof-in cp2-reveal">
+              <div>
+                <p className="cp2-eyebrow">Built for real journeys</p>
+                <h2>Works with or without a diagnosis.</h2>
+                <p>
+                  IBS, IBD, GERD, constipation, bloating, diarrhea — or an unclear mix. Start where you are.
+                  Nothing you track is lost if the label changes later.
+                </p>
+              </div>
+              <div className="wf-proof-links">
+                <Link to="/conditions/ibs">IBS FAQs →</Link>
+                <Link to="/conditions/constipation">Constipation FAQs →</Link>
+                <Link to="/faq">All FAQs →</Link>
+                <Link to="/compare/symptom-trackers">vs symptom trackers →</Link>
               </div>
             </div>
           </div>
@@ -160,20 +186,11 @@ export function WhoIsItForLanding() {
           </div>
         </section>
 
-        <section className="wf-final">
-          <div className="cp2-wrap cp2-reveal">
-            <h2>Find your stage. Start free.</h2>
-            <p>Free to start · no card · web, iOS or Android</p>
-            <div className="wf-hero-actions">
-              <a href="/#start" className="cp2-btn">
-                Start free
-              </a>
-              <a href={SIGNUP_URL} className="cp2-btn ghost">
-                Log in
-              </a>
-            </div>
-          </div>
-        </section>
+        <MarketingFinalCta
+          title="Find your stage. Start free."
+          secondaryHref={SIGNUP_URL}
+          secondaryLabel="Log in"
+        />
       </main>
       <StickyCTA />
       <CopilotFooter />
