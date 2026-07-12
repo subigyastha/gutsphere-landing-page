@@ -6,7 +6,7 @@ import { Footer } from '../components/Footer'
 import { LandingAudioWidget } from '../components/LandingAudioWidget'
 
 const STANDALONE_PATHS = ['/', '/copilot-v2'] as const
-const IMMERSIVE_PATHS = ['/journey', '/flight', '/guided', '/copilot', '/discovery', '/onboard', '/scroll-gut', '/record'] as const
+const IMMERSIVE_PATHS = ['/journey-lab', '/flight', '/guided', '/copilot', '/discovery', '/onboard', '/scroll-gut', '/record'] as const
 const REEL_PATHS = ['/copilot'] as const
 const ONBOARD_PATHS = ['/onboard'] as const
 

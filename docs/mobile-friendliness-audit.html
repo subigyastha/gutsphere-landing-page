@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gutsphere — Mobile Friendliness Audit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sand: #F5EEE8;
+      --sand-light: #FAF6F2;
+      --card: #FFFFFF;
+      --coral: #EF5350;
+      --coral-glow: rgba(239, 83, 80, 0.1);
+      --text: #1C1917;
+      --secondary: #57534E;
+      --muted: #A8A29E;
+      --border: #E7E0DA;
+      --green: #2E7D32;
+      --green-bg: rgba(46, 125, 50, 0.1);
+      --amber: #92400E;
+      --amber-bg: #FEF3C7;
+      --red-bg: #FEE2E2;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand);
+      color: var(--text);
+      line-height: 1.55;
+      padding: 32px 16px 64px;
+    }
+    h1, h2, h3 { font-family: 'Inter', sans-serif; font-weight: 600; }
+    .wrap { max-width: 980px; margin: 0 auto; }
+    .hero {
+      background: linear-gradient(145deg, #2A2522 0%, #1A1614 100%);
+      color: #F5F0EC;
+      border-radius: 24px;
+      padding: 40px 36px;
+      margin-bottom: 28px;
+    }
+    .hero .eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #F87171;
+      margin-bottom: 12px;
+    }
+    .hero h1 { font-size: clamp(28px, 4vw, 36px); line-height: 1.15; margin-bottom: 12px; }
+    .hero p { color: #C4BBB5; max-width: 62ch; font-size: 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px; padding: 6px 14px; font-size: 13px; color: #F5F0EC;
+    }
+    .chip strong { color: #F87171; font-weight: 600; }
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px;
+    }
+    @media (max-width: 700px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+    .stat {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 16px; text-align: center;
+    }
+    .stat .n {
+      font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 700;
+      color: var(--coral); line-height: 1.1;
+    }
+    .stat .l { font-size: 13px; color: var(--secondary); margin-top: 8px; }
+    .section {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px 28px 12px; margin-bottom: 20px;
+    }
+    .section h2 {
+      font-size: 20px; margin-bottom: 6px; display: flex; align-items: center; gap: 10px;
+    }
+    .section > p.lead {
+      color: var(--secondary); font-size: 15px; margin-bottom: 18px; max-width: 70ch;
+    }
+    .badge {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 999px;
+    }
+    .badge.high { background: var(--red-bg); color: #B91C1C; }
+    .badge.medium { background: var(--amber-bg); color: var(--amber); }
+    .badge.low { background: var(--green-bg); color: var(--green); }
+    .badge.fixed { background: var(--green-bg); color: var(--green); }
+    table {
+      width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 16px;
+    }
+    th, td {
+      text-align: left; vertical-align: top;
+      padding: 12px 10px; border-bottom: 1px solid var(--border);
+    }
+    th {
+      font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--muted); font-weight: 600;
+    }
+    td code {
+      font-size: 12px; background: var(--sand-light);
+      padding: 2px 6px; border-radius: 6px; color: var(--secondary);
+      word-break: break-all;
+    }
+    .route { font-weight: 600; color: var(--text); white-space: nowrap; }
+    .files { color: var(--secondary); font-size: 13px; }
+    .callout {
+      background: var(--sand-light); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px 18px; margin: 16px 0 8px;
+      font-size: 14px; color: var(--secondary);
+    }
+    .callout strong { color: var(--text); }
+    .callout.ok { border-color: rgba(46, 125, 50, 0.25); background: var(--green-bg); }
+    ul.good { padding-left: 18px; margin: 0 0 16px; color: var(--secondary); font-size: 14px; }
+    ul.good li { margin-bottom: 6px; }
+    .toc {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+      margin-bottom: 8px; font-size: 14px;
+    }
+    @media (max-width: 600px) { .toc { grid-template-columns: 1fr; } }
+    .toc a { color: var(--coral); text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+    .footer-note {
+      text-align: center; font-size: 13px; color: var(--muted); margin-top: 28px;
+    }
+    @media (max-width: 720px) {
+      .hero { padding: 28px 22px; }
+      .section { padding: 22px 16px 8px; }
+      table { display: block; overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="eyebrow">Quality audit</p>
+      <h1>Mobile friendliness audit</h1>
+      <p>
+        Full pass across all active Gutsphere routes — homepage, marketing hubs, condition/compare/feature
+        templates, who-is-it-for, about, FAQ, and shared chrome (nav, footer, sticky CTA).
+        Audited via CSS breakpoints, component structure, and layout patterns.
+      </p>
+      <div class="meta">
+        <span class="chip"><strong>Date</strong> Jul 12, 2026</span>
+        <span class="chip"><strong>Routes</strong> 9 active groups</span>
+        <span class="chip"><strong>Viewport focus</strong> 320–860px</span>
+        <span class="chip"><strong>Status</strong> 1 fix applied</span>
+      </div>
+    </header>
+
+    <div class="stats">
+      <div class="stat"><div class="n">0</div><div class="l">High severity</div></div>
+      <div class="stat"><div class="n">7</div><div class="l">Medium issues</div></div>
+      <div class="stat"><div class="n">8</div><div class="l">Low issues</div></div>
+      <div class="stat"><div class="n">1</div><div class="l">Fixed this session</div></div>
+    </div>
+
+    <section class="section">
+      <h2>Table of contents</h2>
+      <nav class="toc" aria-label="Report sections">
+        <a href="#fixed">Fixed — Radical honesty</a>
+        <a href="#global">Global / shared chrome</a>
+        <a href="#home">Homepage /</a>
+        <a href="#for">Who is it for /for</a>
+        <a href="#about">About /about</a>
+        <a href="#faq">FAQ /faq</a>
+        <a href="#conditions">Conditions /conditions/:slug</a>
+        <a href="#compare">Compare /compare &amp; /compare/:slug</a>
+        <a href="#features">Features /features/:slug</a>
+        <a href="#journey">Journey /journey</a>
+        <a href="#working">What works well</a>
+        <a href="#priority">Recommended fix order</a>
+      </nav>
+    </section>
+
+    <section class="section" id="fixed">
+      <h2>Fixed this session <span class="badge fixed">Resolved</span></h2>
+      <p class="lead">Radical honesty section on the homepage — mobile layout improvements applied in <code>src/styles/copilot-v2.css</code>.</p>
+      <table>
+        <thead>
+          <tr><th>Issue</th><th>Breakpoint</th><th>Fix applied</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Two-column cards stayed side-by-side on tablets; cramped list text</td>
+            <td>&lt;900px</td>
+            <td>Honesty cards stack to single column at 900px (matches trust section)</td>
+          </tr>
+          <tr>
+            <td>Headline locked to <code>max-width: 18ch</code> — awkward narrow column on phones</td>
+            <td>&lt;900px</td>
+            <td>Headline and lead use full width with responsive <code>clamp()</code> sizing</td>
+          </tr>
+          <tr>
+            <td>Card padding and list density too large on small screens</td>
+            <td>&lt;640px</td>
+            <td>Reduced card padding, icon size, list spacing; section padding tuned</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="global">
+      <h2>Global / shared chrome</h2>
+      <p class="lead">Applies to most pages using <code>CopilotChrome</code>, <code>StickyCTA</code>, and marketing layout.</p>
+      <table>
+        <thead>
+          <tr><th>Section</th><th>Files</th><th>Breakpoint</th><th>Issue</th><th>Severity</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Sticky mobile CTA</td>
+            <td class="files"><code>StickyCTA.tsx</code>, <code>copilot-v2.css</code></td>
+            <td>&lt;860px</td>
+            <td>Fixed bottom bar has no <code>safe-area-inset-bottom</code> and no scroll padding on <code>main</code> — can cover footer links, FAQ items, and card CTAs mid-scroll.</td>
+            <td><span class="badge medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td>Mobile nav menu</td>
+            <td class="files"><code>CopilotChrome.tsx</code>, <code>copilot-v2.css</code></td>
+            <td>&lt;860px</td>
+            <td>Dropdown panel has no <code>max-height</code> or <code>overflow-y</code>. Long menu (conditions, symptoms, solutions) can extend below viewport on short phones.</td>
+            <td><span class="badge medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td>Nav bar layout</td>
+            <td class="files"><code>copilot-v2.css</code></td>
+            <td>&lt;400px</td>
+            <td>Logo + hamburger pill + external “Start free” CTA can crowd the row on very narrow widths. No root <code>overflow-x</code> guard.</td>
+            <td><span class="badge medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td>Footer link grid</td>
+            <td class="files"><code>copilot-v2.css</code> <code>.cp2-foot-cols</code></td>
+            <td>&lt;860px</td>
+            <td>Five columns collapse to 2×3 grid. Link rows ~24px tall — below 44px tap-target guideline.</td>
+            <td><span class="badge medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td>Marketing final CTA buttons</td>
+            <td class="files"><code>marketing-pages.css</code></td>
+            <td>&lt;560px</td>
+            <td><code>.mp-final .cp2-btn { width: auto }</code> overrides full-width mobile buttons — side-by-side CTAs can cramp on narrow phones.</td>
+            <td><span class="badge medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td>Marketing hero spacing</td>
+            <td class="files"><code>marketing-pages.css</code>, <code>who-for.css</code></td>
+            <td>All mobile</td>
+            <td>Hero top padding barely clears fixed nav (~72px). Homepage hero gets extra offset; marketing pages do not.</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+          <tr>
+            <td>Footer newsletter input</td>
+            <td class="files"><code>copilot-v2.css</code></td>
+            <td>561–860px</td>
+            <td>Fixed 230px input width in horizontal row until 560px breakpoint.</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+          <tr>
+            <td>Root overflow guard</td>
+            <td class="files"><code>copilot-v2.css</code></td>
+            <td>All</td>
+            <td><code>.copilot-v2</code> has no <code>overflow-x: hidden</code> — child overflow becomes page-level horizontal scroll.</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="home">
+      <h2>Homepage <span class="route">/</span></h2>
+      <table>
+        <thead>
+          <tr><th>Section</th><th>Files</th><th>Breakpoint</th><th>Issue</th><th>Severity</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Journey map SVG nodes</td>
+            <td class="files"><code>JourneyMapSection.tsx</code>, <code>copilot-v2.css</code></td>
+            <td>&lt;860px</td>
+            <td>Interactive stage nodes ~30px diameter (r=15). Below 44px touch-target guideline; SVG labels at 12px are hard to tap/read.</td>
+            <td><span class="badge medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td>Hero symptom bridge chips</td>
+            <td class="files"><code>CopilotHero.tsx</code>, <code>copilot-v2.css</code></td>
+            <td>&lt;400px</td>
+            <td>Bridge chips use <code>white-space: nowrap</code> — multiple selections can widen picker panel.</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+          <tr>
+            <td>Hero copilot response rows</td>
+            <td class="files"><code>copilot-v2.css</code> <code>.cp2-cp-row</code></td>
+            <td>561–900px</td>
+            <td>Label column fixed at 128px until 560px — tight on small portrait phones.</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+          <tr>
+            <td>Name/No Name flip cards</td>
+            <td class="files"><code>NameNoNameInteractiveSection.tsx</code>, <code>copilot-v2.css</code></td>
+            <td>&lt;640px</td>
+            <td>Single-column flip scenes min-height 420–440px — very tall, heavy scroll.</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+          <tr>
+            <td>Compare section</td>
+            <td class="files"><code>CompareSections.tsx</code></td>
+            <td>&lt;820px</td>
+            <td class="files" colspan="3"><em>No issue — converts to stacked cards. Good pattern to reuse on compare subpages.</em></td>
+          </tr>
+          <tr>
+            <td>One Flare section</td>
+            <td class="files"><code>one-flare-start-finish-section.tsx</code></td>
+            <td>&lt;768px</td>
+            <td class="files" colspan="3"><em>No issue — dedicated mobile timeline replaces scroll-pinned desktop experience.</em></td>
+          </tr>
+          <tr>
+            <td>Radical honesty</td>
+            <td class="files"><code>ClosingSections.tsx</code></td>
+            <td>—</td>
+            <td>Fixed this session — see above.</td>
+            <td><span class="badge fixed">Fixed</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="for">
+      <h2>Who is it for <span class="route">/for</span></h2>
+      <table>
+        <thead>
+          <tr><th>Section</th><th>Files</th><th>Breakpoint</th><th>Issue</th><th>Severity</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Platform steps grid</td>
+            <td class="files"><code>who-for.css</code> <code>.wf-platform-steps</code></td>
+            <td>All mobile</td>
+            <td>Stays 2×2 on phones (~140px per card at 320px). Readable but cramped.</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+          <tr>
+            <td>Anchor scroll offset</td>
+            <td class="files"><code>who-for.css</code></td>
+            <td>All mobile</td>
+            <td><code>scroll-margin-top: 5.5rem</code> on audience cards — deep links from /journey may sit under fixed nav.</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+          <tr>
+            <td>Audience / fit / proof grids</td>
+            <td class="files"><code>who-for.css</code></td>
+            <td>&lt;860px</td>
+            <td class="files" colspan="3"><em>No issue — stacks to single column correctly.</em></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="about">
+      <h2>About <span class="route">/about</span></h2>
+      <table>
+        <thead>
+          <tr><th>Section</th><th>Files</th><th>Breakpoint</th><th>Issue</th><th>Severity</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hero spacing</td>
+            <td class="files"><code>marketing-pages.css</code></td>
+            <td>All mobile</td>
+            <td>Tight clearance under fixed nav (shared marketing hero pattern).</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+          <tr>
+            <td>Founder chapters / mission / values</td>
+            <td class="files"><code>marketing-pages.css</code></td>
+            <td>&lt;900px</td>
+            <td class="files" colspan="3"><em>No issue — single-column layout with narrow number rail.</em></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="faq">
+      <h2>FAQ hub <span class="route">/faq</span></h2>
+      <table>
+        <thead>
+          <tr><th>Section</th><th>Files</th><th>Breakpoint</th><th>Issue</th><th>Severity</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Category tab pills</td>
+            <td class="files"><code>marketing-pages.css</code> <code>.mp-faq-tab</code></td>
+            <td>All mobile</td>
+            <td>Tab height ~33px (padding 8px 14px) — below 44px tap-target guideline.</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+          <tr>
+            <td>Topic grid / accordion</td>
+            <td class="files"><code>marketing-pages.css</code>, <code>copilot-v2.css</code></td>
+            <td>&lt;900px</td>
+            <td class="files" colspan="3"><em>No issue — topic grid stacks; accordion summaries ~53px tap height.</em></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="conditions">
+      <h2>Condition pages <span class="route">/conditions/:slug</span></h2>
+      <table>
+        <thead>
+          <tr><th>Section</th><th>Files</th><th>Breakpoint</th><th>Issue</th><th>Severity</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Outcomes / helps / related grids</td>
+            <td class="files"><code>marketing-pages.css</code>, <code>ConditionTemplate.tsx</code></td>
+            <td>&lt;900px</td>
+            <td class="files" colspan="3"><em>No issue — all marketing grids stack at 900px.</em></td>
+          </tr>
+          <tr>
+            <td>Sticky CTA overlap</td>
+            <td class="files">Shared chrome</td>
+            <td>&lt;860px</td>
+            <td>Same global sticky CTA overlap issue.</td>
+            <td><span class="badge medium">Medium</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="compare">
+      <h2>Compare hub &amp; pages <span class="route">/compare</span> <span class="route">/compare/:slug</span></h2>
+      <div class="callout"><strong>Key gap:</strong> Homepage compare section has a mobile card fallback at 820px. Compare subpages still use a 640px min-width table with horizontal scroll — inconsistent UX.</div>
+      <table>
+        <thead>
+          <tr><th>Section</th><th>Files</th><th>Breakpoint</th><th>Issue</th><th>Severity</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Comparison table</strong></td>
+            <td class="files"><code>CompareTemplate.tsx</code>, <code>marketing-pages.css</code> <code>.mp-cmp table { min-width: 640px }</code></td>
+            <td>&lt;640px</td>
+            <td>Table requires horizontal scroll inside container. No card/stack fallback, no scroll hint, no sticky first column. Poor mobile UX.</td>
+            <td><span class="badge medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td>Hub card grid</td>
+            <td class="files"><code>marketing-pages.css</code> <code>.mp-hub-grid</code></td>
+            <td>641–900px</td>
+            <td>3 columns at ~640px viewport ≈ 190px per card — tight but usable.</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+          <tr>
+            <td>Who-wins-when / related</td>
+            <td class="files"><code>marketing-pages.css</code></td>
+            <td>&lt;900px</td>
+            <td class="files" colspan="3"><em>No issue — stacks correctly.</em></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="features">
+      <h2>Feature pages <span class="route">/features/:slug</span></h2>
+      <table>
+        <thead>
+          <tr><th>Section</th><th>Files</th><th>Breakpoint</th><th>Issue</th><th>Severity</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Capabilities grid</td>
+            <td class="files"><code>marketing-pages.css</code> <code>.mp-feat-grid</code></td>
+            <td>641–900px</td>
+            <td>2 columns on tablet — OK at 640px (~280px per card).</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+          <tr>
+            <td>Outcomes / system-fit / related</td>
+            <td class="files"><code>FeatureTemplate.tsx</code></td>
+            <td>&lt;900px</td>
+            <td class="files" colspan="3"><em>No issue — stacks correctly.</em></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="journey">
+      <h2>Journey hub <span class="route">/journey</span></h2>
+      <table>
+        <thead>
+          <tr><th>Section</th><th>Files</th><th>Breakpoint</th><th>Issue</th><th>Severity</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hub card grid</td>
+            <td class="files"><code>marketing-pages.css</code></td>
+            <td>641–900px</td>
+            <td>Same 3-column tightness as compare hub.</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+          <tr>
+            <td>Deep links to /for#stage</td>
+            <td class="files"><code>who-for.css</code></td>
+            <td>All mobile</td>
+            <td>Anchor targets may tuck under fixed nav.</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="working">
+      <h2>What works well</h2>
+      <ul class="good">
+        <li>Consistent <strong>@900px stack</strong> for most marketing 2/3-column grids (<code>marketing-pages.css</code>).</li>
+        <li>Homepage compare section has a proper <strong>mobile card layout</strong> at 820px — reuse on compare subpages.</li>
+        <li>One Flare section has a <strong>dedicated mobile timeline</strong> (<code>md:hidden</code>).</li>
+        <li>Hero picker, system flow, pricing, trust, and problem sections all stack at appropriate breakpoints.</li>
+        <li>FAQ accordion summaries meet tap-target size (~53px).</li>
+        <li>Mobile nav hamburger button is 44×44px.</li>
+        <li>Who-is-it-for audience cards and hero CTAs go full-width on mobile.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="priority">
+      <h2>Recommended fix order</h2>
+      <table>
+        <thead>
+          <tr><th>Priority</th><th>Item</th><th>Effort</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge medium">1</span></td>
+            <td>Add <code>padding-bottom</code> / <code>safe-area-inset-bottom</code> for sticky CTA; prevent content overlap</td>
+            <td>Small</td>
+          </tr>
+          <tr>
+            <td><span class="badge medium">2</span></td>
+            <td>Port homepage compare card layout to <code>CompareTemplate</code> (remove 640px table scroll)</td>
+            <td>Medium</td>
+          </tr>
+          <tr>
+            <td><span class="badge medium">3</span></td>
+            <td>Mobile nav menu: <code>max-height</code> + <code>overflow-y: auto</code></td>
+            <td>Small</td>
+          </tr>
+          <tr>
+            <td><span class="badge medium">4</span></td>
+            <td>Footer: single-column link grid on phones; increase link tap padding</td>
+            <td>Small</td>
+          </tr>
+          <tr>
+            <td><span class="badge medium">5</span></td>
+            <td>Journey map: enlarge touch targets or add mobile list fallback</td>
+            <td>Medium</td>
+          </tr>
+          <tr>
+            <td><span class="badge medium">6</span></td>
+            <td>Marketing final CTA: allow full-width buttons at &lt;560px</td>
+            <td>Small</td>
+          </tr>
+          <tr>
+            <td><span class="badge low">7</span></td>
+            <td>Marketing hero top padding to match homepage nav clearance</td>
+            <td>Small</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <p class="footer-note">
+      Gutsphere mobile audit · Generated Jul 12, 2026 ·
+      Open this file at <code>docs/mobile-friendliness-audit.html</code>
+    </p>
+  </div>
+</body>
+</html>

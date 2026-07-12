@@ -108,10 +108,24 @@ export type SystemLens = (typeof SYSTEM_LENSES)[number]
 
 export const SYSTEM_PILLARS = [
   { id: 'track', label: 'Track' },
+  { id: 'understand', label: 'Understand' },
   { id: 'care', label: 'Care' },
   { id: 'navigate', label: 'Navigate' },
-  { id: 'understand', label: 'Understand' },
 ] as const
+
+/** Compact multidisciplinary chips — professional titles relevant to gut health. */
+export const EXPERT_PERSPECTIVES = [
+  { id: 'gi', label: 'Gastroenterologist', tone: 'coral' },
+  { id: 'nutrition', label: 'Dietitian', tone: 'olive' },
+  { id: 'gut-brain', label: 'Psychologist', tone: 'sage' },
+  { id: 'whole-person', label: 'Family physician', tone: 'blush' },
+  { id: 'sleep', label: 'Sleep specialist', tone: 'slate' },
+  { id: 'movement', label: 'Physical therapist', tone: 'olive' },
+  { id: 'pharmacy', label: 'Pharmacist', tone: 'amber' },
+  { id: 'pelvic', label: 'Pelvic therapist', tone: 'rose' },
+] as const
+
+export type ExpertPerspectiveId = (typeof EXPERT_PERSPECTIVES)[number]['id']
 
 export type SystemPillarId = (typeof SYSTEM_PILLARS)[number]['id']
 

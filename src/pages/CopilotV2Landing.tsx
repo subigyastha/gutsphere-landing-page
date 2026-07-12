@@ -1,7 +1,8 @@
 import { useCopilotPicker } from '../components/copilot-v2/useCopilotPicker'
 import { useJourneyMap } from '../components/copilot-v2/useJourneyMap'
 import { useReveal } from '../components/copilot-v2/useReveal'
-import { CopilotNav, CopilotFooter } from '../components/copilot-v2/CopilotChrome'
+import { CopilotNav } from '../components/copilot-v2/CopilotChrome'
+import { CopilotBottomBand } from '../components/copilot-v2/CopilotBottomBand'
 import { CopilotHero } from '../components/copilot-v2/CopilotHero'
 import { ProblemSection } from '../components/copilot-v2/ProblemSection'
 import { JourneyMapSection } from '../components/copilot-v2/JourneyMapSection'
@@ -9,7 +10,7 @@ import { SystemSection } from '../components/copilot-v2/SystemSection'
 import { NameNoNameSection } from '../components/copilot-v2/NameNoNameSection'
 import OneFlareStartFinishSection from '../components/sections/one-flare-start-finish-section'
 import { CompareSection, DifferenceSection } from '../components/copilot-v2/CompareSections'
-import { HonestySection, PricingSection, FinalCTASection } from '../components/copilot-v2/ClosingSections'
+import { HonestySection, PricingSection } from '../components/copilot-v2/ClosingSections'
 import { ProofSection, TrustSection, FAQSection } from '../components/copilot-v2/ProofTrustFaq'
 import { StickyCTA } from '../components/copilot-v2/StickyCTA'
 import '../styles/copilot-v2.css'
@@ -37,10 +38,7 @@ export function CopilotV2Landing() {
         <PricingSection />
         <FAQSection />
       </main>
-      <div className="cp2-bottom-band">
-        <FinalCTASection />
-        <CopilotFooter />
-      </div>
+      <CopilotBottomBand />
       <StickyCTA />
     </div>
   )

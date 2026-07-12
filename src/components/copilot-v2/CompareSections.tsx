@@ -1,15 +1,12 @@
 import {
   ClipboardList,
   FlaskConical,
-  HeartHandshake,
   MessagesSquare,
   Smartphone,
-  Sprout,
-  UsersRound,
   Video,
-  Waypoints,
 } from 'lucide-react'
 import { ABOUT_URL } from '../../constants'
+import { DIFFERENCE_CARDS } from './differenceImages'
 
 const ROWS = [
   {
@@ -103,33 +100,6 @@ export function CompareSection() {
 }
 
 export function DifferenceSection() {
-  const diffs = [
-    {
-      num: '01',
-      title: 'The integration is the product',
-      body: 'Everything else is a fragment — a tracker, a visit, a test kit, a forum. Gutsphere is the connective tissue that holds them together. Not a feature. The whole point.',
-      Icon: Waypoints,
-    },
-    {
-      num: '02',
-      title: 'Your whole care team, in one view',
-      body: "Ask once and hear it back from a GI specialist, a dietitian, a behavioral-health and a holistic view — all sharing your full context. Today that's four appointments and four copays.",
-      Icon: UsersRound,
-    },
-    {
-      num: '03',
-      title: "It's yours, and it compounds",
-      body: 'The other whole-journey options are owned by an insurer or employer — you lose them when you change jobs. Gutsphere is yours, and the more you use it, the more it knows you.',
-      Icon: Sprout,
-    },
-    {
-      num: '04',
-      title: "Built by someone who's lived it, not a payer",
-      body: "It comes from someone who lived it — years of dismissed symptoms and an unnecessary procedure before finding what worked. Every decision serves you, because here you're the customer, not the product.",
-      Icon: HeartHandshake,
-    },
-  ] as const
-
   return (
     <section className="cp2-band" id="difference">
       <div className="cp2-wrap">
@@ -139,22 +109,22 @@ export function DifferenceSection() {
           <p>Plenty of tools do a piece of this. These are the claims only Gutsphere can make.</p>
         </div>
 
-        <div className="cp2-diff-grid cp2-reveal">
-          {diffs.map((d) => {
-            const Icon = d.Icon
-            return (
-              <div key={d.num} className="cp2-diff">
-                <div className="cp2-diff-visual" aria-hidden="true">
-                  <span className="cp2-diff-ic">
-                    <Icon strokeWidth={1.5} absoluteStrokeWidth />
-                  </span>
-                  <span className="cp2-di">{d.num}</span>
-                </div>
-                <h3>{d.title}</h3>
-                <p>{d.body}</p>
+        <div className="cp2-diff-stack">
+          {DIFFERENCE_CARDS.map((card) => (
+            <article
+              key={card.num}
+              className={`cp2-diff-card cp2-diff-card--${card.num} cp2-reveal`}
+            >
+              <div className="cp2-diff-card-copy">
+                <span className="cp2-diff-card-num">{card.num}</span>
+                <h3>{card.title}</h3>
+                <p>{card.body}</p>
               </div>
-            )
-          })}
+              <div className="cp2-diff-card-media">
+                <img src={card.src} alt={card.alt} loading="lazy" decoding="async" />
+              </div>
+            </article>
+          ))}
         </div>
 
         <div className="cp2-diff-founder-note cp2-proof-story cp2-reveal">

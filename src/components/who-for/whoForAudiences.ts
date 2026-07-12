@@ -31,7 +31,7 @@ export const WHO_FOR_AUDIENCES: readonly WhoForAudience[] = [
       'No diagnosis required — start where you are',
     ],
     exploreLabel: 'Explore finding answers',
-    exploreHref: '/#journey',
+    exploreHref: '/for#finding-answers',
   },
   {
     id: 'in-treatment',
@@ -47,7 +47,7 @@ export const WHO_FOR_AUDIENCES: readonly WhoForAudience[] = [
       'Works alongside IBS, IBD, celiac, GERD, SIBO and more',
     ],
     exploreLabel: 'Explore in treatment',
-    exploreHref: '/#journey',
+    exploreHref: '/for#in-treatment',
   },
   {
     id: 'living-with-it',
@@ -63,7 +63,7 @@ export const WHO_FOR_AUDIENCES: readonly WhoForAudience[] = [
       'Built for the reality of unpredictable flares',
     ],
     exploreLabel: 'Explore living with it',
-    exploreHref: '/#journey',
+    exploreHref: '/for#living-with-it',
   },
   {
     id: 'staying-ahead',
@@ -79,7 +79,7 @@ export const WHO_FOR_AUDIENCES: readonly WhoForAudience[] = [
       'Your data stays yours — not tied to an employer or insurer',
     ],
     exploreLabel: 'Explore staying ahead',
-    exploreHref: '/#journey',
+    exploreHref: '/for#staying-ahead',
   },
 ] as const
 

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gutsphere — Site Nav & Schema Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sand: #F5EEE8;
+      --sand-light: #FAF6F2;
+      --card: #FFFFFF;
+      --coral: #EF5350;
+      --coral-glow: rgba(239, 83, 80, 0.1);
+      --text: #1C1917;
+      --secondary: #57534E;
+      --muted: #A8A29E;
+      --border: #E7E0DA;
+      --green: #2E7D32;
+      --green-bg: rgba(46, 125, 50, 0.1);
+      --amber: #92400E;
+      --amber-bg: #FEF3C7;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand);
+      color: var(--text);
+      line-height: 1.55;
+      padding: 32px 16px 64px;
+    }
+    h1, h2, h3 { font-family: 'Inter', sans-serif; font-weight: 600; }
+    .wrap { max-width: 920px; margin: 0 auto; }
+    .hero {
+      background: linear-gradient(145deg, #2A2522 0%, #1A1614 100%);
+      color: #F5F0EC;
+      border-radius: 24px;
+      padding: 40px 36px;
+      margin-bottom: 28px;
+    }
+    .hero .eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #F87171;
+      margin-bottom: 12px;
+    }
+    .hero h1 { font-size: clamp(28px, 4vw, 36px); line-height: 1.15; margin-bottom: 12px; }
+    .hero p { color: #C4BBB5; max-width: 56ch; font-size: 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px; padding: 6px 14px; font-size: 13px; color: #F5F0EC;
+    }
+    .chip strong { color: #F87171; font-weight: 600; }
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px;
+    }
+    @media (max-width: 700px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+    .stat {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 16px; text-align: center;
+    }
+    .stat .n {
+      font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 700;
+      color: var(--coral); line-height: 1.1;
+    }
+    .stat .l { font-size: 13px; color: var(--secondary); margin-top: 8px; }
+    .section {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px 28px 8px; margin-bottom: 20px;
+    }
+    .section h2 {
+      font-size: 20px; margin-bottom: 6px; display: flex; align-items: center; gap: 10px;
+    }
+    .section .lead { color: var(--secondary); font-size: 14px; margin-bottom: 20px; }
+    .badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--coral-glow); color: var(--coral);
+      font-size: 13px; font-weight: 700; flex-shrink: 0;
+    }
+    .change {
+      border-top: 1px solid var(--border); padding: 18px 0;
+      display: grid; grid-template-columns: 72px 1fr; gap: 16px; align-items: start;
+    }
+    .status {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 5px 8px; border-radius: 6px; text-align: center; line-height: 1.2;
+    }
+    .status.fixed { background: var(--green-bg); color: var(--green); }
+    .status.kept { background: var(--sand); color: var(--secondary); }
+    .change h3 { font-size: 15px; margin-bottom: 6px; }
+    .change p { font-size: 14px; color: var(--secondary); }
+    .before-after {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;
+    }
+    @media (max-width: 640px) {
+      .before-after { grid-template-columns: 1fr; }
+      .change { grid-template-columns: 1fr; }
+    }
+    .ba { border-radius: 12px; padding: 14px 16px; font-size: 13px; }
+    .ba.before { background: #FDF2F2; border: 1px solid #F5C6C6; }
+    .ba.after { background: #F1F8F1; border: 1px solid #C5E0C5; }
+    .ba .label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .ba.before .label { color: #B91C1C; }
+    .ba.after .label { color: var(--green); }
+    .ba ul { padding-left: 18px; color: var(--text); }
+    .ba li + li { margin-top: 4px; }
+    .ba code, .files code, .schema-box {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    .ba code, .files code {
+      font-size: 12px; background: var(--sand-light); padding: 1px 5px; border-radius: 4px;
+    }
+    .schema-box {
+      background: var(--sand-light); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px 18px; font-size: 12.5px;
+      line-height: 1.7; overflow-x: auto; white-space: pre; color: var(--text);
+      margin: 12px 0 20px;
+    }
+    .files { list-style: none; margin-bottom: 20px; }
+    .files li {
+      display: flex; gap: 10px; align-items: baseline;
+      padding: 8px 0; border-top: 1px solid var(--border); font-size: 14px;
+    }
+    .files li:first-child { border-top: none; }
+    .tag {
+      font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px;
+      background: var(--coral-glow); color: var(--coral); flex-shrink: 0;
+    }
+    .note {
+      background: var(--amber-bg); color: var(--amber);
+      border-radius: 12px; padding: 14px 16px; font-size: 14px; margin: 8px 0 20px;
+    }
+    footer.report-foot {
+      text-align: center; color: var(--muted); font-size: 13px; margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="eyebrow">Change report · July 11, 2026</p>
+      <h1>Site navigation &amp; schema (final)</h1>
+      <p>
+        Public nav is page-based. Explore lists destination pages visitors use to check you out —
+        not homepage scroll anchors. Compare folds into Explore. Solutions keeps its multilevel menu.
+        Conditions and Symptoms stay separate.
+      </p>
+      <div class="meta">
+        <span class="chip"><strong>5</strong> top-level nav items</span>
+        <span class="chip">Explore = pages + stages + compare</span>
+        <span class="chip">Chrome: <strong>CopilotNav / CopilotFooter</strong></span>
+      </div>
+    </header>
+
+    <div class="stats">
+      <div class="stat"><div class="n">Explore</div><div class="l">Pages only</div></div>
+      <div class="stat"><div class="n">Compare</div><div class="l">Inside Explore</div></div>
+      <div class="stat"><div class="n">Solutions</div><div class="l">Mega-menu kept</div></div>
+      <div class="stat"><div class="n">/#pricing</div><div class="l">Only home hash in nav</div></div>
+    </div>
+
+    <section class="section">
+      <h2><span class="badge">◉</span> Shipped schema</h2>
+      <p class="lead">Primary navbar and Explore contents after this pass.</p>
+      <div class="schema-box">Navbar
+[Logo → /]  Explore ▾  Conditions ▾  Symptoms ▾  Solutions ▾  Pricing  |  Log in  Start free
+
+Explore
+  Who it’s for → /for
+  About → /about
+  FAQ → /faq
+  — Journey stages → /for#finding-answers | #in-treatment | #living-with-it | #staying-ahead
+  — Compare → /compare/symptom-trackers | ai-chat | telehealth | test-kits
+
+Removed from Explore (home flow anchors)
+  /#system  /#walkthrough  /#honest  /#compare  /#difference
+
+Footer columns
+  Conditions | Symptoms | Solutions | Compare (4 pages) | Company
+  Company: Who it’s for + stages + Pricing + FAQ + About + Contact + social</div>
+    </section>
+
+    <section class="section">
+      <h2><span class="badge">1</span> What changed in this pass</h2>
+      <p class="lead">Implementation of the Site nav schema plan.</p>
+
+      <div class="change">
+        <span class="status fixed">Done</span>
+        <div>
+          <h3>Explore = navigable pages</h3>
+          <p>Replaced homepage TOC links with Who it’s for, About, and FAQ.</p>
+          <div class="before-after">
+            <div class="ba before">
+              <div class="label">Before</div>
+              <ul>
+                <li>How it works <code>/#system</code></li>
+                <li>One flare <code>/#walkthrough</code></li>
+                <li>Our promise <code>/#honest</code></li>
+                <li>+ /for, /faq, /about</li>
+              </ul>
+            </div>
+            <div class="ba after">
+              <div class="label">After</div>
+              <ul>
+                <li>Who it’s for <code>/for</code></li>
+                <li>About <code>/about</code></li>
+                <li>FAQ <code>/faq</code></li>
+                <li>+ Journey stages + Compare subgroups</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status fixed">Done</span>
+        <div>
+          <h3>Compare folded into Explore</h3>
+          <p>Removed top-level Compare dropdown. Four compare <strong>pages</strong> live under Explore → Compare. Home anchors <code>/#compare</code> and <code>/#difference</code> removed from nav and footer.</p>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status fixed">Done</span>
+        <div>
+          <h3>Path-based active states</h3>
+          <p>
+            Explore active on <code>/for</code>, <code>/about</code>, <code>/faq</code>, <code>/compare/*</code>.
+            Solutions active on <code>/features/*</code>.
+            Conditions/Symptoms active by slug set.
+            Pricing still uses section observer for <code>#pricing</code> on home.
+          </p>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status kept">Kept</span>
+        <div>
+          <h3>Solutions multilevel mega-menu</h3>
+          <p>Category tabs + leaf features + Browse all features unchanged. Active highlight added when on feature routes.</p>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status kept">Kept</span>
+        <div>
+          <h3>Conditions &amp; Symptoms separate</h3>
+          <p>Two nav menus and two footer columns, as required.</p>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status fixed">Done</span>
+        <div>
+          <h3>Footer aligned</h3>
+          <p>Compare column = four pages only. Company drops “Our promise” home hash. Mobile Explore mirrors desktop page set (stages + compare as subgroups).</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2><span class="badge">ƒ</span> Files</h2>
+      <p class="lead">Touched for this schema pass.</p>
+      <ul class="files">
+        <li><span class="tag">nav/footer</span> <code>src/components/copilot-v2/CopilotChrome.tsx</code></li>
+        <li><span class="tag">docs</span> <code>docs/nav-footer-change-report.html</code></li>
+      </ul>
+      <div class="note">
+        <strong>Still out of scope:</strong> dedicated <code>/pricing</code> page, <code>/conditions</code> hub index,
+        lab route quarantine, unique URLs per Solutions leaf.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2><span class="badge">✓</span> QA checklist</h2>
+      <p class="lead">Verify on desktop + mobile.</p>
+      <div class="change">
+        <span class="status fixed">QA</span>
+        <div>
+          <ul style="padding-left:18px;font-size:14px;color:var(--secondary);margin-bottom:16px;">
+            <li>Top bar: Explore · Conditions · Symptoms · Solutions · Pricing (no Compare top item)</li>
+            <li>Explore has no <code>/#system</code>, <code>/#walkthrough</code>, or <code>/#honest</code></li>
+            <li>Explore → Compare opens <code>/compare/…</code> pages</li>
+            <li>Solutions mega-menu still works</li>
+            <li>Active highlight on <code>/for</code>, <code>/faq</code>, <code>/compare/ai-chat</code>, <code>/features/trackers</code></li>
+            <li>Footer Compare has four links only; Terms still correct</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <p class="report-foot">Gutsphere landing · Site nav schema pass · Internal review</p>
+  </div>
+</body>
+</html>

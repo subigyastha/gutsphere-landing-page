@@ -587,6 +587,146 @@
   color: var(--gs-text-secondary);
 }
 
+/* Hub index pages (journey, compare) — Poly.ai-style library layout */
+
+.copilot-v2.mp-hub-page .mp-hub-trust {
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--gs-text-muted);
+}
+
+.copilot-v2.mp-hub-page .mp-hub-library {
+  padding: 48px 0 64px;
+  background: var(--gs-sand);
+}
+
+.copilot-v2.mp-hub-page .mp-hub-section-head {
+  max-width: 52ch;
+  margin-bottom: 36px;
+}
+
+.copilot-v2.mp-hub-page .mp-hub-section-head h2 {
+  margin-top: 10px;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  letter-spacing: -0.02em;
+}
+
+.copilot-v2.mp-hub-page .mp-hub-section-head p {
+  margin-top: 12px;
+  color: var(--gs-text-secondary);
+  line-height: 1.65;
+}
+
+.copilot-v2.mp-hub-page .mp-hub-featured {
+  margin-bottom: 20px;
+}
+
+.copilot-v2.mp-hub-page .mp-hub-featured-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gs-text-muted);
+  margin-bottom: 12px;
+}
+
+.copilot-v2.mp-hub-page .mp-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.copilot-v2.mp-hub-page .mp-hub-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 100%;
+  padding: 22px 20px 18px;
+  border-radius: 18px;
+  border: 1px solid var(--gs-border);
+  background: var(--gs-card);
+  text-decoration: none;
+  box-shadow: var(--cp2-shadow-card);
+  transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.copilot-v2.mp-hub-page .mp-hub-card:hover {
+  border-color: color-mix(in srgb, var(--gs-coral) 28%, var(--gs-border));
+  transform: translateY(-2px);
+  box-shadow: var(--cp2-shadow-lg);
+}
+
+.copilot-v2.mp-hub-page .mp-hub-card--featured {
+  padding: 28px 26px 22px;
+  background:
+    radial-gradient(ellipse 80% 80% at 100% 0%, color-mix(in srgb, var(--gs-coral) 6%, transparent), transparent),
+    var(--gs-card);
+}
+
+.copilot-v2.mp-hub-page .mp-hub-card-kind {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gs-coral);
+}
+
+.copilot-v2.mp-hub-page .mp-hub-card-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--gs-text-primary);
+}
+
+.copilot-v2.mp-hub-page .mp-hub-card--featured .mp-hub-card-title {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+}
+
+.copilot-v2.mp-hub-page .mp-hub-card-blurb {
+  flex: 1;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--gs-text-secondary);
+}
+
+.copilot-v2.mp-hub-page .mp-hub-card-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gs-coral);
+}
+
+.copilot-v2.mp-hub-page .mp-hub-band {
+  padding: 56px 0;
+  border-top: 1px solid var(--gs-divider);
+  background: var(--gs-card);
+}
+
+.copilot-v2.mp-hub-page .mp-hub-band-in {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.copilot-v2.mp-hub-page .mp-hub-band-in h2 {
+  margin-top: 10px;
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  max-width: 22ch;
+}
+
+.copilot-v2.mp-hub-page .mp-hub-band-in p {
+  margin-top: 10px;
+  max-width: 48ch;
+  color: var(--gs-text-secondary);
+  line-height: 1.6;
+}
+
 @media (max-width: 900px) {
   .copilot-v2.mp-page .mp-outcome-grid,
   .copilot-v2.mp-page .mp-related-grid,
@@ -594,6 +734,7 @@
   .copilot-v2.mp-page .mp-win-grid,
   .copilot-v2.mp-page .mp-topic-grid,
   .copilot-v2.mp-page .mp-feat-grid,
+  .copilot-v2.mp-hub-page .mp-hub-grid,
   .copilot-v2.about-page .about-mission-grid,
   .copilot-v2.about-page .about-values-list {
     grid-template-columns: 1fr;
@@ -608,7 +749,15 @@
     justify-content: center;
   }
 
+  .copilot-v2.mp-page .mp-final .mp-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
   .copilot-v2.mp-page .mp-final .mp-hero-actions .cp2-btn {
-    width: auto;
+    width: 100%;
+    min-height: 48px;
+    justify-content: center;
   }
 }

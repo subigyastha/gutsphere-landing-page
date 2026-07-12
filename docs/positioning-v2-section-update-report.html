@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gutsphere — Positioning V2 Section Update Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sand: #F5EEE8;
+      --sand-light: #FAF6F2;
+      --card: #FFFFFF;
+      --coral: #EF5350;
+      --coral-glow: rgba(239, 83, 80, 0.1);
+      --text: #1C1917;
+      --secondary: #57534E;
+      --muted: #A8A29E;
+      --border: #E7E0DA;
+      --green: #2E7D32;
+      --green-bg: rgba(46, 125, 50, 0.1);
+      --amber: #92400E;
+      --amber-bg: #FEF3C7;
+      --blue: #1E40AF;
+      --blue-bg: #DBEAFE;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand);
+      color: var(--text);
+      line-height: 1.55;
+      padding: 32px 16px 64px;
+    }
+    h1, h2, h3 { font-family: 'Inter', sans-serif; font-weight: 600; }
+    .wrap { max-width: 960px; margin: 0 auto; }
+    .hero {
+      background: linear-gradient(145deg, #2A2522 0%, #1A1614 100%);
+      color: #F5F0EC;
+      border-radius: 24px;
+      padding: 40px 36px;
+      margin-bottom: 28px;
+    }
+    .hero .eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #F87171;
+      margin-bottom: 12px;
+    }
+    .hero h1 { font-size: clamp(28px, 4vw, 36px); line-height: 1.15; margin-bottom: 12px; }
+    .hero p { color: #C4BBB5; max-width: 62ch; font-size: 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px; padding: 6px 14px; font-size: 13px; color: #F5F0EC;
+    }
+    .chip strong { color: #F87171; font-weight: 600; }
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px;
+    }
+    @media (max-width: 700px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+    .stat {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 16px; text-align: center;
+    }
+    .stat .n {
+      font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 700;
+      color: var(--coral); line-height: 1.1;
+    }
+    .stat .l { font-size: 13px; color: var(--secondary); margin-top: 8px; }
+    .section {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px 28px 8px; margin-bottom: 20px;
+    }
+    .section h2 {
+      font-size: 20px; margin-bottom: 6px; display: flex; align-items: center; gap: 10px;
+    }
+    .section .lead { color: var(--secondary); font-size: 14px; margin-bottom: 20px; }
+    .badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--coral-glow); color: var(--coral);
+      font-size: 13px; font-weight: 700; flex-shrink: 0;
+    }
+    .change {
+      border-top: 1px solid var(--border); padding: 18px 0;
+      display: grid; grid-template-columns: 72px 1fr; gap: 16px; align-items: start;
+    }
+    .status {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 5px 8px; border-radius: 6px; text-align: center; line-height: 1.2;
+    }
+    .status.proposed { background: var(--blue-bg); color: var(--blue); }
+    .status.keep { background: var(--sand); color: var(--secondary); }
+    .status.later { background: var(--amber-bg); color: var(--amber); }
+    .status.primary { background: var(--coral-glow); color: var(--coral); }
+    .change h3 { font-size: 15px; margin-bottom: 6px; }
+    .change p { font-size: 14px; color: var(--secondary); }
+    .before-after {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;
+    }
+    @media (max-width: 640px) {
+      .before-after { grid-template-columns: 1fr; }
+      .change { grid-template-columns: 1fr; }
+    }
+    .ba { border-radius: 12px; padding: 14px 16px; font-size: 13px; }
+    .ba.before { background: #FDF2F2; border: 1px solid #F5C6C6; }
+    .ba.after { background: #F1F8F1; border: 1px solid #C5E0C5; }
+    .ba .label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .ba.before .label { color: #B91C1C; }
+    .ba.after .label { color: var(--green); }
+    .ba ul { padding-left: 18px; color: var(--text); }
+    .ba li + li { margin-top: 4px; }
+    .ba code, .files code, .schema-box {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    .ba code, .files code {
+      font-size: 12px; background: var(--sand-light); padding: 1px 5px; border-radius: 4px;
+    }
+    .schema-box {
+      background: var(--sand-light); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px 18px; font-size: 12.5px;
+      line-height: 1.7; overflow-x: auto; white-space: pre; color: var(--text);
+      margin: 12px 0 20px;
+    }
+    .files { list-style: none; margin-bottom: 20px; }
+    .files li {
+      display: flex; gap: 10px; align-items: baseline;
+      padding: 8px 0; border-top: 1px solid var(--border); font-size: 14px;
+    }
+    .files li:first-child { border-top: none; }
+    .tag {
+      font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px;
+      background: var(--coral-glow); color: var(--coral); flex-shrink: 0;
+    }
+    .note {
+      background: var(--amber-bg); color: var(--amber);
+      border-radius: 12px; padding: 14px 16px; font-size: 14px; margin: 8px 0 20px;
+    }
+    .quote {
+      border-left: 3px solid var(--coral);
+      padding: 12px 16px; margin: 8px 0 20px;
+      background: var(--sand-light); border-radius: 0 12px 12px 0;
+      font-size: 15px; color: var(--text);
+    }
+    .quote em { color: var(--secondary); font-size: 13px; display: block; margin-top: 6px; }
+    table.cohorts {
+      width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0 20px;
+    }
+    table.cohorts th, table.cohorts td {
+      text-align: left; padding: 10px 12px; border-top: 1px solid var(--border); vertical-align: top;
+    }
+    table.cohorts th {
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em;
+      color: var(--secondary); font-weight: 700; border-top: none;
+    }
+    table.cohorts .phase {
+      font-weight: 600; color: var(--coral); white-space: nowrap;
+    }
+    .toc {
+      display: grid; gap: 8px; margin-bottom: 20px;
+    }
+    .toc a {
+      display: flex; justify-content: space-between; gap: 12px;
+      padding: 12px 14px; border-radius: 12px; text-decoration: none;
+      background: var(--sand-light); border: 1px solid var(--border);
+      color: var(--text); font-size: 14px; font-weight: 500;
+    }
+    .toc a span { color: var(--secondary); font-weight: 400; font-size: 13px; }
+    .toc a:hover { border-color: #D4C4B8; }
+    footer.report-foot {
+      text-align: center; color: var(--muted); font-size: 13px; margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="eyebrow">Change report · Proposed · July 12, 2026</p>
+      <h1>Positioning V2 — Name or no name &amp; Who is it for</h1>
+      <p>
+        Inventory of copy and structure changes driven by
+        <em>positioning_v2</em>. Primary work: Name or no name (<code>#both</code>) and
+        Who is it for (<code>/for</code>). Related homepage sections are listed so they
+        don’t contradict the new model.
+      </p>
+      <div class="meta">
+        <span class="chip"><strong>Source</strong> positioning_v2 (1).md</span>
+        <span class="chip"><strong>Status</strong> Plan only — not shipped</span>
+        <span class="chip">Primary: <strong>NNN + /for</strong></span>
+      </div>
+    </header>
+
+    <div class="stats">
+      <div class="stat"><div class="n">18</div><div class="l">Cohorts on /for</div></div>
+      <div class="stat"><div class="n">5</div><div class="l">Phase groups</div></div>
+      <div class="stat"><div class="n">4</div><div class="l">NNN states kept</div></div>
+      <div class="stat"><div class="n">8+</div><div class="l">Related sections noted</div></div>
+    </div>
+
+    <section class="section">
+      <h2><span class="badge">◉</span> Positioning north star</h2>
+      <p class="lead">Everything below must reinforce this sentence and category.</p>
+      <div class="quote">
+        “It calms me down because I know what’s wrong and what to do next.”
+        <em>Friend sentence · calm ← (knowing + doing)</em>
+      </div>
+      <div class="schema-box">Tagline     Know what's wrong. Know what to do.
+Category    GI confidence platform  (patient-facing)
+Enemy       Anxiety and the gap (alone between clinical moments)
+Not         Tracker · telehealth clinic · microbiome brand · horizontal AI · Rx DTx
+Audience    18 cohorts in 5 phases (+ caregiver)
+Journey     14 stages / 7 phases  (separate axis from Name/No Name)</div>
+      <div class="note">
+        <strong>Default decisions in this plan:</strong> Name or no name stays a
+        <em>diagnosis-certainty</em> discovery (4 states), remapped to Finding Answers.
+        Who is it for becomes the <em>18-cohort home</em> (5 phase groups + caregiver).
+        Soften “copilot” as category language on these two surfaces; full site-wide
+        retirement of copilot wording is a follow-on pass.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2><span class="badge">⌂</span> Contents</h2>
+      <p class="lead">Jump to each workstream.</p>
+      <div class="toc">
+        <a href="#nnn">A. Name or no name <span>#both · homepage</span></a>
+        <a href="#who">B. Who is it for <span>/for · 18 cohorts</span></a>
+        <a href="#related">C. Related sections <span>hero, problem, journey, compare…</span></a>
+        <a href="#files">D. Files &amp; order <span>implementation sequence</span></a>
+      </div>
+    </section>
+
+    <!-- ========== A. NAME OR NO NAME ========== -->
+    <section class="section" id="nnn">
+      <h2><span class="badge">A</span> Name or no name</h2>
+      <p class="lead">
+        Homepage section <code>#both</code>. Diagnosis-certainty axis — not the full 18 cohorts.
+        Interactive Quiz / Flip stays; Original two-card version is retired after copy locks.
+      </p>
+
+      <div class="change">
+        <span class="status primary">Primary</span>
+        <div>
+          <h3>Section chrome</h3>
+          <p>Keep the strong H2; rewrite the subhead to name anxiety + the gap and the know/do outcome.</p>
+          <div class="before-after">
+            <div class="ba before">
+              <div class="label">Current</div>
+              <ul>
+                <li>Eyebrow: Name or no name</li>
+                <li>H2: Name, no name, or not the right name yet.</li>
+                <li>Sub: Gut symptoms don't always arrive with a label. GutSphere keeps your evidence together at every stage.</li>
+                <li>Bottom: Wherever you start, your history comes with you.</li>
+                <li>CTA: See who GutSphere is for → <code>/for</code></li>
+              </ul>
+            </div>
+            <div class="ba after">
+              <div class="label">Proposed</div>
+              <ul>
+                <li>Eyebrow: Name or no name <em>(keep)</em></li>
+                <li>H2: Name, no name, or not the right name yet. <em>(keep)</em></li>
+                <li>Sub: Anxiety lives in the gap between appointments. Gutsphere meets you there — so you know what’s wrong and what to do next, whether you have a label or not.</li>
+                <li>Bottom: Wherever you start, your context compounds — and follows you when the label changes.</li>
+                <li>CTA: See every place Gutsphere meets you → <code>/for</code></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status proposed">Proposed</span>
+        <div>
+          <h3>Four states remapped to Finding Answers cohorts</h3>
+          <p>
+            Same interaction model (Quiz + Flip). New mapping and copy rules:
+            one <strong>know</strong>, one <strong>do</strong>, one advocacy/appointment bullet where relevant.
+            Brand spelling: GutSphere → Gutsphere.
+          </p>
+          <table class="cohorts">
+            <thead>
+              <tr>
+                <th>State</th>
+                <th>Maps to</th>
+                <th>Current quiz option</th>
+                <th>Proposed quiz option</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>symptoms-no-name</code></td>
+                <td>Cohorts 1–2<br>Early symptoms</td>
+                <td>I have symptoms but no clear answer.</td>
+                <td>Something’s off — no clear answer yet.</td>
+              </tr>
+              <tr>
+                <td><code>told-normal</code> → limbo</td>
+                <td>Cohorts 3–4<br>Diagnostic limbo + Undiagnosed</td>
+                <td>I've been told it's normal, but it keeps happening.</td>
+                <td>I’m in the system (or dismissed) and still waiting.</td>
+              </tr>
+              <tr>
+                <td><code>diagnosis-doesnt-fit</code></td>
+                <td>Cohorts 5–6<br>Misdiagnosed + Underdiagnosed</td>
+                <td>I have a diagnosis, but it doesn't explain everything.</td>
+                <td>I have a label, but it doesn’t fit / explain everything.</td>
+              </tr>
+              <tr>
+                <td><code>diagnosed</code></td>
+                <td>Bridge 8–13<br>Treated + living with it</td>
+                <td>I know the diagnosis, but managing it is still hard.</td>
+                <td>I know the diagnosis — managing it is still hard.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status proposed">Proposed</span>
+        <div>
+          <h3>Per-state result card jobs</h3>
+          <div class="before-after">
+            <div class="ba before">
+              <div class="label">Current emphasis</div>
+              <ul>
+                <li>Track / log / keep evidence</li>
+                <li>Feature chips (Symptoms, Food, Stool…)</li>
+                <li>CTAs: Start with symptoms, Build a clearer history…</li>
+              </ul>
+            </div>
+            <div class="ba after">
+              <div class="label">Proposed emphasis</div>
+              <ul>
+                <li>Calm triage + know what’s wrong + what to do next</li>
+                <li>Helps bullets: know · do · appointment/advocacy</li>
+                <li>CTAs: Start where I am · Build my history · Revisit my pattern · Manage day to day</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status proposed">Proposed</span>
+        <div>
+          <h3>Ship interactive only</h3>
+          <p>
+            Remove (or hide) the Original / Interactive version bar used for side-by-side comparison.
+            Update or delete <code>BothSection</code> in <code>SystemSection.tsx</code> so the legacy two-card
+            “Still figuring it out / Already diagnosed” layout cannot contradict the new copy.
+          </p>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status keep">Keep</span>
+        <div>
+          <h3>Interaction patterns</h3>
+          <p>Quiz discovery + Flip discovery modes, result card layout, signup CTAs to app, link to <code>/for</code> in the bottom bar.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== B. WHO IS IT FOR ========== -->
+    <section class="section" id="who">
+      <h2><span class="badge">B</span> Who is it for</h2>
+      <p class="lead">
+        Route <code>/for</code> becomes the 18-cohort home. Journey hub <code>/journey</code> stays thin and
+        points into <code>/for</code> phase/cohort anchors. Naming drift (“Staying ahead” vs “Getting ahead of it”) is fixed.
+      </p>
+
+      <div class="change">
+        <span class="status primary">Primary</span>
+        <div>
+          <h3>Hero &amp; outcome strip</h3>
+          <div class="before-after">
+            <div class="ba before">
+              <div class="label">Current</div>
+              <ul>
+                <li>H1: For anyone navigating gut health — at every stage.</li>
+                <li>Lead: Most tools pick one moment… whole journey — whether you have a diagnosis or not.</li>
+                <li>Outcome H2: One copilot across the whole GI journey — not a tool for a single moment.</li>
+                <li>Audiences eyebrow: Four stages, one system</li>
+                <li>Audiences H2: Drop in where you are. Keep the thread.</li>
+              </ul>
+            </div>
+            <div class="ba after">
+              <div class="label">Proposed</div>
+              <ul>
+                <li>H1: For every GI patient — wherever you are right now.</li>
+                <li>Lead: Eighteen situations. One GI confidence platform. Gutsphere meets you in your current state — not a linear path — and calms you down by telling you what’s wrong and what to do next.</li>
+                <li>Outcome H2: One platform across all 18 cohorts — not a tool for a single moment.</li>
+                <li>Audiences eyebrow: Five phases. Eighteen places to drop in.</li>
+                <li>Audiences H2: Drop in where you are. The same platform follows.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status proposed">Proposed</span>
+        <div>
+          <h3>Replace 4 stage cards with 5 phase groups + 18 cohorts</h3>
+          <p>
+            Current model: Stage 1–4 cards (Still finding answers · In treatment · Living with it · Staying ahead).
+            Proposed: phase headers with nested cohort rows. Copy for one-liners taken from positioning_v2.
+          </p>
+          <table class="cohorts">
+            <thead>
+              <tr>
+                <th>Phase</th>
+                <th>#</th>
+                <th>Cohort</th>
+                <th>One-line (from positioning doc)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="phase" rowspan="7">Finding answers</td>
+                <td>1</td><td>Early single symptom</td>
+                <td>Something’s off — one symptom, no context, is this serious?</td>
+              </tr>
+              <tr>
+                <td>2</td><td>Early multiple symptoms</td>
+                <td>Pattern emerging, nobody connecting it, patient becomes the integrator</td>
+              </tr>
+              <tr>
+                <td>3</td><td>Diagnostic limbo</td>
+                <td>In the system, waiting — specialist queue, biopsy pending, results outstanding</td>
+              </tr>
+              <tr>
+                <td>4</td><td>Undiagnosed</td>
+                <td>Sick but without answers — dismissed, gaslit, still searching</td>
+              </tr>
+              <tr>
+                <td>5</td><td>Misdiagnosed</td>
+                <td>Has a label, but it doesn’t fit — treatment isn’t working</td>
+              </tr>
+              <tr>
+                <td>6</td><td>Underdiagnosed</td>
+                <td>Partial picture — some symptoms explained, others not</td>
+              </tr>
+              <tr>
+                <td>7</td><td>Post-infectious onset</td>
+                <td>GI dysfunction after a clear trigger — “I want to get back to before”</td>
+              </tr>
+              <tr>
+                <td class="phase" rowspan="3">In treatment</td>
+                <td>8</td><td>Treatment working</td>
+                <td>Managing well, but maintenance feels fragile, afraid of what they’re missing</td>
+              </tr>
+              <tr>
+                <td>9</td><td>Treatment not working</td>
+                <td>Doing everything right and still suffering — the hardest place to be</td>
+              </tr>
+              <tr>
+                <td>10</td><td>Adherence difficulty</td>
+                <td>Knows what to do, can’t sustain it — guilt, friction, life getting in the way</td>
+              </tr>
+              <tr>
+                <td class="phase" rowspan="3">Living with it</td>
+                <td>11</td><td>In remission</td>
+                <td>Stable, but the disease is always in the background, fear of relapse</td>
+              </tr>
+              <tr>
+                <td>12</td><td>Post-surgical</td>
+                <td>Permanent anatomical change — not rebuilding: adapting to a new body</td>
+              </tr>
+              <tr>
+                <td>13</td><td>System-disengaged</td>
+                <td>Gave up on medicine — self-managing through diet, supplements, and Reddit</td>
+              </tr>
+              <tr>
+                <td class="phase" rowspan="4">Getting ahead of it</td>
+                <td>14</td><td>Surveillance</td>
+                <td>Not currently sick but in a monitoring program</td>
+              </tr>
+              <tr>
+                <td>15</td><td>Preventing</td>
+                <td>At risk but no active disease — family history, prior episode, known risk factors</td>
+              </tr>
+              <tr>
+                <td>16</td><td>Rebuilding gut</td>
+                <td>Post-flare, post-antibiotic, post-treatment — restoring function, finding a new baseline</td>
+              </tr>
+              <tr>
+                <td>17</td><td>Elevating gut</td>
+                <td>Beyond management — optimizing gut health, energy, mood, peak performance</td>
+              </tr>
+              <tr>
+                <td class="phase">Caregiver</td>
+                <td>18</td><td>Caregiver</td>
+                <td>Parent, partner, or adult child managing someone else’s GI condition</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="note">
+            UI pattern: phase header + compact cohort rows (not 18 large marketing cards).
+            Anchors like <code>#finding-answers</code>, <code>#cohort-misdiagnosed</code>.
+            Primary CTA per phase: Start free. Explore links scroll within <code>/for</code>.
+          </div>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status proposed">Proposed</span>
+        <div>
+          <h3>Fit / exclusion + “what we are not”</h3>
+          <div class="before-after">
+            <div class="ba before">
+              <div class="label">Current</div>
+              <ul>
+                <li>Also a fit: trackers that never connected, ChatGPT, juggled notes…</li>
+                <li>Not for: emergency, one-time test kit, cure promise, single-purpose tracker</li>
+              </ul>
+            </div>
+            <div class="ba after">
+              <div class="label">Proposed</div>
+              <ul>
+                <li>Also a fit: you live in the gap between appointments; you are the unpaid integrator (Reddit + ChatGPT + tracker + memory)</li>
+                <li>Keep clinical exclusions</li>
+                <li>Add explicit: not a tracker-only product · not a telehealth clinic · not a microbiome brand · not horizontal health AI</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status proposed">Proposed</span>
+        <div>
+          <h3>Journey hub (<code>/journey</code>) sync</h3>
+          <div class="before-after">
+            <div class="ba before">
+              <div class="label">Current</div>
+              <ul>
+                <li>“Four stages, one connected system”</li>
+                <li>Cards: Still finding answers · Staying ahead</li>
+                <li>Thin index into <code>/for#stage</code></li>
+              </ul>
+            </div>
+            <div class="ba after">
+              <div class="label">Proposed</div>
+              <ul>
+                <li>“Five phases. Eighteen places to drop in.”</li>
+                <li>Cards = phase groups → <code>/for#phase-id</code></li>
+                <li>Naming: Getting ahead of it (not Staying ahead); Finding answers (drop “Still” from titles)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status keep">Keep</span>
+        <div>
+          <h3>Page shell</h3>
+          <p>
+            Platform strip (Track · Care · Navigate · Understand), proof band, MarketingFinalCta,
+            StickyCTA, CopilotChrome nav — structure stays; only copy/model changes above.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== C. RELATED ========== -->
+    <section class="section" id="related">
+      <h2><span class="badge">C</span> Related sections to update</h2>
+      <p class="lead">
+        Referenced by positioning_v2 and currently conflict or underserve it.
+        Implement after Name/No Name + Who is it for (copy-only where possible).
+      </p>
+
+      <div class="change">
+        <span class="status later">Follow-on</span>
+        <div>
+          <h3>Hero · <code>CopilotHero.tsx</code></h3>
+          <div class="before-after">
+            <div class="ba before">
+              <div class="label">Current</div>
+              <ul>
+                <li>Eyebrow: You're the pilot · Gutsphere is the copilot</li>
+                <li>H1: From gut anxiety to gut confidence.</li>
+                <li>Tagline present: Know what's wrong. Know what to do.</li>
+                <li>“Gutsphere is the copilot that helps…”</li>
+              </ul>
+            </div>
+            <div class="ba after">
+              <div class="label">Proposed direction</div>
+              <ul>
+                <li>Keep H1 + tagline (aligned)</li>
+                <li>Soften “is the copilot” → GI confidence / cockpit-navigation framing</li>
+                <li>Doc: patient is pilot; product shouldn’t call itself the assistant</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status later">Follow-on</span>
+        <div>
+          <h3>Problem · <code>ProblemSection.tsx</code></h3>
+          <div class="before-after">
+            <div class="ba before">
+              <div class="label">Current</div>
+              <ul>
+                <li>Eyebrow: The real problem</li>
+                <li>Scattered tools · bad days · appointments starting over</li>
+              </ul>
+            </div>
+            <div class="ba after">
+              <div class="label">Proposed direction</div>
+              <ul>
+                <li>Name the enemy: anxiety and the gap</li>
+                <li>Keep three cards as manifestations of the gap</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status later">Follow-on</span>
+        <div>
+          <h3>Journey map · <code>JourneyMapSection</code> + <code>constants.ts</code> + <code>useJourneyMap.ts</code></h3>
+          <div class="before-after">
+            <div class="ba before">
+              <div class="label">Current</div>
+              <ul>
+                <li>4 stages labeled “cohorts” in UI</li>
+                <li>Finding answers · In treatment · Living with it · Getting ahead of it</li>
+                <li>Nav: “Four stages, one copilot”</li>
+              </ul>
+            </div>
+            <div class="ba after">
+              <div class="label">Proposed direction</div>
+              <ul>
+                <li>Stop calling 4 chips “cohorts” (cohorts = 18 on /for)</li>
+                <li>Align phase names with Who is it for</li>
+                <li>Later: progressive disclosure of 14 stages / 7 phases</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status later">Follow-on</span>
+        <div>
+          <h3>Compare · <code>CompareSections.tsx</code> + compare pages / hub</h3>
+          <p>
+            Five rows already close to the five competitive games (trackers, telehealth, test kits,
+            single-condition apps, ChatGPT/Reddit). Add patient-owned + whole-journey framing;
+            soften “Replace your stack” / “connected gut copilot” toward GI confidence.
+          </p>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status later">Follow-on</span>
+        <div>
+          <h3>Difference · <code>differenceImages.ts</code></h3>
+          <div class="before-after">
+            <div class="ba before">
+              <div class="label">Current (close)</div>
+              <ul>
+                <li>The integration is the product</li>
+                <li>Your whole care team, in one view</li>
+                <li>It's yours, and it compounds</li>
+                <li>Built by someone who's lived it, not a payer</li>
+              </ul>
+            </div>
+            <div class="ba after">
+              <div class="label">Doc wording</div>
+              <ul>
+                <li>The whole is greater than the parts</li>
+                <li>The multidisciplinary AI persona panel</li>
+                <li>Context that compounds</li>
+                <li>Built by a patient, not a payer</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status later">Follow-on</span>
+        <div>
+          <h3>System · Honesty · Final CTA · Sticky · Footer nav</h3>
+          <p>
+            Align “what we are not” with positioning list. Final CTA outcome language: calm + know + do.
+            Nav/footer blurbs: replace “Four stages, one copilot” with phase/cohort language that matches <code>/for</code>.
+          </p>
+        </div>
+      </div>
+
+      <div class="change">
+        <span class="status keep">Out of scope</span>
+        <div>
+          <h3>Not in this update</h3>
+          <ul style="padding-left:18px;font-size:14px;color:var(--secondary);margin-bottom:16px;">
+            <li>Patient-Piloted Era manifesto / about page</li>
+            <li>Full interactive rebuild of all 14 journey stages</li>
+            <li>Competitor funding / outcomes stats in the UI</li>
+            <li>Caregiver as a separate product surface (onboarding) — messaging only for now</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== D. FILES ========== -->
+    <section class="section" id="files">
+      <h2><span class="badge">D</span> Files &amp; implementation order</h2>
+      <p class="lead">Suggested sequence after this report is approved.</p>
+      <div class="schema-box">1. Name or no name
+   nameNoNameStates.ts
+   NameNoNameInteractiveSection.tsx
+   NameNoNameSection.tsx  (drop version bar)
+   SystemSection.tsx      (BothSection)
+   copilot-v2.css         (nnn-* as needed)
+
+2. Who is it for
+   whoForAudiences.ts     (18 cohorts / 5 phases)
+   WhoIsItForLanding.tsx
+   who-for.css            (.wf-phase, .wf-cohort)
+
+3. Journey hub sync
+   JourneyHubPage.tsx
+   Shared naming with /for anchors
+
+4. Related copy pass
+   CopilotHero.tsx · ProblemSection.tsx
+   JourneyMapSection + constants + useJourneyMap
+   CompareSections + differenceImages
+   ClosingSections · FinalCTA · StickyCTA · CopilotChrome</div>
+
+      <ul class="files">
+        <li><span class="tag">docs</span> <code>docs/positioning-v2-section-update-report.html</code></li>
+        <li><span class="tag">nnn</span> <code>src/components/copilot-v2/nameNoNameStates.ts</code></li>
+        <li><span class="tag">nnn</span> <code>src/components/copilot-v2/NameNoNameInteractiveSection.tsx</code></li>
+        <li><span class="tag">nnn</span> <code>src/components/copilot-v2/NameNoNameSection.tsx</code></li>
+        <li><span class="tag">who</span> <code>src/components/who-for/whoForAudiences.ts</code></li>
+        <li><span class="tag">who</span> <code>src/pages/WhoIsItForLanding.tsx</code></li>
+        <li><span class="tag">who</span> <code>src/styles/who-for.css</code></li>
+        <li><span class="tag">hub</span> <code>src/pages/JourneyHubPage.tsx</code></li>
+        <li><span class="tag">related</span> Hero · Problem · Journey · Compare · Difference · CTA · Chrome</li>
+      </ul>
+
+      <div class="note">
+        <strong>Success criteria:</strong> <code>/for</code> shows all 18 cohorts under 5 phases + caregiver;
+        Name/No Name states map clearly to Finding Answers + diagnosed living with calm/know/do copy;
+        no remaining “Four stages, one copilot” contradiction on Who is it for / Journey hub.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2><span class="badge">✓</span> Review checklist</h2>
+      <p class="lead">Confirm before implementation starts.</p>
+      <div class="change">
+        <span class="status proposed">Review</span>
+        <div>
+          <ul style="padding-left:18px;font-size:14px;color:var(--secondary);margin-bottom:16px;">
+            <li>Approve Name/No Name as 4-state diagnosis-certainty (not 18 cards)</li>
+            <li>Approve /for as 5 phase groups with all 18 cohort one-liners</li>
+            <li>Approve proposed hero/outcome strings for /for</li>
+            <li>Confirm how aggressive to be retiring “copilot” on primary surfaces this pass</li>
+            <li>Confirm related sections are follow-on vs same PR</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <p class="report-foot">Gutsphere landing · Positioning V2 section update · Plan report · Internal review</p>
+  </div>
+</body>
+</html>

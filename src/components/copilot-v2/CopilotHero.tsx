@@ -1,182 +1,370 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useId, useState, type CSSProperties } from 'react'
+import {
+  Activity,
+  AlertTriangle,
+  Brain,
+  ChartNoAxesCombined,
+  Check,
+  Compass,
+  Goal,
+  Heart,
+  Leaf,
+  Moon,
+  Pill,
+  Sparkle,
+  Sparkles,
+  Target,
+  UserRound,
+  Waves,
+} from 'lucide-react'
 import { SIGNUP_URL } from '../../constants'
-import { DX_CHIPS, FLAG_CHIPS, SYMPTOM_CHIPS } from './constants'
+import { DX_CHIPS, EXPERT_PERSPECTIVES, FLAG_CHIPS, SYMPTOM_CHIPS, type ExpertPerspectiveId, type SystemPillarId } from './constants'
 import { PlatformFineprint } from './PlatformPills'
-import type { CopilotPreview, SystemPreview, useCopilotPicker } from './useCopilotPicker'
+import type { SystemPreview, useCopilotPicker } from './useCopilotPicker'
 
 type Picker = ReturnType<typeof useCopilotPicker>
-type PreviewMode = 'classic' | 'system'
 
-/** Horizontal link bridge — symptoms tied by shared factors, not a vertical slider. */
-function ConnectionBridge({ labels, shared }: { labels: string[]; shared: string[] }) {
+const ICON = { size: 22, strokeWidth: 1.8, 'aria-hidden': true as const }
+const ICON_SM = { size: 15, strokeWidth: 1.9, 'aria-hidden': true as const }
+const ICON_XS = { size: 12, strokeWidth: 2, 'aria-hidden': true as const }
+
+function StageIcon({ id }: { id: SystemPillarId }) {
+  switch (id) {
+    case 'track':
+      return <ChartNoAxesCombined {...ICON} />
+    case 'understand':
+      return <Target {...ICON} />
+    case 'care':
+      return <Heart {...ICON} />
+    case 'navigate':
+      return <Compass {...ICON} />
+  }
+}
+
+/** Simplified digestive-organ outline for gastroenterology. */
+function StomachIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={22}
+      height={22}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M9.2 4.2c0-1.2.9-2 2.2-2h1.2c1.2 0 2.1.8 2.1 2v1.1c0 .9.4 1.6 1.1 2.1 1.6 1.2 2.9 2.9 2.9 5.3 0 3.4-2.6 5.8-6.1 5.8-2.9 0-4.9-1.5-5.7-3.6-.4-1.1-.6-2.3-.6-3.6V8.8c0-2 .7-3.3 1.6-4 .4-.3.8-.5 1.3-.6" />
+      <path d="M9.5 10.2c1.4.45 2.9.45 4.3 0" />
+    </svg>
+  )
+}
+
+function ExpertIcon({ id }: { id: ExpertPerspectiveId }) {
+  switch (id) {
+    case 'gi':
+      return <StomachIcon />
+    case 'nutrition':
+      return <Leaf {...ICON} />
+    case 'gut-brain':
+      return <Brain {...ICON} />
+    case 'whole-person':
+      return <UserRound {...ICON} />
+    case 'sleep':
+      return <Moon {...ICON} />
+    case 'movement':
+      return <Activity {...ICON} />
+    case 'pharmacy':
+      return <Pill {...ICON} />
+    case 'pelvic':
+      return <Waves {...ICON} />
+  }
+}
+
+/** Decorative four-point starburst beside the intro headline. */
+function SparkleMark() {
+  const uid = useId().replace(/:/g, '')
+  const glowId = `cp2-spark-glow-${uid}`
+  const fillId = `cp2-spark-fill-${uid}`
+
+  return (
+    <svg className="cp2-vr-spark" viewBox="0 0 56 56" fill="none" aria-hidden="true">
+      <defs>
+        <radialGradient id={glowId} cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#EF5350" stopOpacity="0.35" />
+          <stop offset="70%" stopColor="#EF5350" stopOpacity="0.08" />
+          <stop offset="100%" stopColor="#EF5350" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id={fillId} x1="14" y1="10" x2="42" y2="46" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#EF5350" />
+          <stop offset="1" stopColor="#F4A58A" />
+        </linearGradient>
+      </defs>
+      <circle cx="28" cy="28" r="18" fill={`url(#${glowId})`} />
+      <path
+        d="M28 10c.7 4.6 2.8 7.2 7.4 8.4-4.6 1.2-6.7 3.8-7.4 8.4-.7-4.6-2.8-7.2-7.4-8.4 4.6-1.2 6.7-3.8 7.4-8.4Z"
+        fill={`url(#${fillId})`}
+      />
+      <path
+        d="M28 6v4M28 46v4M6 28h4M46 28h4M13.2 13.2l2.6 2.6M40.2 40.2l2.6 2.6M40.2 13.2l-2.6 2.6M13.2 40.2l2.6-2.6"
+        stroke="#EF5350"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        opacity="0.55"
+      />
+      <path
+        d="M42 18c.35 2 1.2 3.1 3.2 3.6-2 .5-2.85 1.6-3.2 3.6-.35-2-1.2-3.1-3.2-3.6 2-.5 2.85-1.6 3.2-3.6Z"
+        fill="#F4A58A"
+        opacity="0.85"
+      />
+    </svg>
+  )
+}
+
+function LiveContextStrip({
+  labels,
+  bridge,
+}: {
+  labels: string[]
+  bridge: string
+}) {
   if (!labels.length) return null
 
-  if (labels.length === 1) {
-    return (
-      <div className="cp2-bridge" aria-label="How your copilot connects this">
-        <div className="cp2-bridge-row">
-          <span className="cp2-bridge-sym">{labels[0]}</span>
-          <span className="cp2-bridge-link" aria-hidden="true">
-            <svg viewBox="0 0 48 12" fill="none">
-              <path d="M0 6h16M32 6h16M16 6h16" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 2" />
-              <circle cx="24" cy="6" r="3" fill="currentColor" />
-            </svg>
-          </span>
-          <div className="cp2-bridge-factors">
-            {(shared.length ? shared : ['meals', 'sleep', 'stress']).slice(0, 2).map((f) => (
-              <span key={f} className="cp2-bridge-factor">
-                {f}
+  return (
+    <div className="cp2-vr-context" aria-label="Current selections">
+      <div className="cp2-vr-pills">
+        {labels.map((label, i) => (
+          <Fragment key={`${label}-${i}`}>
+            {i > 0 && (
+              <span className="cp2-vr-connector" aria-hidden="true">
+                <span className="cp2-vr-connector-dots" />
               </span>
-            ))}
+            )}
+            <span className="cp2-vr-pill">
+              <span className="cp2-vr-pill-check" aria-hidden="true">
+                <Check size={11} strokeWidth={2.6} />
+              </span>
+              {label}
+            </span>
+          </Fragment>
+        ))}
+      </div>
+      <p className="cp2-vr-bridge">
+        <Sparkles className="cp2-vr-bridge-icon" {...ICON_SM} />
+        <span>{bridge}</span>
+      </p>
+    </div>
+  )
+}
+
+function FlowRail({
+  pillars,
+  care,
+}: {
+  pillars: SystemPreview['pillars']
+  care: boolean
+}) {
+  return (
+    <ol className={`cp2-vr-rail${care ? ' is-care' : ''}`} aria-label="How your copilots respond">
+      {pillars.map((pillar, index) => (
+        <li
+          key={pillar.id}
+          className={`cp2-vr-step${pillar.primary ? ' is-primary' : ''}`}
+          data-pillar={pillar.id}
+          style={{ '--cp2-step-i': index } as CSSProperties}
+        >
+          <div className="cp2-vr-step-rail" aria-hidden="true">
+            <span className="cp2-vr-step-icon">
+              <StageIcon id={pillar.id} />
+            </span>
+            {index < pillars.length - 1 && <span className="cp2-vr-step-line" />}
           </div>
-        </div>
-        <p className="cp2-bridge-cap">Your copilot links this to what you eat, how you sleep, and your day</p>
+          <div className="cp2-vr-step-body">
+            <div className="cp2-vr-step-meta">
+              <span className="cp2-vr-stage">{pillar.stage}</span>
+              {pillar.primary && (
+                <span className="cp2-vr-badge">
+                  <Sparkle {...ICON_XS} />
+                  {care ? 'Priority right now' : 'Most relevant right now'}
+                </span>
+              )}
+            </div>
+            <p className="cp2-vr-action">{pillar.label}</p>
+            <p className="cp2-vr-copy">{pillar.body}{pillar.body.endsWith('?') || pillar.body.endsWith('.') ? '' : '.'}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  )
+}
+
+function LensBand({
+  note,
+  care,
+  relevantExperts,
+}: {
+  note: string
+  care: boolean
+  relevantExperts: ExpertPerspectiveId[]
+}) {
+  const [showMore, setShowMore] = useState(false)
+  const expertKey = relevantExperts.join(',')
+
+  useEffect(() => {
+    setShowMore(false)
+  }, [expertKey])
+
+  if (care) {
+    return (
+      <div className="cp2-vr-lenses is-care" aria-label="Care priority">
+        <p className="cp2-vr-lenses-kicker">Priority · clinical attention</p>
+        <p className="cp2-vr-lenses-note">{note}</p>
       </div>
     )
   }
 
+  const ordered = relevantExperts
+    .map((id) => EXPERT_PERSPECTIVES.find((e) => e.id === id))
+    .filter((e): e is (typeof EXPERT_PERSPECTIVES)[number] => Boolean(e))
+  const hiddenCount = Math.max(0, ordered.length - 3)
+  const visible = showMore ? ordered : ordered.slice(0, 3)
+
   return (
-    <div className="cp2-bridge cp2-bridge--multi" aria-label="How your symptoms connect">
-      <div className="cp2-bridge-row">
-        {labels.map((label, i) => (
-          <Fragment key={label + i}>
-            {i > 0 && (
-              <span className="cp2-bridge-join" aria-hidden="true">
-                <svg viewBox="0 0 28 12" fill="none">
-                  <path d="M0 6h10M18 6h10M10 6h8" stroke="currentColor" strokeWidth="1.5" strokeDasharray="2 2" />
-                  <circle cx="14" cy="6" r="2.5" fill="currentColor" />
-                </svg>
-              </span>
-            )}
-            <span className="cp2-bridge-sym">{label}</span>
-          </Fragment>
+    <div className="cp2-vr-lenses" aria-label="Multiple perspectives">
+      <p className="cp2-vr-lenses-kicker">One story · multiple perspectives</p>
+      <ul className="cp2-vr-lens-grid">
+        {visible.map((expert) => (
+          <li key={expert.id} className={`cp2-vr-lens tone-${expert.tone}`}>
+            <span className="cp2-vr-lens-icon" aria-hidden="true">
+              <ExpertIcon id={expert.id} />
+            </span>
+            <span className="cp2-vr-lens-title">{expert.label}</span>
+          </li>
         ))}
-      </div>
-      {shared.length > 0 && (
-        <p className="cp2-bridge-cap">
-          Shared thread: <strong>{shared.join(' · ')}</strong> — your copilot ties these into one pattern
+        {!showMore && hiddenCount > 0 && (
+          <li>
+            <button
+              type="button"
+              className="cp2-vr-lens cp2-vr-lens-more"
+              aria-expanded={false}
+              aria-label={`Show ${hiddenCount} more perspectives`}
+              onClick={() => setShowMore(true)}
+            >
+              <span className="cp2-vr-lens-more-mark" aria-hidden="true">
+                +{hiddenCount}
+              </span>
+            </button>
+          </li>
+        )}
+      </ul>
+      <p className="cp2-vr-lenses-note">{note}</p>
+    </div>
+  )
+}
+
+function SystemPreviewPanel({
+  preview,
+  labels,
+  relevantExperts,
+}: {
+  preview: SystemPreview
+  labels: string[]
+  relevantExperts: ExpertPerspectiveId[]
+}) {
+  const liveId = useId()
+
+  return (
+    <article
+      className={`cp2-vr${preview.care ? ' is-care' : ''}`}
+      aria-labelledby={liveId}
+      aria-live="polite"
+    >
+      <LiveContextStrip labels={labels} bridge={preview.bridge} />
+
+      <header className="cp2-vr-intro">
+        <p className="cp2-vr-eyebrow">
+          <span className="cp2-cp-dot" />
+          {preview.care ? 'Your copilots · let’s take this seriously' : 'Your copilots · already on it'}
         </p>
-      )}
-      {!shared.length && labels.length > 1 && (
-        <p className="cp2-bridge-cap">Your copilot ties these into one pattern — not separate problems</p>
-      )}
-    </div>
-  )
-}
-
-function ClassicPreview({ preview }: { preview: CopilotPreview }) {
-  return (
-    <div className={`cp2-copilot${preview.care ? ' care' : ''}`}>
-      <div className="cp2-cp-head">
-        <span className="cp2-cp-dot" />
-        {preview.care ? 'Your copilot · let’s take this seriously' : 'Your copilot · already on it'}
-      </div>
-      <p className="cp2-cp-intro">{preview.intro}</p>
-      {preview.care ? (
-        <>
-          <div className="cp2-cp-row">
-            <span className="cp2-cp-k">Right now</span>
-            <p>
-              Please reach out to a doctor or clinic about this. If it&apos;s severe, heavy, or came on
-              suddenly, use urgent or emergency care.
-            </p>
-          </div>
-          <div className="cp2-cp-row">
-            <span className="cp2-cp-k">How I help</span>
-            <p>
-              I&apos;ll keep a clear, dated record of what you&apos;re noticing, so you can hand it straight
-              to whoever you see.
-            </p>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="cp2-cp-row">
-            <span className="cp2-cp-k">I&apos;d track</span>
-            <p>{preview.track}.</p>
-          </div>
-          <div className="cp2-cp-row">
-            <span className="cp2-cp-k">I&apos;d connect it to</span>
-            <p>{preview.connect} — to find what&apos;s really driving it.</p>
-          </div>
-          <div className="cp2-cp-row">
-            <span className="cp2-cp-k">I&apos;d help you ask</span>
-            <p>&ldquo;{preview.ask}&rdquo;</p>
-          </div>
-        </>
-      )}
-      <p className="cp2-cp-foot">{preview.foot}</p>
-      <p className="cp2-cp-note">{preview.note}</p>
-      <div className="cp2-cp-cta">
-        <a href={SIGNUP_URL} className="cp2-btn" data-cta="primary">
-          {preview.ctaLabel}
-        </a>
-        <PlatformFineprint className="cp2-platform-link--compact" placement="hero-picker" />
-      </div>
-    </div>
-  )
-}
-
-function SystemPreviewPanel({ preview }: { preview: SystemPreview }) {
-  return (
-    <div className={`cp2-copilot cp2-copilot--full${preview.care ? ' care' : ''}`}>
-      <div className="cp2-cp-head">
-        <span className="cp2-cp-dot" />
-        {preview.care ? 'Your copilot · let’s take this seriously' : 'Your copilot · already on it'}
-      </div>
-      <p className="cp2-cp-intro">{preview.intro}</p>
-
-      {preview.pillars.map((pillar) => {
-        const isAsk = pillar.id === 'understand' && !preview.care
-        const body = isAsk
-          ? pillar.body.replace(/^["“]|["”]$/g, '')
-          : pillar.body
-        return (
-          <div
-            key={pillar.id}
-            className={`cp2-cp-row${pillar.primary ? ' is-primary' : ''}`}
-            data-pillar={pillar.id}
-          >
-            <span className="cp2-cp-k">{pillar.label}</span>
-            <p>{isAsk ? <>&ldquo;{body}&rdquo;</> : body.endsWith('.') ? body : `${body}.`}</p>
-          </div>
-        )
-      })}
-
-      {!preview.care && (
-        <div className="cp2-cp-row cp2-cp-row--team">
-          <span className="cp2-cp-k">I’d bring in</span>
-          <div className="cp2-cp-team">
-            <div className="cp2-sys-lenses-row">
-              {preview.lenses.map((lens) => (
-                <span key={lens} className="cp2-sys-lens">
-                  {lens}
-                </span>
-              ))}
-            </div>
-            <p>{preview.lensesNote}</p>
-          </div>
+        <div className="cp2-vr-headline">
+          <h3 id={liveId}>{preview.intro}</h3>
+          <SparkleMark />
         </div>
-      )}
+        <p className="cp2-vr-support">{preview.support}</p>
+      </header>
 
-      <p className="cp2-cp-foot">{preview.foot}</p>
-      <p className="cp2-cp-note">{preview.note}</p>
-      <div className="cp2-cp-cta">
-        <a href={SIGNUP_URL} className="cp2-btn" data-cta="primary">
-          {preview.ctaLabel}
-        </a>
-        <PlatformFineprint className="cp2-platform-link--compact" placement="hero-picker" />
+      <FlowRail pillars={preview.pillars} care={preview.care} />
+
+      <LensBand note={preview.lensesNote} care={preview.care} relevantExperts={relevantExperts} />
+
+      <footer className="cp2-vr-foot">
+        <div className="cp2-vr-outcome-row">
+          <span className="cp2-vr-outcome-icon" aria-hidden="true">
+            <Goal size={24} strokeWidth={1.85} />
+          </span>
+          <p className="cp2-vr-outcome">{preview.foot}</p>
+        </div>
+        <p className="cp2-vr-note">{preview.note}</p>
+        <div className="cp2-vr-cta">
+          <a href={SIGNUP_URL} className="cp2-btn" data-cta="primary">
+            {preview.ctaLabel}
+          </a>
+          <PlatformFineprint className="cp2-platform-link--compact" placement="hero-picker" />
+        </div>
+      </footer>
+    </article>
+  )
+}
+
+function SystemEmptyState() {
+  const stages: SystemPillarId[] = ['track', 'understand', 'care', 'navigate']
+
+  return (
+    <div className="cp2-vr cp2-vr--empty" aria-live="polite">
+      <div className="cp2-vr-empty-visual" aria-hidden="true">
+        <SparkleMark />
       </div>
+      <p className="cp2-vr-eyebrow">
+        <span className="cp2-cp-dot" />
+        Your copilots · standing by
+      </p>
+      <h3 className="cp2-vr-empty-title">Your copilots are standing by</h3>
+      <p className="cp2-vr-support">
+        Select a symptom, diagnosis, or where you are — and watch a connected response take shape.
+      </p>
+      <ol className="cp2-vr-rail cp2-vr-rail--ghost" aria-hidden="true">
+        {stages.map((id, index) => (
+          <li key={id} className="cp2-vr-step">
+            <div className="cp2-vr-step-rail">
+              <span className="cp2-vr-step-icon">
+                <StageIcon id={id} />
+              </span>
+              {index < stages.length - 1 && <span className="cp2-vr-step-line" />}
+            </div>
+            <div className="cp2-vr-step-body">
+              <span className="cp2-vr-stage">
+                {id === 'track' && 'Track'}
+                {id === 'understand' && 'Understand'}
+                {id === 'care' && 'Care'}
+                {id === 'navigate' && 'Navigate'}
+              </span>
+              <p className="cp2-vr-action">
+                {id === 'track' && "I'd track"}
+                {id === 'understand' && "I'd connect it to"}
+                {id === 'care' && "I'd support your daily care"}
+                {id === 'navigate' && "I'd help you prepare and ask"}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
     </div>
   )
 }
 
 export function CopilotHero({ picker }: { picker: Picker }) {
-  const { toggleChip, isSelected, threadLabels, sharedLinks, preview, systemPreview } = picker
-  const [mode, setMode] = useState<PreviewMode>('system')
-
-  const activePreview = mode === 'system' ? systemPreview : preview
-  const showBridge = threadLabels.length > 0 && !activePreview?.care
+  const { toggleChip, isSelected, threadLabels, systemPreview, relevantExperts } = picker
 
   return (
     <section className="cp2-hero">
@@ -246,33 +434,8 @@ export function CopilotHero({ picker }: { picker: Picker }) {
           </div>
         </div>
 
-        <div className={`cp2-picker${activePreview ? ' cp2-picker--live' : ''}`} id="start">
-          <div className="cp2-picker-head">
-            <p className="cp2-q">Where are you right now?</p>
-            <div className="cp2-preview-toggle" role="group" aria-label="Compare preview versions">
-              <button
-                type="button"
-                className={mode === 'classic' ? 'is-active' : ''}
-                aria-pressed={mode === 'classic'}
-                onClick={() => setMode('classic')}
-              >
-                Classic
-              </button>
-              <button
-                type="button"
-                className={mode === 'system' ? 'is-active' : ''}
-                aria-pressed={mode === 'system'}
-                onClick={() => setMode('system')}
-              >
-                Full
-              </button>
-            </div>
-          </div>
-          <p className="cp2-preview-toggle-hint">
-            {mode === 'system'
-              ? 'Full: same “I’d …” voice — now covering track, care, navigate, ask, plus your care team views.'
-              : 'Classic: I’d track / connect / ask — the original three-line reply.'}
-          </p>
+        <div className={`cp2-picker${systemPreview ? ' cp2-picker--live' : ''}`} id="start">
+          <p className="cp2-q">Where are you right now?</p>
 
           <div className="cp2-picker-grid">
             <div className="cp2-picker-chips">
@@ -299,8 +462,13 @@ export function CopilotHero({ picker }: { picker: Picker }) {
                 aria-pressed={isSelected({ kind: 'figuring', label: "I'm still figuring it out" })}
                 onClick={() => toggleChip({ kind: 'figuring', label: "I'm still figuring it out" })}
               >
-                I&apos;m still figuring it out
-                <small>No diagnosis needed — most people start here</small>
+                <span className="cp2-chip-lead-icon" aria-hidden="true">
+                  <Brain size={22} strokeWidth={1.8} />
+                </span>
+                <span className="cp2-chip-lead-copy">
+                  I&apos;m still figuring it out
+                  <small>No diagnosis needed — most people start here</small>
+                </span>
               </button>
 
               <details className="cp2-chip-fold">
@@ -325,7 +493,15 @@ export function CopilotHero({ picker }: { picker: Picker }) {
               </details>
 
               <details className="cp2-chip-fold cp2-chip-fold--care">
-                <summary>Something that worries you?</summary>
+                <summary>
+                  <span className="cp2-chip-fold-icon cp2-chip-fold-icon--closed" aria-hidden="true">
+                    <Heart size={18} strokeWidth={1.8} />
+                  </span>
+                  <span className="cp2-chip-fold-icon cp2-chip-fold-icon--open" aria-hidden="true">
+                    <AlertTriangle size={18} strokeWidth={1.8} />
+                  </span>
+                  Something that worries you?
+                </summary>
                 <div className="cp2-chips">
                   {FLAG_CHIPS.map((label) => (
                     <button
@@ -343,29 +519,14 @@ export function CopilotHero({ picker }: { picker: Picker }) {
             </div>
 
             <div className="cp2-picker-panel">
-              {showBridge && <ConnectionBridge labels={threadLabels} shared={sharedLinks} />}
-
-              {mode === 'system' && systemPreview ? (
-                <SystemPreviewPanel preview={systemPreview} />
-              ) : mode === 'classic' && preview ? (
-                <ClassicPreview preview={preview} />
+              {systemPreview ? (
+                <SystemPreviewPanel
+                  preview={systemPreview}
+                  labels={threadLabels}
+                  relevantExperts={relevantExperts}
+                />
               ) : (
-                <div className="cp2-cp-empty">
-                  <span className="cp2-cp-dot" />
-                  <p className="cp2-cp-empty-title">Your copilot is standing by</p>
-                  <p>
-                    {mode === 'system' ? (
-                      <>
-                        Tap a symptom above — I&apos;ll show how I&apos;d track, care, navigate, and help you
-                        ask, with the care views that matter.
-                      </>
-                    ) : (
-                      <>
-                        Tap a symptom above and watch how your copilot responds to <em>you</em>.
-                      </>
-                    )}
-                  </p>
-                </div>
+                <SystemEmptyState />
               )}
             </div>
           </div>

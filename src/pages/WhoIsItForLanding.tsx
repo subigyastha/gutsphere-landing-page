@@ -86,7 +86,7 @@ export function WhoIsItForLanding() {
 
             <div className="wf-grid cp2-reveal">
               {WHO_FOR_AUDIENCES.map((audience) => (
-                <article key={audience.id} className="wf-card">
+                <article key={audience.id} id={audience.id} className="wf-card">
                   <div className="wf-card-top">
                     <span className="wf-card-ic">
                       <StageIcon id={audience.id} />

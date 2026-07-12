@@ -1,42 +1,43 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ProductSolutionGroupId } from '../../constants'
 import type { ReactNode } from 'react'
+import { useLocation } from 'react-router-dom'
 import { GutsphereLogoLink } from '../GutsphereLogo'
 import {
   CONTACT_URL,
   INSTAGRAM_URL,
   NEWSLETTER_URL,
   PRIVACY_URL,
+  TERMS_URL,
   SIGNUP_URL,
   YOUTUBE_CHANNEL_URL,
-  conditionHub,
   conditionHubConditions,
   conditionHubSymptoms,
   footerIntegrations,
-  footerVisitPrepExtras,
+  procedurePrepItems,
   productSolutionGroups,
   productSolutionItems,
+  PROCEDURE_PREP_NAV_LABEL,
   SOLUTIONS_NAV_LABEL,
 } from '../../constants'
 
 const EXPLORE_LINKS = [
-  { href: '/#system', label: 'How it works' },
-  { href: '/#walkthrough', label: 'One flare, start to finish' },
-  { href: '/#honest', label: 'Our promise' },
-  { href: '/for', label: 'Who it\u2019s for', blurb: 'Four stages, one copilot' },
+  { href: '/journey', label: 'Your journey', blurb: 'Four stages, one copilot' },
+  { href: '/for', label: 'Who it\u2019s for', blurb: 'Find your stage and outcomes' },
+  { href: '/compare', label: 'Compare', blurb: 'How Gutsphere fits your stack' },
+  { href: '/about', label: 'About', blurb: 'Our story and why we built this' },
+  { href: '/faq', label: 'FAQ', blurb: 'Plain answers before you start' },
 ] as const
 
 const COMPARE_LINKS = [
-  { href: '/#compare', label: 'Why one system', blurb: 'Trackers, telehealth, AI & test kits — compared' },
-  { href: '/#difference', label: 'The difference', blurb: 'Four claims only Gutsphere can make' },
-  { href: '/compare/symptom-trackers', label: 'vs Symptom trackers', blurb: 'Logs vs a connected system' },
-  { href: '/compare/ai-chat', label: 'vs ChatGPT & AI chat', blurb: 'General answers vs your history' },
-  { href: '/compare/telehealth', label: 'vs Telehealth', blurb: 'Visits vs the daily layer between them' },
-  { href: '/compare/test-kits', label: 'vs Test kits', blurb: 'A snapshot vs a living system' },
+  { href: '/compare/symptom-trackers', label: 'vs Symptom trackers' },
+  { href: '/compare/ai-chat', label: 'vs ChatGPT & AI chat' },
+  { href: '/compare/telehealth', label: 'vs Telehealth' },
+  { href: '/compare/test-kits', label: 'vs Test kits' },
 ] as const
 
-const EXPLORE_SECTION_IDS = ['system', 'walkthrough', 'compare', 'difference', 'honest']
-const SECTION_IDS = [...EXPLORE_SECTION_IDS, 'journey', 'pricing', 'faq']
+const CONDITION_SLUGS = new Set<string>(conditionHubConditions.map((c) => c.slug))
+const SYMPTOM_SLUGS = new Set<string>(conditionHubSymptoms.map((c) => c.slug))
 
 function useActiveSection(ids: string[]): string | null {
   const [active, setActive] = useState<string | null>(null)
@@ -103,7 +104,7 @@ function NavDropdown({
   )
 }
 
-function SolutionsNavDropdown() {
+function SolutionsNavDropdown({ active }: { active: boolean }) {
   const ref = useRef<HTMLDetailsElement>(null)
   const [activeGroup, setActiveGroup] = useState<ProductSolutionGroupId>('trackers')
 
@@ -122,7 +123,7 @@ function SolutionsNavDropdown() {
 
   return (
     <details ref={ref} className="cp2-nav-dd cp2-nav-dd--solutions">
-      <summary>
+      <summary className={active ? 'is-active' : ''}>
         {SOLUTIONS_NAV_LABEL}
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
           <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
@@ -179,57 +180,69 @@ function SolutionsNavDropdown() {
   )
 }
 
+function ExploreMenuContent() {
+  return (
+    <>
+      {EXPLORE_LINKS.map((link) => (
+        <a key={link.href} href={link.href}>
+          {link.label}
+          <small>{link.blurb}</small>
+        </a>
+      ))}
+    </>
+  )
+}
+
 export function CopilotNav() {
-  const active = useActiveSection(SECTION_IDS)
+  const { pathname } = useLocation()
+  const pricingActive = useActiveSection(['pricing'])
+
+  const conditionSlug = pathname.startsWith('/conditions/') ? pathname.split('/')[2] : null
+  const exploreActive =
+    pathname === '/journey' ||
+    pathname === '/for' ||
+    pathname === '/compare' ||
+    pathname === '/about' ||
+    pathname === '/faq' ||
+    pathname.startsWith('/compare/')
+  const solutionsActive = pathname.startsWith('/features')
+  const conditionsActive = Boolean(conditionSlug && CONDITION_SLUGS.has(conditionSlug))
+  const symptomsActive = Boolean(conditionSlug && SYMPTOM_SLUGS.has(conditionSlug))
 
   return (
     <header className="cp2-nav">
       <div className="cp2-nav-in">
         <div className="cp2-nav-pill">
-          <GutsphereLogoLink href="#top" className="cp2-brand" height={28} />
+          <GutsphereLogoLink href="/" className="cp2-brand" height={28} />
 
           <nav className="cp2-nav-links" aria-label="Primary">
-            <NavDropdown label="Explore" active={EXPLORE_SECTION_IDS.includes(active ?? '')}>
-              {EXPLORE_LINKS.map((link) => (
-                <a key={link.href} href={link.href}>
-                  {link.label}
-                </a>
-              ))}
-              <span className="cp2-nav-dd-group">Compare</span>
-              {COMPARE_LINKS.map((link) => (
-                <a key={link.href} href={link.href}>
-                  {link.label}
-                  <small>{link.blurb}</small>
-                </a>
-              ))}
+            <NavDropdown label="Explore" active={exploreActive}>
+              <ExploreMenuContent />
             </NavDropdown>
-            <NavDropdown label="Conditions" active={false}>
+            <NavDropdown label="Conditions" active={conditionsActive}>
               {conditionHubConditions.map((c) => (
                 <a key={c.slug} href={`/conditions/${c.slug}`}>
                   {c.label}
                   <small>{c.blurb}</small>
                 </a>
               ))}
-              <a href="#start" className="cp2-nav-dd-cta">
+              <a href="/#start" className="cp2-nav-dd-cta">
                 Not sure? Start here
               </a>
             </NavDropdown>
-            <NavDropdown label="Symptoms" active={false}>
+            <NavDropdown label="Symptoms" active={symptomsActive}>
               {conditionHubSymptoms.map((c) => (
                 <a key={c.slug} href={`/conditions/${c.slug}`}>
                   {c.label}
                   <small>{c.blurb}</small>
                 </a>
               ))}
-              <a href="#start" className="cp2-nav-dd-cta">
+              <a href="/#start" className="cp2-nav-dd-cta">
                 Not sure? Start here
               </a>
             </NavDropdown>
-            <SolutionsNavDropdown />
-            <a href="#journey" className={active === 'journey' ? 'is-active' : ''}>
-              Your journey
-            </a>
-            <a href="#pricing" className={active === 'pricing' ? 'is-active' : ''}>
+            <SolutionsNavDropdown active={solutionsActive} />
+            <a href="/#pricing" className={pricingActive === 'pricing' ? 'is-active' : ''}>
               Pricing
             </a>
           </nav>
@@ -241,24 +254,12 @@ export function CopilotNav() {
               </svg>
             </summary>
             <nav className="cp2-nav-menu-panel" aria-label="Menu">
-              <span className="cp2-nav-menu-group">How it works</span>
+              <span className="cp2-nav-menu-group">Explore</span>
               {EXPLORE_LINKS.map((link) => (
                 <a key={link.href} href={link.href}>
                   {link.label}
                 </a>
               ))}
-              <span className="cp2-nav-menu-group">Compare</span>
-              {COMPARE_LINKS.map((link) => (
-                <a key={link.href} href={link.href}>
-                  {link.label}
-                </a>
-              ))}
-              <span className="cp2-nav-menu-group">More</span>
-              <a href="#journey">Your journey</a>
-              <a href="#pricing">Pricing</a>
-              <a href="/faq">FAQ</a>
-              <a href="/about">About</a>
-              <a href="/for">Who it&apos;s for</a>
               <span className="cp2-nav-menu-group">Conditions</span>
               <div className="cp2-nav-menu-conditions">
                 {conditionHubConditions.map((c) => (
@@ -281,13 +282,15 @@ export function CopilotNav() {
                   {group.label}
                 </a>
               ))}
-              <span className="cp2-nav-menu-subgroup">Visit prep</span>
-              {footerVisitPrepExtras.map((item) => (
+              <span className="cp2-nav-menu-subgroup">{PROCEDURE_PREP_NAV_LABEL}</span>
+              {procedurePrepItems.map((item) => (
                 <a key={item.label} href={item.href}>
                   {item.label}
                 </a>
               ))}
-              <a href="#start" className="cp2-btn cp2-nav-cta-mobile">
+              <span className="cp2-nav-menu-group">More</span>
+              <a href="/#pricing">Pricing</a>
+              <a href="/#start" className="cp2-btn cp2-nav-cta-mobile">
                 Start free
               </a>
             </nav>
@@ -298,7 +301,7 @@ export function CopilotNav() {
           <a href={SIGNUP_URL} className="cp2-nav-login">
             Log in
           </a>
-          <a href="#start" className="cp2-btn cp2-nav-cta">
+          <a href="/#start" className="cp2-btn cp2-nav-cta">
             Start free
           </a>
         </div>
@@ -311,9 +314,10 @@ export function CopilotFooter() {
   return (
     <footer className="cp2-footer">
       <div className="cp2-footer-shell">
+        <div className="cp2-wrap">
         <div className="cp2-foot-top">
           <div className="cp2-foot-brand">
-            <GutsphereLogoLink href="#top" className="cp2-brand cp2-brand--footer" height={32} />
+            <GutsphereLogoLink href="/" className="cp2-brand cp2-brand--footer" height={32} />
             <p className="cp2-foot-tagline">
               Your copilot from the first confusing symptom to long-term confidence.
             </p>
@@ -371,8 +375,8 @@ export function CopilotFooter() {
               </a>
             ))}
             <a href="/features">All features</a>
-            <p className="cp2-foot-col-group">Visit prep</p>
-            {footerVisitPrepExtras.map((item) => (
+            <p className="cp2-foot-col-group">{PROCEDURE_PREP_NAV_LABEL}</p>
+            {procedurePrepItems.map((item) => (
               <a key={item.label} href={item.href}>
                 {item.label}
               </a>
@@ -380,26 +384,19 @@ export function CopilotFooter() {
           </div>
           <div>
             <h4>Compare</h4>
-            <a href="/#compare">Why one system</a>
-            <a href="/compare/symptom-trackers">vs Symptom trackers</a>
-            <a href="/compare/ai-chat">vs ChatGPT &amp; AI chat</a>
-            <a href="/compare/telehealth">vs Telehealth</a>
-            <a href="/compare/test-kits">vs Test kits</a>
-            <a href="/#difference">The difference</a>
-          </div>
-          <div>
-            <h4>Your journey</h4>
-            <a href="#journey">Finding answers</a>
-            <a href="#journey">In treatment</a>
-            <a href="#journey">Living with it</a>
-            <a href="#journey">Getting ahead of it</a>
+            <a href="/compare">All comparisons</a>
+            {COMPARE_LINKS.map((link) => (
+              <a key={link.href} href={link.href}>
+                {link.label}
+              </a>
+            ))}
           </div>
           <div>
             <h4>Company</h4>
+            <a href="/journey">Your journey</a>
             <a href="/for">Who it&apos;s for</a>
             <a href="/#pricing">Pricing</a>
             <a href="/faq">FAQ</a>
-            <a href="/#honest">Our promise</a>
             <a href="/about">About</a>
             <a href={CONTACT_URL}>Contact</a>
             <a href={NEWSLETTER_URL}>Newsletter</a>
@@ -408,43 +405,34 @@ export function CopilotFooter() {
           </div>
         </div>
 
-        <nav className="cp2-foot-conditions" aria-label="Works alongside">
+        <div className="cp2-foot-conditions">
           <h4>Works alongside</h4>
           <p>
-            {conditionHub.map((c, i) => (
-              <span key={c.slug}>
-                <a href={`/conditions/${c.slug}`}>{c.label}</a>
-                {i < conditionHub.length - 1 && (
-                  <span className="cp2-foot-sep" aria-hidden="true">
-                    {' '}
-                    ·{' '}
-                  </span>
-                )}
+            {[...conditionHubConditions, ...conditionHubSymptoms].map((item, index, arr) => (
+              <span key={item.slug}>
+                <a href={`/conditions/${item.slug}`}>{item.label}</a>
+                {index < arr.length - 1 ? <span className="cp2-foot-sep"> · </span> : null}
               </span>
             ))}
-            <span className="cp2-foot-sep" aria-hidden="true"> · </span>
+            <span className="cp2-foot-sep"> · </span>
             <span className="cp2-foot-more">celiac, SIBO, gastroparesis &amp; more</span>
           </p>
-        </nav>
+        </div>
 
-        <nav className="cp2-foot-integrations" aria-label="Integrations">
+        <div className="cp2-foot-integrations">
           <h4>
-            Integrations <span className="cp2-soon-chip">Soon</span>
+            Integrations
+            <span className="cp2-soon-chip">Soon</span>
           </h4>
           <p>
-            {footerIntegrations.map((item, i) => (
-              <span key={item}>
-                <span className="cp2-foot-soon-inline">{item}</span>
-                {i < footerIntegrations.length - 1 && (
-                  <span className="cp2-foot-sep" aria-hidden="true">
-                    {' '}
-                    ·{' '}
-                  </span>
-                )}
+            {footerIntegrations.map((name, index) => (
+              <span key={name}>
+                <span className="cp2-foot-soon-inline">{name}</span>
+                {index < footerIntegrations.length - 1 ? <span className="cp2-foot-sep"> · </span> : null}
               </span>
             ))}
           </p>
-        </nav>
+        </div>
 
         <p className="cp2-disc">
           Gutsphere helps you understand and organize your own digestive health. It is not a medical device
@@ -456,7 +444,7 @@ export function CopilotFooter() {
           <span>© 2026 Gutsphere</span>
           <div className="cp2-foot-legal">
             <a href={PRIVACY_URL}>Privacy</a>
-            <a href={CONTACT_URL}>Terms</a>
+            <a href={TERMS_URL}>Terms</a>
           </div>
           <div className="cp2-foot-social">
             <a href={YOUTUBE_CHANNEL_URL} aria-label="Gutsphere on YouTube">
@@ -478,6 +466,7 @@ export function CopilotFooter() {
               </svg>
             </a>
           </div>
+        </div>
         </div>
       </div>
     </footer>

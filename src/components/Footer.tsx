@@ -1,5 +1,5 @@
 import { GutsphereLogo } from './GutsphereLogo'
-import { PRIVACY_URL } from '../constants'
+import { PRIVACY_URL, SIGNUP_URL, TERMS_URL } from '../constants'
 
 export function Footer() {
   return (
@@ -9,30 +9,30 @@ export function Footer() {
           <div>
             <GutsphereLogo height={32} />
             <p className="mt-3 max-w-xs text-sm text-gs-text-secondary">
-              The missing record between symptoms and answers.
+              Your copilot from the first confusing symptom to long-term confidence.
             </p>
             <p className="mt-2 text-xs text-gs-text-muted">
               Patient-built &middot; Research-informed &middot; Doctor-supportive
             </p>
           </div>
 
-          <div className="flex gap-12 text-sm">
+          <div className="flex flex-wrap gap-12 text-sm">
             <div>
               <p className="mb-3 font-semibold text-gs-text-primary">Product</p>
               <ul className="space-y-2 text-gs-text-secondary">
                 <li>
-                  <a href="#how-it-works" className="hover:text-gs-coral">
+                  <a href="/#system" className="hover:text-gs-coral">
                     How it works
                   </a>
                 </li>
                 <li>
-                  <a href="#faq" className="hover:text-gs-coral">
-                    FAQ
+                  <a href="/#pricing" className="hover:text-gs-coral">
+                    Pricing
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.gutsphere.com/pricing" className="hover:text-gs-coral">
-                    Pricing
+                  <a href="/faq" className="hover:text-gs-coral">
+                    FAQ
                   </a>
                 </li>
               </ul>
@@ -42,7 +42,7 @@ export function Footer() {
               <ul className="space-y-2 text-gs-text-secondary">
                 <li>
                   <a href="/about" className="hover:text-gs-coral">
-                    Our story
+                    About
                   </a>
                 </li>
                 <li>
@@ -51,13 +51,8 @@ export function Footer() {
                   </a>
                 </li>
                 <li>
-                  <a href="/faq" className="hover:text-gs-coral">
-                    FAQ
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.gutsphere.com/" className="hover:text-gs-coral">
-                    gutsphere.com
+                  <a href={SIGNUP_URL} className="hover:text-gs-coral">
+                    Open app
                   </a>
                 </li>
               </ul>
@@ -71,7 +66,7 @@ export function Footer() {
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.gutsphere.com/terms" className="hover:text-gs-coral">
+                  <a href={TERMS_URL} className="hover:text-gs-coral">
                     Terms
                   </a>
                 </li>

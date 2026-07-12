@@ -1,4 +1,4 @@
-export const SIGNUP_URL = 'https://www.gutsphere.com/'
+export const SIGNUP_URL = 'https://app.gutsphere.com/'
 export const IOS_APP_URL =
   'https://apps.apple.com/us/app/gutsphere-your-gut-companion/id6560105851'
 export const ANDROID_APP_URL =
@@ -28,6 +28,7 @@ export const SECONDARY_CTA_LABEL = 'See how Gutsphere works'
 export const NAVIGATOR_COUNT = '2,341+'
 export const ABOUT_URL = '/about'
 export const PRIVACY_URL = 'https://www.gutsphere.com/privacy'
+export const TERMS_URL = 'https://www.gutsphere.com/terms'
 export const CONTACT_URL = 'https://www.gutsphere.com/contact-us'
 
 export type LandingVariant = 'style-1' | 'style-2' | 'style-3' | 'style-4' | 'style-5' | 'style-6' | 'style-7' | 'style-8' | 'style-9' | 'style-10' | 'style-11' | 'style-12' | 'style-13'
@@ -179,16 +180,32 @@ export const footerIntegrations = [
   'Clinician export (EHR)',
 ] as const
 
-export type ProductSolutionGroupId = 'trackers' | 'insights' | 'guidance' | 'care'
+export type ProductSolutionGroupId =
+  | 'trackers'
+  | 'insights'
+  | 'guidance'
+  | 'care'
+  | 'procedurePrep'
 
 export const SOLUTIONS_NAV_LABEL = 'Solutions'
+
+/** Navbar + footer column for colonoscopy / endoscopy prep */
+export const PROCEDURE_PREP_NAV_LABEL = 'Procedure prep'
 
 const FEATURE_PATH = {
   trackers: '/features/trackers',
   insights: '/features/insights',
   guidance: '/features/guidance',
   care: '/features/care',
+  colonoscopyPrep: '/features/colonoscopy-prep',
+  endoscopyPrep: '/features/endoscopy-prep',
 } as const
+
+export interface ProcedurePrepItem {
+  label: string
+  href: string
+  blurb: string
+}
 
 export interface ProductSolutionGroup {
   id: ProductSolutionGroupId
@@ -229,7 +246,18 @@ export const productSolutionGroups: readonly ProductSolutionGroup[] = [
     summary: 'Visit prep, summaries & sharing',
     href: FEATURE_PATH.care,
   },
+  {
+    id: 'procedurePrep',
+    label: PROCEDURE_PREP_NAV_LABEL,
+    summary: 'Colonoscopy & endoscopy guides',
+    href: FEATURE_PATH.colonoscopyPrep,
+  },
 ]
+
+const PROCEDURE_PREP_HREFS: Record<string, string> = {
+  'Colonoscopy prep': FEATURE_PATH.colonoscopyPrep,
+  'Endoscopy prep': FEATURE_PATH.endoscopyPrep,
+}
 
 const SOLUTION_CATALOG: Record<ProductSolutionGroupId, [string, string][]> = {
   trackers: [
@@ -261,13 +289,15 @@ const SOLUTION_CATALOG: Record<ProductSolutionGroupId, [string, string][]> = {
   ],
   care: [
     ['Visit prep plans', 'Appointments, specialists, follow-ups'],
-    ['Colonoscopy prep', 'Diet, timing & day-before checklist'],
-    ['Endoscopy prep', 'EGD prep steps & what to expect'],
     ['Doctor-ready summary', 'Timeline instead of memory'],
     ['Questions for your doctor', 'Generated from your history'],
     ['Test results & labs', 'Labs and imaging in one place'],
     ['Red-flag guidance', 'When to seek urgent care'],
     ['Share with your clinician', 'Export-ready summaries'],
+  ],
+  procedurePrep: [
+    ['Colonoscopy prep', 'Diet, timing & day-before checklist'],
+    ['Endoscopy prep', 'EGD prep steps & what to expect'],
   ],
 }
 
@@ -275,16 +305,17 @@ export const productSolutionItems: ProductSolutionItem[] = productSolutionGroups
   SOLUTION_CATALOG[group.id].map(([label, blurb]) => ({
     group: group.id,
     label,
-    href: FEATURE_PATH[group.id],
+    href:
+      group.id === 'procedurePrep'
+        ? (PROCEDURE_PREP_HREFS[label] ?? FEATURE_PATH.colonoscopyPrep)
+        : FEATURE_PATH[group.id],
     blurb,
   })),
 )
 
-/** Footer: category links plus visit-prep extras */
-export const footerVisitPrepExtras = [
-  { label: 'Colonoscopy prep', href: FEATURE_PATH.care },
-  { label: 'Endoscopy prep', href: FEATURE_PATH.care },
-] as const
+export const procedurePrepItems: readonly ProcedurePrepItem[] = productSolutionItems
+  .filter((item) => item.group === 'procedurePrep')
+  .map(({ label, href, blurb }) => ({ label, href, blurb }))
 
 export const conditionStubs: Record<
   string,

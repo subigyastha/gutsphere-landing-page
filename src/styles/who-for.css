@@ -46,6 +46,7 @@
 }
 
 .copilot-v2.who-for .wf-card {
+  scroll-margin-top: 5.5rem;
   display: flex;
   flex-direction: column;
   min-height: 100%;

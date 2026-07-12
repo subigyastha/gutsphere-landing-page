@@ -11,7 +11,7 @@ function variantFromPath(pathname: string): LandingVariant {
   if (pathname.startsWith('/copilot')) return 'style-8'
   if (pathname.startsWith('/guided')) return 'style-7'
   if (pathname.startsWith('/flight')) return 'style-6'
-  if (pathname.startsWith('/journey')) return 'style-5'
+  if (pathname.startsWith('/journey-lab')) return 'style-5'
   if (pathname.startsWith('/clarity-v4')) return 'style-4'
   if (pathname.startsWith('/navigators')) return 'style-2'
   if (pathname.startsWith('/clarity-v2')) return 'style-3'

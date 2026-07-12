@@ -1,4 +1,3 @@
-export type ProblemArtVariant = 'illustration' | 'abstract'
 export type ProblemIcon = 'scatter' | 'battery' | 'clock'
 
 export type ProblemImage = {
@@ -6,33 +5,17 @@ export type ProblemImage = {
   alt: string
 }
 
-export const PROBLEM_ART_VARIANTS: Record<ProblemArtVariant, Record<ProblemIcon, ProblemImage>> = {
-  illustration: {
-    scatter: {
-      src: '/images/problem/scattered.gif',
-      alt: 'A person overwhelmed by scattered health trackers, notes, lab results, and symptoms',
-    },
-    battery: {
-      src: '/images/problem/bad-days.gif',
-      alt: 'A person exhausted on a flare day, struggling to log symptoms on their phone',
-    },
-    clock: {
-      src: '/images/problem/appointments.gif',
-      alt: 'A patient feeling rushed and unheard during a short doctor appointment',
-    },
+export const PROBLEM_IMAGES: Record<ProblemIcon, ProblemImage> = {
+  scatter: {
+    src: '/images/problem/scattered.gif',
+    alt: 'A person overwhelmed by scattered health trackers, notes, lab results, and symptoms',
   },
-  abstract: {
-    scatter: {
-      src: '/images/problem/abstract/scattered.png',
-      alt: 'Abstract illustration of scattered health cards, notes, and alerts',
-    },
-    battery: {
-      src: '/images/problem/abstract/bad-days.gif',
-      alt: 'Abstract animation of low energy, mood tracking, and symptom logging',
-    },
-    clock: {
-      src: '/images/problem/abstract/appointments.png',
-      alt: 'Abstract illustration of a rushed appointment and starting over each visit',
-    },
+  battery: {
+    src: '/images/problem/bad-days.gif',
+    alt: 'A person exhausted on a flare day, struggling to log symptoms on their phone',
+  },
+  clock: {
+    src: '/images/problem/appointments.gif',
+    alt: 'A patient feeling rushed and unheard during a short doctor appointment',
   },
 }

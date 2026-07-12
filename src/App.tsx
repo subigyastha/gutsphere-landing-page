@@ -17,6 +17,8 @@ import { ConditionPage } from './pages/ConditionPage'
 import { WhoIsItForLanding } from './pages/WhoIsItForLanding'
 import { FaqHubPage } from './pages/FaqHubPage'
 import { ComparePage } from './pages/ComparePage'
+import { CompareHubPage } from './pages/CompareHubPage'
+import { JourneyHubPage } from './pages/JourneyHubPage'
 import { FeaturePage } from './pages/FeaturePage'
 import { AboutPage } from './pages/AboutPage'
 import { SystemSectionLanding } from './pages/SystemSectionLanding'
@@ -68,14 +70,13 @@ function App() {
             </LandingLayout>
           }
         />
-        <Route
-          path="/journey"
-          element={
+        <Route path="/journey-lab" element={
             <LandingLayout>
               <GutSphereJourneyLanding />
             </LandingLayout>
           }
         />
+        <Route path="/journey" element={<JourneyHubPage />} />
         <Route
           path="/flight"
           element={
@@ -140,7 +141,7 @@ function App() {
         <Route path="/faq/:slug" element={<FaqTopicRedirect />} />
         <Route path="/conditions/:slug" element={<ConditionPage />} />
         <Route path="/compare/:slug" element={<ComparePage />} />
-        <Route path="/compare" element={<Navigate to="/compare/symptom-trackers" replace />} />
+        <Route path="/compare" element={<CompareHubPage />} />
         <Route path="/features/:slug" element={<FeaturePage />} />
         <Route path="/features" element={<Navigate to="/features/trackers" replace />} />
       </Routes>

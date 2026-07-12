@@ -276,6 +276,126 @@ export const FEATURE_PAGES: Record<string, FeaturePageData> = {
     relatedSlugs: ['trackers', 'insights', 'guidance'],
     ctaTitle: 'Bring a clearer story to your next visit.',
   },
+  'colonoscopy-prep': {
+    slug: 'colonoscopy-prep',
+    label: 'Colonoscopy prep',
+    eyebrow: 'Procedure prep · Colonoscopy',
+    title: 'Colonoscopy prep — diet, timing, and the day before.',
+    lead: 'A calm, step-by-step guide for bowel prep, what to eat, when to stop, and what to expect — so the day before feels less overwhelming.',
+    outcomes: [
+      {
+        title: 'Know what to do and when',
+        body: 'Clear timing for diet changes, prep solution, and arrival — without digging through a PDF at midnight.',
+      },
+      {
+        title: 'Fewer surprises on prep day',
+        body: 'What normal discomfort looks like, what to watch for, and when to call your clinic.',
+      },
+      {
+        title: 'Walk in with your questions ready',
+        body: 'Common questions for your GI team, pulled from what patients actually worry about before a scope.',
+      },
+    ],
+    capabilities: [
+      {
+        title: 'Diet & clear-liquid guidance',
+        body: 'What to avoid, what is usually fine, and how to plan meals in the days before.',
+      },
+      {
+        title: 'Prep solution timeline',
+        body: 'When to start, how to split doses, and reminders that match your clinic’s instructions.',
+      },
+      {
+        title: 'Day-before checklist',
+        body: 'Transport, hydration, medications, and what to bring — in one place.',
+      },
+      {
+        title: 'Aftercare orientation',
+        body: 'What recovery often looks like and when follow-up is worth scheduling.',
+      },
+    ],
+    systemFit: [
+      'Pairs with Visit prep plans in Care for the full appointment arc',
+      'Your symptom timeline stays in Gutsphere if symptoms shift before the procedure',
+      'Copilot can help between clinic instructions and what you are actually experiencing',
+    ],
+    faqs: [
+      {
+        q: 'Is this medical advice?',
+        a: 'No. Always follow your clinician’s prep instructions. This guide orients you — it does not replace orders from your care team.',
+      },
+      {
+        q: 'What if my clinic gave different instructions?',
+        a: 'Your doctor’s protocol wins. Use Gutsphere to track what you did and how you felt, alongside their plan.',
+      },
+      {
+        q: 'Can I use this without tracking daily?',
+        a: 'Yes. Procedure prep stands on its own. Tracking before and after can still help your follow-up visit.',
+      },
+    ],
+    relatedSlugs: ['endoscopy-prep', 'care'],
+    ctaTitle: 'Feel more ready for colonoscopy day.',
+  },
+  'endoscopy-prep': {
+    slug: 'endoscopy-prep',
+    label: 'Endoscopy prep',
+    eyebrow: 'Procedure prep · Endoscopy',
+    title: 'Endoscopy prep — what to expect before an upper GI scope.',
+    lead: 'Fasting windows, medication questions, and day-of logistics for EGD — explained in plain language so you are not guessing the night before.',
+    outcomes: [
+      {
+        title: 'Clear fasting & medication guidance',
+        body: 'Typical windows for stopping food and drink, plus questions to confirm with your clinic about meds.',
+      },
+      {
+        title: 'Less anxiety about the procedure',
+        body: 'What the scope usually involves, sedation options, and what recovery often feels like.',
+      },
+      {
+        title: 'Better questions for your GI team',
+        body: 'Prompts shaped by what patients ask before upper endoscopy — biopsies, results timing, and follow-up.',
+      },
+    ],
+    capabilities: [
+      {
+        title: 'Fasting & arrival checklist',
+        body: 'When to stop eating and drinking, what to bring, and how early to arrive.',
+      },
+      {
+        title: 'Medication & health history prep',
+        body: 'What to list for your team — blood thinners, allergies, prior reactions — before you walk in.',
+      },
+      {
+        title: 'Day-of expectations',
+        body: 'Sedation, throat comfort, and typical recovery — without alarmist detail.',
+      },
+      {
+        title: 'Results & follow-up orientation',
+        body: 'How biopsies and findings are often communicated, and what to log after you are home.',
+      },
+    ],
+    systemFit: [
+      'Works alongside Visit prep in Care for specialist appointments',
+      'Log symptoms before and after in Trackers for a cleaner follow-up story',
+      'Keep one timeline if you are juggling multiple GI tests',
+    ],
+    faqs: [
+      {
+        q: 'Is endoscopy prep the same as colonoscopy prep?',
+        a: 'No. Upper endoscopy usually involves shorter fasting and different instructions. Always use what your clinic provides.',
+      },
+      {
+        q: 'Does Gutsphere schedule my procedure?',
+        a: 'No. Gutsphere helps you prepare and keep context — scheduling stays with your care team.',
+      },
+      {
+        q: 'Can I share this prep summary with my doctor?',
+        a: 'Yes, when you choose to export or bring notes. You control what leaves the app.',
+      },
+    ],
+    relatedSlugs: ['colonoscopy-prep', 'care'],
+    ctaTitle: 'Walk into endoscopy day more prepared.',
+  },
 }
 
 export function getFeaturePage(slug: string | undefined): FeaturePageData | undefined {
