@@ -1,48 +1,153 @@
-import { Link } from 'react-router-dom'
+import { useEffect, useId, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { CopilotNav, CopilotFooter } from '../components/copilot-v2/CopilotChrome'
 import { useReveal } from '../components/copilot-v2/useReveal'
 import { StickyCTA } from '../components/copilot-v2/StickyCTA'
 import {
   WHO_FOR_ALSO,
-  WHO_FOR_AUDIENCES,
+  WHO_FOR_BRIDGE,
+  WHO_FOR_FINAL,
   WHO_FOR_HERO,
   WHO_FOR_NOT,
+  WHO_FOR_PERSONALIZATION,
+  WHO_FOR_PHASE_SELECTOR,
+  WHO_FOR_PHASES,
+  WHO_FOR_SYSTEM,
+  getWhoForPhase,
+  type WhoForPhase,
+  type WhoForPhaseId,
+  type WhoForSituation,
 } from '../components/who-for/whoForAudiences'
 import { MarketingFinalCta } from '../components/marketing/MarketingFinalCta'
 import { NAVIGATOR_COUNT, SIGNUP_URL } from '../constants'
-import { ArrowRight, Compass, HeartPulse, Search, Shield } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import '../styles/copilot-v2.css'
 import '../styles/who-for.css'
 import '../styles/marketing-pages.css'
 
-function StageIcon({ id }: { id: string }) {
-  const props = { size: 22, strokeWidth: 2, 'aria-hidden': true as const }
-  switch (id) {
-    case 'finding-answers':
-      return <Search {...props} />
-    case 'in-treatment':
-      return <Shield {...props} />
-    case 'living-with-it':
-      return <HeartPulse {...props} />
-    default:
-      return <Compass {...props} />
-  }
+function SituationRow({
+  situation,
+  open,
+  onToggle,
+}: {
+  situation: WhoForSituation
+  open: boolean
+  onToggle: () => void
+}) {
+  const panelId = useId()
+  return (
+    <div className={`wf-situation${open ? ' is-open' : ''}`} id={`cohort-${situation.id}`}>
+      <button
+        type="button"
+        className="wf-situation-trigger"
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={onToggle}
+      >
+        <span className="wf-situation-num" aria-hidden="true">
+          {String(situation.number).padStart(2, '0')}
+        </span>
+        <span className="wf-situation-title">{situation.title}</span>
+        <ChevronDown className="wf-situation-chevron" size={18} aria-hidden="true" />
+      </button>
+      <div id={panelId} className="wf-situation-panel" hidden={!open}>
+        <p>
+          <strong>You may be here if:</strong> {situation.mayBeHereIf}
+        </p>
+        <p>
+          <strong>Gutsphere helps you:</strong> {situation.helps}
+        </p>
+        {situation.outcome && situation.outcome !== situation.helps ? (
+          <p>
+            <strong>Outcome:</strong> {situation.outcome}
+          </p>
+        ) : null}
+      </div>
+    </div>
+  )
 }
 
-const OUTCOMES_BY_STAGE: Record<string, string> = {
-  'finding-answers': 'Walk into appointments with a timeline — not a fuzzy story.',
-  'in-treatment': 'See what is actually helping before the next specialist visit.',
-  'living-with-it': 'Catch triggers early and get calm support on hard days.',
-  'staying-ahead': 'Hold a history that compounds — and stay appointment-ready.',
+function PhaseChapter({
+  phase,
+  defaultOpenId,
+}: {
+  phase: WhoForPhase
+  defaultOpenId?: string | null
+}) {
+  const [openId, setOpenId] = useState<string | null>(
+    defaultOpenId && phase.situations.some((s) => s.id === defaultOpenId)
+      ? defaultOpenId
+      : phase.situations[0]?.id ?? null,
+  )
+
+  return (
+    <article id={phase.id} className="wf-chapter">
+      <div className="wf-chapter-copy">
+        <p className="cp2-eyebrow">{phase.title}</p>
+        <h3>{phase.chapterHeading}</h3>
+        <p className="wf-chapter-support">{phase.chapterSupport}</p>
+        <p className="wf-card-outcome">{phase.outcome}</p>
+      </div>
+
+      <div className={`wf-chapter-scene scene-${phase.id}`} aria-hidden="true">
+        <p className="wf-chapter-scene-label">Product scene</p>
+        <p className="wf-chapter-scene-title">
+          {phase.id === 'finding-answers' && 'Fragments → timeline → next step'}
+          {phase.id === 'in-treatment' && 'Plan → response · side effects · follow-up'}
+          {phase.id === 'living-with-it' && 'Daily life with flare support layered in'}
+          {phase.id === 'getting-ahead' && 'Baseline disrupted, then stabilized'}
+          {phase.id === 'caregiver' && 'Two perspectives · one timeline'}
+        </p>
+      </div>
+
+      <div className="wf-situation-list">
+        {phase.situations.map((situation) => (
+          <SituationRow
+            key={situation.id}
+            situation={situation}
+            open={openId === situation.id}
+            onToggle={() => setOpenId((prev) => (prev === situation.id ? null : situation.id))}
+          />
+        ))}
+      </div>
+
+      <div className="wf-chapter-actions">
+        <a href={SIGNUP_URL} className="cp2-btn" data-cta="primary">
+          {phase.chapterCta}
+        </a>
+      </div>
+    </article>
+  )
 }
 
 export function WhoIsItForLanding() {
   useReveal()
+  const location = useLocation()
+  const hashId = location.hash.replace('#', '')
+  const hashPhase = getWhoForPhase(hashId)
+
+  const [systemPhaseId, setSystemPhaseId] = useState<WhoForPhaseId>('finding-answers')
+  const systemPhase = useMemo(
+    () => WHO_FOR_PHASES.find((p) => p.id === systemPhaseId) ?? WHO_FOR_PHASES[0],
+    [systemPhaseId],
+  )
+
+  useEffect(() => {
+    if (!hashId) return
+    const el = document.getElementById(hashId)
+    if (el) {
+      window.requestAnimationFrame(() => {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      })
+    }
+    if (hashPhase) setSystemPhaseId(hashPhase.id)
+  }, [hashId, hashPhase])
 
   return (
     <div className="copilot-v2 who-for mp-page" id="top">
       <CopilotNav />
       <main>
+        {/* Section 1 — Hero */}
         <section className="wf-hero">
           <div className="cp2-wrap">
             <p className="cp2-eyebrow cp2-reveal">{WHO_FOR_HERO.eyebrow}</p>
@@ -50,91 +155,138 @@ export function WhoIsItForLanding() {
             <p className="wf-hero-lead cp2-reveal">{WHO_FOR_HERO.lead}</p>
             <p className="wf-hero-trust cp2-reveal">Trusted by {NAVIGATOR_COUNT} navigators</p>
             <div className="wf-hero-actions cp2-reveal">
-              <a href="/#start" className="cp2-btn">
-                Start free
+              <a href="#phase-selector" className="cp2-btn">
+                {WHO_FOR_HERO.primaryCta}
               </a>
-              <a href="#audiences" className="cp2-btn ghost">
-                Find your stage
+              <a href="#audience-guide" className="cp2-btn ghost">
+                {WHO_FOR_HERO.secondaryCta}
               </a>
+            </div>
+
+            <div className="wf-hero-scene cp2-reveal" aria-hidden="true">
+              <div className="wf-hero-scene-path" />
+              <div className="wf-hero-scene-moments">
+                <span>Scattered clues</span>
+                <span>Treatment &amp; care</span>
+                <span>Clearer control</span>
+              </div>
+              <p className="wf-hero-scene-caption">Different moments. One connected history.</p>
             </div>
           </div>
         </section>
 
-        <section className="wf-outcome-strip">
-          <div className="cp2-wrap">
-            <div className="wf-outcome-strip-in cp2-reveal">
-              <p className="cp2-eyebrow">The outcome</p>
-              <h2>One copilot across the whole GI journey — not a tool for a single moment.</h2>
-              <p>
-                Most products pick one job: log symptoms, book a visit, or mail a kit. Gutsphere connects
-                tracking, care, navigation, and understanding so nothing you learn gets stranded in another app.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="cp2-band wf-audiences" id="audiences">
+        {/* Section 2 — Fast phase selector */}
+        <section className="cp2-band wf-phase-selector" id="phase-selector">
           <div className="cp2-wrap">
             <div className="cp2-sec-head cp2-reveal">
-              <p className="cp2-eyebrow">Four stages, one system</p>
-              <h2>Drop in where you are. Keep the thread.</h2>
-              <p>
-                Pick the stage that sounds like today. Each one has a clear outcome — and the same place to
-                continue when your situation changes.
-              </p>
+              <p className="cp2-eyebrow">Start here</p>
+              <h2>{WHO_FOR_PHASE_SELECTOR.heading}</h2>
+              <p>{WHO_FOR_PHASE_SELECTOR.support}</p>
             </div>
 
-            <div className="wf-grid cp2-reveal">
-              {WHO_FOR_AUDIENCES.map((audience) => (
-                <article key={audience.id} id={audience.id} className="wf-card">
-                  <div className="wf-card-top">
-                    <span className="wf-card-ic">
-                      <StageIcon id={audience.id} />
-                    </span>
-                    <span className="wf-card-stage">{audience.stage}</span>
-                  </div>
-                  <h3>{audience.title}</h3>
-                  <p className="wf-card-tag">{audience.tagline}</p>
-                  <p className="wf-card-outcome">{OUTCOMES_BY_STAGE[audience.id]}</p>
-                  <p className="wf-card-intro">{audience.intro}</p>
-                  <ul className="wf-card-list">
-                    {audience.bullets.map((bullet) => (
-                      <li key={bullet}>{bullet}</li>
-                    ))}
-                  </ul>
-                  <div className="wf-card-actions">
-                    <a href={audience.exploreHref} className="wf-card-link">
-                      {audience.exploreLabel} <ArrowRight size={16} aria-hidden="true" />
-                    </a>
-                    <a href="/#start" className="wf-card-cta">
-                      Start free
-                    </a>
-                  </div>
-                </article>
+            <div className="wf-phase-card-grid cp2-reveal">
+              {WHO_FOR_PHASES.map((phase) => (
+                <a key={phase.id} href={`#${phase.id}`} className="wf-phase-card">
+                  <p className="wf-phase-card-prompt">{phase.prompt}</p>
+                  <h3>{phase.title}</h3>
+                  <p className="wf-phase-card-outcome">{phase.outcome}</p>
+                  <span className="wf-phase-card-cta">{phase.cta}</span>
+                </a>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="wf-platform">
+        {/* Section 3 — Bridge */}
+        <section className="wf-bridge">
+          <div className="cp2-wrap cp2-reveal">
+            <p className="cp2-eyebrow">One platform, different starting points</p>
+            <h2>{WHO_FOR_BRIDGE.heading}</h2>
+            <p>{WHO_FOR_BRIDGE.copy}</p>
+            <div className="wf-bridge-path" aria-label="Journey path">
+              {WHO_FOR_BRIDGE.path.map((step) => (
+                <span key={step}>{step}</span>
+              ))}
+            </div>
+            <div className="wf-bridge-layers">
+              {WHO_FOR_BRIDGE.layers.map((layer) => (
+                <span key={layer}>{layer}</span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Section 4 — Full audience guide */}
+        <section className="cp2-band wf-audiences" id="audience-guide">
+          <div className="cp2-wrap">
+            <div className="cp2-sec-head cp2-reveal">
+              <p className="cp2-eyebrow">Full audience guide</p>
+              <h2>Drop into the situation that sounds like you</h2>
+              <p>
+                Five chapters. Eighteen situations as expandable rows—not a wall of identical cards.
+              </p>
+            </div>
+
+            <div className="wf-chapters cp2-reveal">
+              {WHO_FOR_PHASES.map((phase) => (
+                <PhaseChapter
+                  key={phase.id}
+                  phase={phase}
+                  defaultOpenId={hashId.startsWith('cohort-') ? hashId.replace('cohort-', '') : null}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Section 5 — Personalization */}
+        <section className="wf-personalization">
+          <div className="cp2-wrap cp2-reveal">
+            <p className="cp2-eyebrow">Beyond the five phases</p>
+            <h2>{WHO_FOR_PERSONALIZATION.heading}</h2>
+            <p>{WHO_FOR_PERSONALIZATION.copy}</p>
+            <div className="wf-orbit">
+              <div className="wf-orbit-core">Your current context</div>
+              <div className="wf-orbit-chips">
+                {WHO_FOR_PERSONALIZATION.chips.map((chip) => (
+                  <span key={chip} className="wf-orbit-chip">
+                    {chip}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 6 — Same connected system */}
+        <section className="wf-platform" id="system-by-phase">
           <div className="cp2-wrap">
             <div className="wf-platform-in cp2-reveal">
               <div className="wf-platform-copy">
-                <p className="cp2-eyebrow">One system</p>
-                <h2>Not another tracker. The thread that connects your whole journey.</h2>
-                <p>
-                  Track what happened. Get responsive care on hard days. Know when to see someone and how to
-                  prepare. Turn patterns into appointment-ready evidence — all in one place you own.
-                </p>
-                <a href="/#system" className="wf-card-link">
-                  See how it works <ArrowRight size={16} aria-hidden="true" />
-                </a>
+                <p className="cp2-eyebrow">In every situation</p>
+                <h2>{WHO_FOR_SYSTEM.heading}</h2>
+                <p>Select a phase to see how Track, Care, Navigate and Understand show up there.</p>
+                <div className="wf-system-phase-tabs" role="tablist" aria-label="Phase for system examples">
+                  {WHO_FOR_PHASES.map((phase) => (
+                    <button
+                      key={phase.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={systemPhaseId === phase.id}
+                      className={`wf-system-phase-tab${systemPhaseId === phase.id ? ' is-active' : ''}`}
+                      onClick={() => setSystemPhaseId(phase.id)}
+                    >
+                      {phase.title}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div className="wf-platform-steps" aria-label="Four connected stages">
-                {['Track', 'Care', 'Navigate', 'Understand'].map((step, i) => (
-                  <div key={step} className="wf-platform-step">
+              <div className="wf-platform-steps" aria-label="Connected system">
+                {WHO_FOR_SYSTEM.columns.map((col, i) => (
+                  <div key={col} className="wf-platform-step">
                     <span className="wf-platform-num">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="wf-platform-name">{step}</span>
+                    <span className="wf-platform-name">{col}</span>
+                    <span className="wf-platform-example">{systemPhase.systemExamples[i]}</span>
                   </div>
                 ))}
               </div>
@@ -142,27 +294,7 @@ export function WhoIsItForLanding() {
           </div>
         </section>
 
-        <section className="cp2-band wf-proof">
-          <div className="cp2-wrap">
-            <div className="wf-proof-in cp2-reveal">
-              <div>
-                <p className="cp2-eyebrow">Built for real journeys</p>
-                <h2>Works with or without a diagnosis.</h2>
-                <p>
-                  IBS, IBD, GERD, constipation, bloating, diarrhea — or an unclear mix. Start where you are.
-                  Nothing you track is lost if the label changes later.
-                </p>
-              </div>
-              <div className="wf-proof-links">
-                <Link to="/conditions/ibs">IBS FAQs →</Link>
-                <Link to="/conditions/constipation">Constipation FAQs →</Link>
-                <Link to="/faq">All FAQs →</Link>
-                <Link to="/compare/symptom-trackers">vs symptom trackers →</Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
+        {/* Section 7 — Fit and boundaries */}
         <section className="cp2-band wf-fit">
           <div className="cp2-wrap">
             <div className="wf-fit-grid cp2-reveal">
@@ -186,10 +318,14 @@ export function WhoIsItForLanding() {
           </div>
         </section>
 
+        {/* Section 8 — Final CTA */}
         <MarketingFinalCta
-          title="Find your stage. Start free."
-          secondaryHref={SIGNUP_URL}
-          secondaryLabel="Log in"
+          title={WHO_FOR_FINAL.title}
+          lead={WHO_FOR_FINAL.lead}
+          primaryHref={SIGNUP_URL}
+          primaryLabel="Start free"
+          secondaryHref="#phase-selector"
+          secondaryLabel={WHO_FOR_FINAL.primaryCta}
         />
       </main>
       <StickyCTA />

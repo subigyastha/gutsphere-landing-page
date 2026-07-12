@@ -22,8 +22,8 @@ import {
 } from '../../constants'
 
 const EXPLORE_LINKS = [
-  { href: '/journey', label: 'Your journey', blurb: 'Four stages, one copilot' },
-  { href: '/for', label: 'Who it\u2019s for', blurb: 'Find your stage and outcomes' },
+  { href: '/journey', label: 'Your journey', blurb: 'Five phases — pick where you are today' },
+  { href: '/for', label: 'Who it\u2019s for', blurb: 'Eighteen situations, one platform' },
   { href: '/compare', label: 'Compare', blurb: 'How Gutsphere fits your stack' },
   { href: '/about', label: 'About', blurb: 'Our story and why we built this' },
   { href: '/faq', label: 'FAQ', blurb: 'Plain answers before you start' },

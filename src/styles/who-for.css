@@ -8,7 +8,7 @@
 }
 
 .copilot-v2.who-for .wf-hero-title {
-  max-width: 16ch;
+  max-width: 22ch;
   margin-top: 14px;
   font-size: clamp(2.2rem, 5vw, 3.4rem);
   letter-spacing: -0.03em;
@@ -43,6 +43,81 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 22px;
   margin-top: 48px;
+}
+
+.copilot-v2.who-for .wf-phases {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 48px;
+}
+
+.copilot-v2.who-for .wf-phase {
+  scroll-margin-top: 5.5rem;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(22px, 3vw, 32px);
+  border-radius: 22px;
+  background: var(--gs-card);
+  border: 1px solid var(--gs-border);
+  box-shadow: var(--cp2-shadow-card);
+}
+
+.copilot-v2.who-for .wf-phase-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.copilot-v2.who-for .wf-phase-head h3 {
+  font-size: clamp(1.35rem, 2.4vw, 1.6rem);
+  line-height: 1.2;
+}
+
+.copilot-v2.who-for .wf-cohort-list {
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.copilot-v2.who-for .wf-cohort {
+  scroll-margin-top: 5.5rem;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--gs-sand-light);
+  border: 1px solid var(--gs-border);
+}
+
+.copilot-v2.who-for .wf-cohort-num {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--gs-coral);
+  padding-top: 2px;
+}
+
+.copilot-v2.who-for .wf-cohort-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gs-text-primary);
+  line-height: 1.3;
+}
+
+.copilot-v2.who-for .wf-cohort-line {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--gs-text-secondary);
 }
 
 .copilot-v2.who-for .wf-card {
@@ -138,7 +213,7 @@
 .copilot-v2.who-for .wf-outcome-strip-in h2 {
   margin-top: 12px;
   font-size: clamp(1.5rem, 3vw, 2rem);
-  max-width: 24ch;
+  max-width: 36ch;
   text-wrap: balance;
 }
 
@@ -228,6 +303,14 @@
   margin-top: 24px;
   padding-top: 20px;
   border-top: 1px solid var(--gs-divider);
+}
+
+.copilot-v2.who-for .wf-phase-count {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gs-text-muted);
 }
 
 .copilot-v2.who-for .wf-card-link {
@@ -405,8 +488,16 @@
   .copilot-v2.who-for .wf-grid,
   .copilot-v2.who-for .wf-platform-in,
   .copilot-v2.who-for .wf-fit-grid,
-  .copilot-v2.who-for .wf-proof-in {
+  .copilot-v2.who-for .wf-proof-in,
+  .copilot-v2.who-for .wf-jh-selector,
+  .copilot-v2.who-for .wf-phase-card-grid {
     grid-template-columns: 1fr;
+  }
+
+  .copilot-v2.who-for .wf-cohort {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 10px;
+    padding: 12px 14px;
   }
 
   .copilot-v2.who-for .wf-hero-actions .cp2-btn {
@@ -417,4 +508,767 @@
   .copilot-v2.who-for .wf-final .wf-hero-actions .cp2-btn {
     width: auto;
   }
+
+  .copilot-v2.who-for .wf-bridge-path {
+    flex-wrap: wrap;
+  }
+
+  .copilot-v2.who-for .wf-system-phase-tabs {
+    flex-wrap: wrap;
+  }
 }
+
+/* ---------- Hero editorial scene ---------- */
+
+.copilot-v2.who-for .wf-hero-scene {
+  position: relative;
+  margin-top: 48px;
+  padding: 28px 24px 22px;
+  border-radius: 22px;
+  border: 1px solid var(--gs-border);
+  background:
+    linear-gradient(180deg, var(--gs-sand-light), var(--gs-card));
+  overflow: hidden;
+}
+
+.copilot-v2.who-for .wf-hero-scene-path {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 42%;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--gs-coral) 0 10px,
+    transparent 10px 18px
+  );
+  opacity: 0.55;
+}
+
+.copilot-v2.who-for .wf-hero-scene-moments {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.copilot-v2.who-for .wf-hero-scene-moments span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 72px;
+  padding: 12px;
+  border-radius: 16px;
+  background: var(--gs-card);
+  border: 1px solid var(--gs-border);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--gs-text-secondary);
+}
+
+.copilot-v2.who-for .wf-hero-scene-caption {
+  position: relative;
+  margin-top: 18px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gs-coral);
+}
+
+/* ---------- Phase selector cards ---------- */
+
+.copilot-v2.who-for .wf-phase-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 40px;
+}
+
+@media (min-width: 1100px) {
+  .copilot-v2.who-for .wf-phase-card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .copilot-v2.who-for .wf-phase-card-grid .wf-phase-card:nth-child(4),
+  .copilot-v2.who-for .wf-phase-card-grid .wf-phase-card:nth-child(5) {
+    grid-column: span 1;
+  }
+}
+
+.copilot-v2.who-for .wf-phase-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--gs-border);
+  background: var(--gs-card);
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--cp2-shadow-card);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  scroll-margin-top: 5.5rem;
+}
+
+.copilot-v2.who-for .wf-phase-card:hover {
+  border-color: color-mix(in srgb, var(--gs-coral) 28%, var(--gs-border));
+  box-shadow: var(--cp2-shadow-lg);
+  transform: translateY(-2px);
+}
+
+.copilot-v2.who-for .wf-phase-card-prompt {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--gs-text-primary);
+}
+
+.copilot-v2.who-for .wf-phase-card h3 {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gs-coral);
+}
+
+.copilot-v2.who-for .wf-phase-card-outcome {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--gs-text-secondary);
+  flex: 1;
+}
+
+.copilot-v2.who-for .wf-phase-card-cta {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gs-coral);
+}
+
+/* ---------- Bridge ---------- */
+
+.copilot-v2.who-for .wf-bridge {
+  padding: 64px 0;
+}
+
+.copilot-v2.who-for .wf-bridge h2 {
+  margin-top: 12px;
+  max-width: 22ch;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.copilot-v2.who-for .wf-bridge > .cp2-wrap > p {
+  margin-top: 14px;
+  max-width: 58ch;
+  color: var(--gs-text-secondary);
+  line-height: 1.65;
+}
+
+.copilot-v2.who-for .wf-bridge-path {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.copilot-v2.who-for .wf-bridge-path span {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--gs-sand-light);
+  border: 1px solid var(--gs-border);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gs-text-secondary);
+}
+
+.copilot-v2.who-for .wf-bridge-layers {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.copilot-v2.who-for .wf-bridge-layers span {
+  padding: 14px 12px;
+  border-radius: 14px;
+  border: 1px dashed color-mix(in srgb, var(--gs-coral) 35%, var(--gs-border));
+  background: color-mix(in srgb, var(--gs-coral) 4%, var(--gs-card));
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gs-text-secondary);
+  text-align: center;
+}
+
+@media (max-width: 860px) {
+  .copilot-v2.who-for .wf-bridge-layers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---------- Editorial chapters + expandable situations ---------- */
+
+.copilot-v2.who-for .wf-chapters {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 40px;
+}
+
+.copilot-v2.who-for .wf-chapter {
+  scroll-margin-top: 5.5rem;
+  padding: clamp(22px, 3vw, 32px);
+  border-radius: 22px;
+  border: 1px solid var(--gs-border);
+  background: var(--gs-card);
+  box-shadow: var(--cp2-shadow-card);
+}
+
+.copilot-v2.who-for .wf-chapter-copy h3 {
+  margin-top: 10px;
+  font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+  max-width: 28ch;
+  line-height: 1.25;
+}
+
+.copilot-v2.who-for .wf-chapter-support {
+  margin-top: 12px;
+  max-width: 62ch;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--gs-text-secondary);
+}
+
+.copilot-v2.who-for .wf-chapter .wf-card-outcome {
+  margin-top: 16px;
+}
+
+.copilot-v2.who-for .wf-chapter-scene {
+  margin-top: 22px;
+  padding: 20px 18px;
+  border-radius: 16px;
+  border: 1px solid var(--gs-border);
+  background:
+    radial-gradient(ellipse 70% 80% at 20% 50%, color-mix(in srgb, var(--gs-coral) 10%, transparent), transparent),
+    var(--gs-sand-light);
+}
+
+.copilot-v2.who-for .wf-chapter-scene-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gs-text-muted);
+}
+
+.copilot-v2.who-for .wf-chapter-scene-title {
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--gs-text-primary);
+}
+
+.copilot-v2.who-for .wf-situation-list {
+  margin-top: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.copilot-v2.who-for .wf-situation {
+  border-radius: 14px;
+  border: 1px solid var(--gs-border);
+  background: var(--gs-sand-light);
+  overflow: hidden;
+}
+
+.copilot-v2.who-for .wf-situation.is-open {
+  border-color: color-mix(in srgb, var(--gs-coral) 28%, var(--gs-border));
+  background: var(--gs-card);
+}
+
+.copilot-v2.who-for .wf-situation-trigger {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 24px;
+  gap: 10px;
+  align-items: center;
+  padding: 14px 16px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.copilot-v2.who-for .wf-situation-num {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--gs-coral);
+}
+
+.copilot-v2.who-for .wf-situation-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gs-text-primary);
+}
+
+.copilot-v2.who-for .wf-situation-chevron {
+  color: var(--gs-text-muted);
+  transition: transform 0.2s ease;
+}
+
+.copilot-v2.who-for .wf-situation.is-open .wf-situation-chevron {
+  transform: rotate(180deg);
+  color: var(--gs-coral);
+}
+
+.copilot-v2.who-for .wf-situation-panel {
+  padding: 0 16px 16px 70px;
+}
+
+.copilot-v2.who-for .wf-situation-panel p {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--gs-text-secondary);
+}
+
+.copilot-v2.who-for .wf-situation-panel p + p {
+  margin-top: 10px;
+}
+
+.copilot-v2.who-for .wf-situation-panel strong {
+  color: var(--gs-text-primary);
+  font-weight: 600;
+}
+
+.copilot-v2.who-for .wf-chapter-actions {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--gs-divider);
+}
+
+@media (max-width: 640px) {
+  .copilot-v2.who-for .wf-situation-panel {
+    padding-left: 16px;
+  }
+
+  .copilot-v2.who-for .wf-hero-scene-moments {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Personalization orbit ---------- */
+
+.copilot-v2.who-for .wf-personalization {
+  padding: 72px 0;
+}
+
+.copilot-v2.who-for .wf-personalization h2 {
+  margin-top: 12px;
+  max-width: 20ch;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.copilot-v2.who-for .wf-personalization > .cp2-wrap > p {
+  margin-top: 14px;
+  max-width: 58ch;
+  color: var(--gs-text-secondary);
+  line-height: 1.65;
+}
+
+.copilot-v2.who-for .wf-orbit {
+  margin-top: 32px;
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+  padding: 28px 20px;
+  border-radius: 22px;
+  border: 1px solid var(--gs-border);
+  background: var(--gs-sand-light);
+}
+
+.copilot-v2.who-for .wf-orbit-core {
+  padding: 18px 22px;
+  border-radius: 999px;
+  background: var(--gs-card);
+  border: 1px solid color-mix(in srgb, var(--gs-coral) 30%, var(--gs-border));
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--gs-text-primary);
+}
+
+.copilot-v2.who-for .wf-orbit-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 40rem;
+}
+
+.copilot-v2.who-for .wf-orbit-chip {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--gs-card);
+  border: 1px solid var(--gs-border);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gs-text-secondary);
+}
+
+/* ---------- System phase tabs ---------- */
+
+.copilot-v2.who-for .wf-system-phase-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.copilot-v2.who-for .wf-system-phase-tab {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--gs-border);
+  background: var(--gs-card);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gs-text-secondary);
+  cursor: pointer;
+}
+
+.copilot-v2.who-for .wf-system-phase-tab.is-active {
+  border-color: color-mix(in srgb, var(--gs-coral) 40%, var(--gs-border));
+  background: color-mix(in srgb, var(--gs-coral) 8%, var(--gs-card));
+  color: var(--gs-coral);
+}
+
+.copilot-v2.who-for .wf-platform-example {
+  margin-top: 8px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--gs-text-secondary);
+}
+
+/* ---------- Journey hub ---------- */
+
+.copilot-v2.journey-hub .wf-jh-landscape {
+  margin-top: 40px;
+  padding: 24px 20px 18px;
+  border-radius: 20px;
+  border: 1px solid var(--gs-border);
+  background: var(--gs-sand-light);
+  position: relative;
+}
+
+.copilot-v2.journey-hub .wf-jh-landscape-path {
+  position: absolute;
+  left: 6%;
+  right: 22%;
+  top: 38%;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--gs-coral) 0 10px,
+    transparent 10px 18px
+  );
+  opacity: 0.5;
+}
+
+.copilot-v2.journey-hub .wf-jh-landscape-scenes {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.copilot-v2.journey-hub .wf-jh-scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.copilot-v2.journey-hub .wf-jh-scene.is-side .wf-jh-scene-dot {
+  background: var(--gs-text-muted);
+}
+
+.copilot-v2.journey-hub .wf-jh-scene-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gs-coral);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--gs-coral) 16%, transparent);
+}
+
+.copilot-v2.journey-hub .wf-jh-scene-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gs-text-secondary);
+  line-height: 1.3;
+}
+
+.copilot-v2.journey-hub .wf-jh-landscape-caption {
+  margin-top: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gs-coral);
+}
+
+.copilot-v2.journey-hub .wf-jh-selector {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 22px;
+  margin-top: 36px;
+  align-items: start;
+}
+
+.copilot-v2.journey-hub .wf-jh-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.copilot-v2.journey-hub .wf-jh-card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 18px 18px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--gs-border);
+  background: var(--gs-card);
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.copilot-v2.journey-hub .wf-jh-card.is-active,
+.copilot-v2.journey-hub .wf-jh-card:hover {
+  border-color: color-mix(in srgb, var(--gs-coral) 30%, var(--gs-border));
+  box-shadow: var(--cp2-shadow-card);
+}
+
+.copilot-v2.journey-hub .wf-jh-card-prompt {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--gs-text-primary);
+}
+
+.copilot-v2.journey-hub .wf-jh-card-outcome {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--gs-text-secondary);
+}
+
+.copilot-v2.journey-hub .wf-jh-card-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gs-coral);
+  text-decoration: none;
+}
+
+.copilot-v2.journey-hub .wf-jh-card-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.copilot-v2.journey-hub .wf-jh-preview {
+  position: sticky;
+  top: 5.5rem;
+  padding: 22px;
+  border-radius: 20px;
+  border: 1px solid var(--gs-border);
+  background: var(--gs-sand-light);
+}
+
+.copilot-v2.journey-hub .wf-jh-preview-phase {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gs-coral);
+}
+
+.copilot-v2.journey-hub .wf-jh-preview-block {
+  margin-top: 16px;
+}
+
+.copilot-v2.journey-hub .wf-jh-preview-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gs-text-muted);
+  margin-bottom: 6px;
+}
+
+.copilot-v2.journey-hub .wf-jh-preview-block p {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--gs-text-secondary);
+}
+
+.copilot-v2.journey-hub .wf-jh-preview-scene {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--gs-border);
+  background: var(--gs-card);
+}
+
+.copilot-v2.journey-hub .wf-jh-preview-scene-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gs-text-muted);
+}
+
+.copilot-v2.journey-hub .wf-jh-preview-scene-title {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--gs-text-primary);
+}
+
+.copilot-v2.journey-hub .wf-jh-preview-cta {
+  margin-top: 18px;
+  width: 100%;
+  justify-content: center;
+}
+
+.copilot-v2.journey-hub .wf-jh-nonlinear {
+  padding: 64px 0;
+}
+
+.copilot-v2.journey-hub .wf-jh-nonlinear h2 {
+  margin-top: 12px;
+  max-width: 24ch;
+  font-size: clamp(1.45rem, 3vw, 1.9rem);
+}
+
+.copilot-v2.journey-hub .wf-jh-nonlinear > .cp2-wrap > p {
+  margin-top: 14px;
+  max-width: 58ch;
+  color: var(--gs-text-secondary);
+  line-height: 1.65;
+}
+
+.copilot-v2.journey-hub .wf-jh-nonlinear-close {
+  margin-top: 16px !important;
+  font-weight: 600;
+  color: var(--gs-text-primary) !important;
+}
+
+.copilot-v2.journey-hub .wf-jh-loop {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.copilot-v2.journey-hub .wf-jh-loop span {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--gs-border);
+  background: var(--gs-card);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gs-text-secondary);
+}
+
+.copilot-v2.journey-hub .wf-jh-loop-thread {
+  border-color: color-mix(in srgb, var(--gs-coral) 35%, var(--gs-border)) !important;
+  color: var(--gs-coral) !important;
+}
+
+.copilot-v2.journey-hub .wf-jh-travels-list {
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.copilot-v2.journey-hub .wf-jh-travels-list li {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--gs-card);
+  border: 1px solid var(--gs-border);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.copilot-v2.journey-hub .wf-jh-system-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.copilot-v2.journey-hub .wf-jh-system-row span {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--gs-coral) 8%, var(--gs-card));
+  border: 1px solid color-mix(in srgb, var(--gs-coral) 25%, var(--gs-border));
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gs-coral);
+}
+
+.copilot-v2.journey-hub .wf-jh-bridge {
+  padding: 64px 0 24px;
+  text-align: left;
+}
+
+.copilot-v2.journey-hub .wf-jh-bridge h2 {
+  margin-top: 12px;
+  max-width: 24ch;
+  font-size: clamp(1.45rem, 3vw, 1.9rem);
+}
+
+.copilot-v2.journey-hub .wf-jh-bridge p {
+  margin-top: 14px;
+  max-width: 52ch;
+  color: var(--gs-text-secondary);
+  line-height: 1.65;
+}
+
+.copilot-v2.journey-hub .wf-jh-bridge .cp2-btn {
+  margin-top: 22px;
+}
+
+@media (max-width: 860px) {
+  .copilot-v2.journey-hub .wf-jh-landscape-scenes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .copilot-v2.journey-hub .wf-jh-landscape-path {
+    display: none;
+  }
+
+  .copilot-v2.journey-hub .wf-jh-preview {
+    position: static;
+  }
+
+  .copilot-v2.journey-hub .wf-jh-travels-list {
+    grid-template-columns: 1fr;
+  }
+}
+

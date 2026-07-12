@@ -1,123 +1,119 @@
+import { SIGNUP_URL } from '../../constants'
+
 export type NameNoNameStateId =
   | 'symptoms-no-name'
   | 'told-normal'
   | 'diagnosis-doesnt-fit'
   | 'diagnosed'
 
+export type NameNoNameAccent = 'coral' | 'lavender' | 'ochre' | 'teal'
+
+export interface NameNoNameOutcomes {
+  calm: string
+  understand: string
+  next: string
+}
+
 export interface NameNoNameState {
   id: NameNoNameStateId
-  label: string
-  option: string
   title: string
   description: string
+  outcomeHeadline: string
+  outcomes: NameNoNameOutcomes
   cta: string
-  emotion: string
-  helps: readonly string[]
-  chips: readonly string[]
-  feelLike: readonly string[]
-  flipHelps: readonly string[]
-  /** Swap in final character art when ready */
+  ctaHref: string
+  secondaryHref?: string
+  secondaryLabel?: string
   image: string
+  imageAlt: string
+  accent: NameNoNameAccent
+  /** Card surface sampled to match illustration edge for immersive blend */
+  blend: string
 }
 
 export const NAME_NO_NAME_STATES: readonly NameNoNameState[] = [
   {
     id: 'symptoms-no-name',
-    label: 'SYMPTOMS, NO NAME YET',
-    option: 'I have symptoms but no clear answer.',
-    title: 'Symptoms, no clear answer yet',
-    description: 'Capture the pattern before it has a name.',
-    cta: 'Start with symptoms',
-    emotion: 'Confused, searching, unsure',
-    helps: [
-      'Track symptoms as they happen',
-      'Keep food, stool, sleep, and stress in one place',
-      'Build a clearer story before your next visit',
-    ],
-    chips: ['Symptoms', 'Food', 'Stool', 'Sleep', 'Notes'],
-    feelLike: ['You know something is off.', 'The pattern is hard to explain.'],
-    flipHelps: [
-      'Track symptoms as they happen',
-      'Keep food, stool, sleep, and notes together',
-      'Build a clearer story before your next visit',
-    ],
-    image: '/images/name-no-name/symptoms-no-name.png',
+    title: 'I have symptoms, but no answers yet',
+    description: 'Something feels off, but nothing has connected it into a clear picture.',
+    outcomeHeadline: 'Start by connecting what is happening.',
+    outcomes: {
+      calm: 'Bring scattered symptoms into one place instead of carrying everything in your head.',
+      understand: 'See when symptoms overlap and what repeatedly surrounds them.',
+      next: 'Know what to monitor and what may be useful to bring into care.',
+    },
+    cta: 'Help me find the pattern',
+    ctaHref: SIGNUP_URL,
+    secondaryHref: '/for#finding-answers',
+    secondaryLabel: 'See Finding answers situations',
+    image: '/images/name-no-name/no-answers.png',
+    imageAlt: 'A woman connecting scattered symptom clues into a clearer pattern.',
+    accent: 'coral',
+    blend: '#f4e4d6',
   },
   {
     id: 'told-normal',
-    label: "TOLD IT'S NORMAL",
-    option: "I've been told it's normal, but it keeps happening.",
-    title: "Told it's normal, but it keeps happening",
-    description: 'Keep a dated record of what keeps coming back.',
-    cta: 'Build a clearer history',
-    emotion: 'Frustrated, dismissed, tired',
-    helps: [
-      'Log repeated flares without starting from scratch',
-      'See what keeps showing up over time',
-      'Bring a dated history into appointments',
-    ],
-    chips: ['Flares', 'Dates', 'Patterns', 'Notes', 'Visit prep'],
-    feelLike: [
-      'It keeps coming back.',
-      'You feel dismissed or unsure what to show.',
-    ],
-    flipHelps: [
-      'Keep dated records of repeated flares',
-      'See what keeps showing up over time',
-      'Bring a clearer history into appointments',
-    ],
-    image: '/images/name-no-name/told-normal.png',
+    title: 'I’m waiting—or keep getting dismissed',
+    description:
+      'Tests, referrals, results, or appointments are taking too long, and the story is not moving forward.',
+    outcomeHeadline: 'Keep your story moving while the system moves slowly.',
+    outcomes: {
+      calm: 'Keep the details together while you wait instead of starting from memory each time.',
+      understand: 'Build a dated history of symptoms, tests, changes, and what has already been tried.',
+      next: 'Prepare a clearer summary and questions that help you be heard.',
+    },
+    cta: 'Build my care timeline',
+    ctaHref: '/for#finding-answers',
+    image: '/images/name-no-name/waiting-dismissed.png',
+    imageAlt: 'A person preserving their health story while waiting for care.',
+    accent: 'lavender',
+    blend: '#f2e9df',
   },
   {
     id: 'diagnosis-doesnt-fit',
-    label: "DIAGNOSIS DOESN'T FIT",
-    option: "I have a diagnosis, but it doesn't explain everything.",
-    title: "A diagnosis that doesn't quite fit",
-    description: 'Keep your history intact while you revisit the story.',
-    cta: 'Revisit the pattern',
-    emotion: 'Uncertain, doubtful, questioning',
-    helps: [
-      'Compare symptoms, triggers, and test history',
-      'Track treatment response over time',
-      'Keep context together while you explore next steps',
-    ],
-    chips: ['Symptoms', 'Tests', 'Treatments', 'Triggers', 'Questions'],
-    feelLike: [
-      'The label does not explain the whole story.',
-      'Your symptoms still do not line up.',
-    ],
-    flipHelps: [
-      'Compare symptoms, triggers, and test history',
-      'Track treatment response',
-      'Keep context together while you revisit the pattern',
-    ],
+    title: 'I have a diagnosis, but it doesn’t fit',
+    description:
+      'The label leaves important symptoms unexplained, or the plan built around it is not helping.',
+    outcomeHeadline: 'A diagnosis should not erase the parts that remain unexplained.',
+    outcomes: {
+      calm: 'Keep the current diagnosis without forcing every experience to fit inside it.',
+      understand:
+        'Compare symptoms, treatment response, tests, and changes to see where the story has gaps.',
+      next: 'Prepare what may need to be revisited, clarified, or discussed during care.',
+    },
+    cta: 'Revisit my full story',
+    ctaHref: '/for#finding-answers',
     image: '/images/name-no-name/diagnosis-doesnt-fit.png',
+    imageAlt: 'A woman examining a diagnosis that does not explain the full picture.',
+    accent: 'ochre',
+    blend: '#f3e7db',
   },
   {
     id: 'diagnosed',
-    label: 'DIAGNOSED',
-    option: 'I know the diagnosis, but managing it is still hard.',
-    title: 'A name, but still a long journey',
-    description: "Track triggers, flares, and what's working — day to day.",
-    cta: 'Track life with a diagnosis',
-    emotion: 'Calmer, supported, grounded',
-    helps: [
-      'Track what changes between visits',
-      'Notice routines, triggers, and treatment response',
-      'Prepare better follow-ups with your care team',
-    ],
-    chips: ['IBS', 'IBD', 'Celiac', 'GERD', 'SIBO', 'Gastroparesis'],
-    feelLike: [
-      'The name helps, but daily life is still work.',
-      'You still manage flares, triggers, and routines.',
-    ],
-    flipHelps: [
-      'Track what changes between visits',
-      'Notice routines, triggers, and treatment response',
-      'Prepare better follow-ups',
-    ],
-    image: '/images/name-no-name/diagnosed.png',
+    title: 'I have a diagnosis, but it’s still hard',
+    description:
+      'A name exists, but the day-to-day, flares, routines, and treatment are still difficult to manage.',
+    outcomeHeadline: 'Turn the diagnosis into support for real life.',
+    outcomes: {
+      calm: 'Bring routines, symptoms, treatment, and difficult days into one manageable view.',
+      understand: 'See what is improving, what is not, and what changes around harder days.',
+      next: 'Support daily care and prepare clearer updates for the people involved in your care.',
+    },
+    cta: 'Support my day-to-day',
+    ctaHref: '/for#in-treatment',
+    image: '/images/name-no-name/diagnosed-still-hard.png',
+    imageAlt: 'A person organizing treatment, routines, and daily life after diagnosis.',
+    accent: 'teal',
+    blend: '#efe8df',
   },
 ] as const
 
 export const NAME_NO_NAME_DEFAULT_ID: NameNoNameStateId = 'symptoms-no-name'
+
+export const NAME_NO_NAME_CLOSING = {
+  heading: 'Whatever the name becomes, your history stays with you.',
+  support:
+    'Symptoms, tests, treatments, routines, questions, and progress remain connected—even if the diagnosis changes.',
+  linkLabel: 'See everyone Gutsphere is for →',
+  linkHref: '/for',
+} as const
