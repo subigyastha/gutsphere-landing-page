@@ -19,6 +19,7 @@ import {
 } from 'lucide-react'
 import { SIGNUP_URL } from '../../constants'
 import { DX_CHIPS, EXPERT_PERSPECTIVES, FLAG_CHIPS, SYMPTOM_CHIPS, type ExpertPerspectiveId, type SystemPillarId } from './constants'
+import { HeroDemoEmbed } from './HeroDemoEmbed'
 import { PlatformFineprint } from './PlatformPills'
 import type { SystemPreview, useCopilotPicker } from './useCopilotPicker'
 
@@ -390,47 +391,8 @@ export function CopilotHero({ picker }: { picker: Picker }) {
             </div>
             <PlatformFineprint className="cp2-reveal" />
           </div>
-          <div className="cp2-hero-media cp2-reveal" aria-hidden="true">
-            <div className="cp2-phone">
-              <span className="cp2-phone-island" />
-              <div className="cp2-screen">
-                <div className="cp2-scr-top">
-                  <span>9:41</span>
-                  <span className="cp2-scr-dots" />
-                </div>
-                <div className="cp2-scr-head">
-                  <div>
-                    <p className="cp2-scr-day">Today · Tue</p>
-                    <p className="cp2-scr-title">How&apos;s your gut?</p>
-                  </div>
-                  <span className="cp2-scr-av" />
-                </div>
-                <div className="cp2-scr-pills">
-                  <span className="cp2-sp on">Bloating</span>
-                  <span className="cp2-sp">Reflux</span>
-                  <span className="cp2-sp">Nausea</span>
-                </div>
-                <p className="cp2-scr-lbl">Severity</p>
-                <div className="cp2-scr-sev">
-                  <span />
-                  <span />
-                  <span className="on" />
-                  <span />
-                  <span />
-                </div>
-                <div className="cp2-scr-insight">
-                  <span className="cp2-scr-dot" />
-                  <p>Linked to a late meal + two short nights</p>
-                </div>
-                <div className="cp2-scr-cta">Log today · 12s</div>
-                <div className="cp2-scr-tabs">
-                  <span className="on" />
-                  <span />
-                  <span />
-                  <span />
-                </div>
-              </div>
-            </div>
+          <div className="cp2-hero-media cp2-reveal">
+            <HeroDemoEmbed />
           </div>
         </div>
 

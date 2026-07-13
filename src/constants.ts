@@ -1,4 +1,5 @@
 export const SIGNUP_URL = 'https://app.gutsphere.com/'
+export const DEMO_EMBED_URL = 'https://demo.gutsphere.com/ibs/'
 export const IOS_APP_URL =
   'https://apps.apple.com/us/app/gutsphere-your-gut-companion/id6560105851'
 export const ANDROID_APP_URL =
