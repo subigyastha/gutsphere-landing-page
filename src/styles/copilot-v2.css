@@ -6439,15 +6439,16 @@
 }
 
 @media (max-width: 860px) {
+  /*
+   * Always reserve sticky-CTA space on mobile. Toggling padding when the bar
+   * shows/hides near the footer caused a layout feedback loop (content jump →
+   * IntersectionObserver flip → flicker of everything under the fixed nav).
+   */
   .copilot-v2 {
-    --cp2-sticky-cta-h: 0px;
-  }
-
-  .copilot-v2.has-sticky-cta {
     --cp2-sticky-cta-h: calc(72px + env(safe-area-inset-bottom, 0px));
   }
 
-  .copilot-v2.has-sticky-cta main {
+  .copilot-v2 main {
     padding-bottom: var(--cp2-sticky-cta-h);
   }
 
@@ -6463,22 +6464,22 @@
     gap: 12px;
     min-height: 56px;
     padding: 10px 10px 10px 16px;
-    background: color-mix(in srgb, var(--gs-card) 96%, transparent);
+    /* Solid fill — backdrop-filter over changing content flickers on mobile Safari */
+    background: var(--gs-card);
     border: 1px solid var(--gs-border);
     border-radius: var(--gs-radius-pill);
     box-shadow:
       0 1px 0 color-mix(in srgb, #fff 70%, transparent) inset,
       0 14px 36px -14px color-mix(in srgb, var(--gs-text-primary) 42%, transparent);
-    backdrop-filter: blur(16px) saturate(160%);
-    -webkit-backdrop-filter: blur(16px) saturate(160%);
-    transform: translateY(calc(100% + 28px + env(safe-area-inset-bottom, 0px)));
+    transform: translate3d(0, calc(100% + 28px + env(safe-area-inset-bottom, 0px)), 0);
     opacity: 0;
     transition: transform 0.28s ease, opacity 0.28s ease;
     pointer-events: none;
+    will-change: transform, opacity;
   }
 
   .copilot-v2 .cp2-sticky-cta.is-visible {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
     opacity: 1;
     pointer-events: auto;
   }

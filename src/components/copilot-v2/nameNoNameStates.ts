@@ -1,4 +1,5 @@
 ﻿import { SIGNUP_URL } from '../../constants'
+import { NAME_NO_NAME_IMAGES } from './nameNoNameImages'
 
 export type NameNoNameStateId =
   | 'symptoms-no-name'
@@ -46,8 +47,8 @@ export const NAME_NO_NAME_STATES: readonly NameNoNameState[] = [
     ctaHref: SIGNUP_URL,
     secondaryHref: '/for#finding-answers',
     secondaryLabel: 'See Finding answers situations',
-    image: '/images/name-no-name/no-answers.png',
-    imageAlt: 'A woman connecting scattered symptom clues into a clearer pattern.',
+    image: NAME_NO_NAME_IMAGES['symptoms-no-name'].src,
+    imageAlt: NAME_NO_NAME_IMAGES['symptoms-no-name'].alt,
     accent: 'coral',
     blend: '#f4e4d6',
   },
@@ -64,8 +65,8 @@ export const NAME_NO_NAME_STATES: readonly NameNoNameState[] = [
     },
     cta: 'Build my care timeline',
     ctaHref: '/for#finding-answers',
-    image: '/images/name-no-name/waiting-dismissed.jpg',
-    imageAlt: 'A person preserving their health story while waiting for care.',
+    image: NAME_NO_NAME_IMAGES['told-normal'].src,
+    imageAlt: NAME_NO_NAME_IMAGES['told-normal'].alt,
     accent: 'lavender',
     blend: '#f2e9df',
   },
@@ -83,8 +84,8 @@ export const NAME_NO_NAME_STATES: readonly NameNoNameState[] = [
     },
     cta: 'Revisit my full story',
     ctaHref: '/for#finding-answers',
-    image: '/images/name-no-name/diagnosis-doesnt-fit.jpg',
-    imageAlt: 'A woman examining a diagnosis that does not explain the full picture.',
+    image: NAME_NO_NAME_IMAGES['diagnosis-doesnt-fit'].src,
+    imageAlt: NAME_NO_NAME_IMAGES['diagnosis-doesnt-fit'].alt,
     accent: 'ochre',
     blend: '#f3e7db',
   },
@@ -101,8 +102,8 @@ export const NAME_NO_NAME_STATES: readonly NameNoNameState[] = [
     },
     cta: 'Support my day-to-day',
     ctaHref: '/for#in-treatment',
-    image: '/images/name-no-name/diagnosed-still-hard.jpg',
-    imageAlt: 'A person organizing treatment, routines, and daily life after diagnosis.',
+    image: NAME_NO_NAME_IMAGES.diagnosed.src,
+    imageAlt: NAME_NO_NAME_IMAGES.diagnosed.alt,
     accent: 'teal',
     blend: '#efe8df',
   },

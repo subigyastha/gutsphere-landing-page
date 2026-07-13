@@ -6,6 +6,7 @@ import {
   type NameNoNameState,
   type NameNoNameStateId,
 } from './nameNoNameStates'
+import { NAME_NO_NAME_IMAGES } from './nameNoNameImages'
 
 function CalmIcon() {
   return (
@@ -42,6 +43,8 @@ function NextIcon() {
 }
 
 function PathwayIllustration({ state, selected }: { state: NameNoNameState; selected: boolean }) {
+  const image = NAME_NO_NAME_IMAGES[state.id]
+
   return (
     <div
       className={`nnn-path-illu${selected ? ' is-active' : ''}`}
@@ -50,10 +53,10 @@ function PathwayIllustration({ state, selected }: { state: NameNoNameState; sele
       <span className="nnn-path-illu-halo" aria-hidden="true" />
       <img
         className="nnn-path-illu-img"
-        src={state.image}
-        alt={state.imageAlt}
-        width={160}
-        height={160}
+        src={image.src}
+        alt={image.alt}
+        width={image.width}
+        height={image.height}
         loading="lazy"
         decoding="async"
       />

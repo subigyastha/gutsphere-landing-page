@@ -54,5 +54,7 @@ coverage/
 # Local tooling
 .cursor/
 
-# Design source pipeline (optimized outputs live in public/)
-Images/
+# Design source assets (development only — not deployed).
+# Optimized exports belong in public/images/ (problem/, difference/, no-name/, etc.).
+# Use /Images/ so Windows case-insensitive git does not ignore public/images/.
+/Images/

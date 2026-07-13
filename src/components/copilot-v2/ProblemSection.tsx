@@ -1,4 +1,5 @@
-import { PROBLEM_IMAGES } from './problemImages'
+import { useEffect, useState } from 'react'
+import { PROBLEM_IMAGES, type ProblemImage } from './problemImages'
 
 const PAINS = [
   {
@@ -18,6 +19,55 @@ const PAINS = [
   },
 ]
 
+function ProblemMedia({ image }: { image: ProblemImage }) {
+  const [reducedMotion, setReducedMotion] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReducedMotion(mq.matches)
+    const onChange = () => setReducedMotion(mq.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  if (reducedMotion) {
+    return (
+      <img
+        src={image.poster}
+        alt={image.alt}
+        width={640}
+        height={360}
+        loading="lazy"
+        decoding="async"
+      />
+    )
+  }
+
+  return (
+    <video
+      muted
+      autoPlay
+      loop
+      playsInline
+      poster={image.poster}
+      width={640}
+      height={360}
+      aria-label={image.alt}
+    >
+      <source src={image.webm} type="video/webm" />
+      <source src={image.mp4} type="video/mp4" />
+      <img
+        src={image.src}
+        alt={image.alt}
+        width={640}
+        height={360}
+        loading="lazy"
+        decoding="async"
+      />
+    </video>
+  )
+}
+
 export function ProblemSection() {
   return (
     <section id="problem" className="cp2-problem">
@@ -36,14 +86,7 @@ export function ProblemSection() {
             return (
               <div key={pain.title} className="cp2-pain cp2-reveal">
                 <div className={`cp2-pain-media cp2-pain-media--${pain.icon}`}>
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    width={640}
-                    height={480}
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <ProblemMedia image={image} />
                 </div>
                 <h3>{pain.title}</h3>
                 <p>{pain.body}</p>

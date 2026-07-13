@@ -6,12 +6,15 @@ import { SIGNUP_URL } from '../../constants'
  * Shows after the visitor leaves the hero/start zone, and hides when the
  * final CTA (or marketing final band) is on screen — so it never competes
  * with the real close.
+ *
+ * Layout space for the bar is always reserved on mobile (see CSS). Visibility
+ * is visual-only so showing/hiding cannot change document height and thrash
+ * IntersectionObservers near the footer.
  */
 export function StickyCTA() {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    const root = document.querySelector('.copilot-v2')
     const start =
       document.getElementById('start') ??
       document.querySelector('.cp2-hero, .mp-hero, .wf-hero')
@@ -23,9 +26,7 @@ export function StickyCTA() {
     let nearEnd = false
 
     const sync = () => {
-      const next = pastStart && !nearEnd
-      setVisible(next)
-      root?.classList.toggle('has-sticky-cta', next)
+      setVisible(pastStart && !nearEnd)
     }
 
     const observers: IntersectionObserver[] = []
@@ -33,7 +34,6 @@ export function StickyCTA() {
     if (start) {
       const startObs = new IntersectionObserver(
         ([entry]) => {
-          // Visible once the start/hero has mostly left the viewport
           pastStart = !entry.isIntersecting || entry.boundingClientRect.bottom < 80
           sync()
         },
@@ -48,16 +48,21 @@ export function StickyCTA() {
     if (end) {
       const endObs = new IntersectionObserver(
         ([entry]) => {
-          nearEnd = entry.isIntersecting
+          // Enter near-end early; leave only once the band is well clear —
+          // hysteresis prevents show/hide oscillation at the footer edge.
+          if (entry.isIntersecting) {
+            nearEnd = true
+          } else if (entry.boundingClientRect.top > window.innerHeight * 0.35) {
+            nearEnd = false
+          }
           sync()
         },
-        { rootMargin: '120px 0px 0px 0px', threshold: [0, 0.05, 0.15] },
+        { rootMargin: '80px 0px 0px 0px', threshold: [0, 0.05, 0.15, 0.35] },
       )
       endObs.observe(end)
       observers.push(endObs)
     }
 
-    // Fallback if IntersectionObserver targets are missing
     if (!start || !end) {
       const onScroll = () => {
         if (!start) pastStart = window.scrollY > 480
@@ -72,14 +77,12 @@ export function StickyCTA() {
       return () => {
         window.removeEventListener('scroll', onScroll)
         observers.forEach((o) => o.disconnect())
-        root?.classList.remove('has-sticky-cta')
       }
     }
 
     sync()
     return () => {
       observers.forEach((o) => o.disconnect())
-      root?.classList.remove('has-sticky-cta')
     }
   }, [])
 

@@ -10,10 +10,18 @@ const DEFAULT_DESCRIPTION =
   'From gut anxiety to gut confidence. Gutsphere is the copilot that helps you make sense of symptoms, act on them, and walk into every appointment prepared.'
 
 export const HOME_META: PageMetaConfig = {
-  title: 'Gutsphere — Your digestive-health copilot',
+  title: 'Gutsphere — From gut anxiety to gut confidence',
   description: DEFAULT_DESCRIPTION,
   path: '/',
 }
+
+export const OG_IMAGE = {
+  url: `${SITE_ORIGIN}/images/web-image.png`,
+  type: 'image/png',
+  width: '2880',
+  height: '1620',
+  alt: 'Gutsphere — Stop managing your gut in five places.',
+} as const
 
 const STATIC_META: Record<string, PageMetaConfig> = {
   '/': HOME_META,

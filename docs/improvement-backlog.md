@@ -1,41 +1,39 @@
 # Landing Page Improvement Backlog
 
 Audit of the copilot-v2 landing page (`/`) against ploy.ai patterns and the
-landing-page conversion checklist. Run: 2026-07-07.
+landing-page conversion checklist. Run: 2026-07-07. Updated: 2026-07-13.
 
 Work through these top to bottom. Check items off as they ship.
+
+---
+
+## Shipped since launch (2026-07-13)
+
+- [x] Fix name-no-name images missing in production (root cause: `.gitignore` `Images/` matched `public/images/` on Windows case-insensitive git)
+- [x] Fix mojibake titles (`Gutsphere â€” …` → proper UTF-8 em dashes in `index.html`)
+- [x] OG/Twitter card with logo + hero message (`public/og-image.jpg`, meta width/height/alt)
+- [x] Mobile footer flicker from sticky CTA layout thrash (always-reserve padding; no backdrop-filter; hysteresis)
+- [x] Delete unrouted lab trees (`flight/`, `guided/`, `v2/`, `style4/`, etc.) + `LandingLayout`
+- [x] Split legacy lab CSS out of global `index.css` (tokens/base only; styles live in `copilot-v2.css` / `marketing-pages.css` / `who-for.css`)
+- [x] Convert problem GIFs to WebM/MP4 + poster frames (GIF kept as fallback)
+- [x] Privacy + Terms pages on-site (`/privacy`, `/terms`)
 
 ---
 
 ## P0 — Conversion & accessibility blockers
 
 ### 1. No CTA above the fold (desktop + mobile)
-The hero shows headline, subhead, and phone mockup, but the only "Start free"
-button is in the nav. The picker (the real conversion widget) is a full scroll
-away. Ploy shows Start Free + Get Demo immediately under its H1.
-
 - [x] Add primary CTA + secondary "See how it works →" pair under the hero subhead (2026-07-07)
 - [x] Add a sticky mobile CTA bar (`src/components/copilot-v2/StickyCTA.tsx`) (2026-07-07)
 
 ### 2. Zero proof on the page — real testimonials sit unused
-`src/constants.ts` holds 12 real testimonials from gutsphere.com's carousel.
-The "radical honesty" section says "no fake testimonials" — which makes the
-real ones stronger, not weaker.
-
 - [x] Add a testimonial strip (3-card grid) under the hero — `ProofSection` (2026-07-07)
 - [ ] Reconcile wording in the honesty section ("no fake testimonials" → point at the real ones)
 
 ### 3. Body text fails WCAG AA contrast
-Card copy in Problem, Difference, and Pricing sections uses `--gs-text-muted`
-(#a8a29e on white ≈ 2.2:1; AA needs 4.5:1).
-
-- [x] Switch card body copy (`.cp2-pain p`, `.cp2-diff p`, `.cp2-desc`, `.cp2-fnode p`,
-      `.cp2-cmp td.stack`, `.cp2-co span`, `.cp2-dx-more`) to `--gs-text-secondary` (2026-07-07)
+- [x] Switch card body copy to `--gs-text-secondary` (2026-07-07)
 
 ### 4. No FAQ section
-Obvious objections unanswered: "Is this medical advice?", "Will it work for my
-condition?", "What happens to my data?", "Can I cancel anytime?".
-
 - [x] Add native `<details>` FAQ section (7 questions) — `FAQSection` (2026-07-07)
 - [x] Add matching FAQPage JSON-LD to `index.html` (2026-07-07)
 
@@ -44,27 +42,15 @@ condition?", "What happens to my data?", "Can I cancel anytime?".
 ## P1 — Ploy-style engagement upgrades
 
 ### 5. Restyle walkthrough as a "copilot never sleeps" activity feed
-Direct analog of Ploy's overnight agent feed ("An employee that never sleeps").
-Same content, timestamped feed framing:
-`2:14am · flare logged in 15s` → `2:15am · linked to late meal + short sleep`
-→ `7:00am · gentler morning plan ready`.
+Direct analog of Ploy's overnight agent feed.
 
 ### 6. Journey map is dead until clicked
-Ploy animates everything on scroll-into-view.
-
-- [ ] When the section enters the viewport, fly the plane a teaser distance or
-      auto-advance to stage 1
+- [ ] When the section enters the viewport, fly the plane a teaser distance or auto-advance to stage 1
 
 ### 7. Phone mockup has a large empty band mid-screen
-Content ends at the insight card; "Log today" is pushed to the bottom.
-
-- [ ] Add 2–3 more mock rows (sleep, meals, streak), or
-- [ ] Cycle through 2–3 screens (log → pattern → visit summary)
+- [ ] Add 2–3 more mock rows, or cycle through 2–3 screens
 
 ### 8. Desktop layout is heavily left-weighted
-Picker (640px), walkthrough (620px), honesty (680px) leave the right half of
-the 1080px container empty for several viewports.
-
 - [ ] Widen the picker to full container width
 - [ ] Pair walkthrough/honesty with a right-side visual or pull-quote
 
@@ -72,30 +58,39 @@ the 1080px container empty for several viewports.
 
 ## P2 — Structure, performance, polish
 
-### 9. Bundle is 621KB (163KB gzip)
-All 13 landing variants load on every route.
-
-- [ ] Route-level code splitting with `React.lazy` in `src/App.tsx`
+### 9. Bundle / code splitting
+- [x] Route-level code splitting with `React.lazy` in `src/App.tsx` (active marketing routes)
+- [x] Removed unrouted lab landings from the bundle (2026-07-13)
 
 ### 10. Persona strip ("Who it's for")
-Ploy's Enterprise/Agencies/Startups section. Our cohorts are buried in the
-journey map preflight card.
-
-- [ ] Standalone strip: Still finding answers / Newly diagnosed / Living with it /
-      Staying ahead — each linking into the journey map at that stage
+- [x] Dedicated `/for` + `/journey` hubs cover this better than an on-page strip
 
 ### 11. Final CTA lacks risk reversal and concreteness
-Ploy: "Plug in your URL and watch it slurp your whole site in 60 seconds.
-Free tier · No card."
-
-- [ ] Add fineprint under final CTA ("Free to start · no card")
+- [ ] Add fineprint under final CTA ("Free to start · no card") if not already visible on mobile band
 - [ ] Make the promise concrete ("Log your first day in 12 seconds — free")
 
 ### 12. Announcement banner
-Ploy tops the page with its funding note.
-
 - [ ] Thin bar: "Founding pricing — $69/yr locked for good for early members"
-      (anchors to #pricing)
+
+---
+
+## P3 — SEO / infrastructure (follow-up)
+
+### 13. Prerender / SSR for marketing URLs
+SPA meta works for crawlers that execute JS, but social/link previews and some bots still prefer HTML-in-response.
+
+Options (pick one):
+1. **Vite SSR / Vite plugin SSR** for key routes (`/`, `/for`, `/about`, `/faq`, `/privacy`, `/terms`, hubs)
+2. **`vite-plugin-prerender` / `react-snap`-style** static HTML generation at build for listed paths
+3. **Vercel Edge middleware** that injects route-specific `<title>` / OG tags into `index.html` for bots
+
+Recommended next step: prerender the static marketing path list already in `public/sitemap.xml` at build time so OG + H1 exist without waiting on hydration.
+
+### 14. Remaining conversion polish
+- Honesty-section copy reconciliation (see §2)
+- Journey map auto-teaser (§6)
+- Founding pricing banner (§12)
+- Procedure-prep pages: audience-specific variants (colonoscopy / endoscopy) — see content brief from 2026-07-13
 
 ---
 
@@ -104,7 +99,7 @@ Ploy tops the page with its funding note.
 - CTA labels: hero picker CTA is dynamic ("Start free & make this yours") while
   nav/pricing say "Start free" — acceptable as a feature, but keep the base
   label consistent everywhere else.
-- JSON-LD (SoftwareApplication) already present in `index.html`; add FAQPage
-  when the FAQ section ships.
+- JSON-LD (SoftwareApplication + FAQPage) present in `index.html`.
 - Fonts already load with `display=swap`; analytics hooks (`data-cta="primary"`)
   already in place.
+- After deploy: re-scrape OG with [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) / Twitter card validator so caches pick up the new `og-image.jpg`.
