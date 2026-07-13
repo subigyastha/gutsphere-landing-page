@@ -1,0 +1,52 @@
+# Gutsphere
+
+> Gutsphere is a digestive-health copilot that helps people make sense of gut symptoms, prepare for care, and build a clearer health story — on web, iOS, and Android.
+
+This file helps language models understand the public marketing site at https://www.gutsphere.com.
+
+## Product
+
+- Gutsphere is not a doctor and does not replace medical care.
+- Primary conversion: start free at https://app.gutsphere.com/
+- Demo embed: https://demo.gutsphere.com/ibs/
+- Newsletter (Substack): https://newsletter.gutsphere.com/
+
+## Main pages
+
+- [Home](https://www.gutsphere.com/): Primary landing — problem, journey, system, compare, pricing, FAQ
+- [Who it's for](https://www.gutsphere.com/for): Situations and stages
+- [About](https://www.gutsphere.com/about): Company / founder story
+- [Journey](https://www.gutsphere.com/journey): Journey hub
+- [Compare](https://www.gutsphere.com/compare): How Gutsphere fits vs trackers, AI chat, telehealth, test kits
+- [FAQ](https://www.gutsphere.com/faq): Common questions
+- [Privacy](https://www.gutsphere.com/privacy): Privacy policy
+- [Terms](https://www.gutsphere.com/terms): Terms and conditions
+
+## Conditions
+
+- [IBS](https://www.gutsphere.com/conditions/ibs)
+- [IBD](https://www.gutsphere.com/conditions/ibd)
+- [GERD](https://www.gutsphere.com/conditions/gerd)
+- [Constipation](https://www.gutsphere.com/conditions/constipation)
+- [Bloating](https://www.gutsphere.com/conditions/bloating)
+- [Diarrhea](https://www.gutsphere.com/conditions/diarrhea)
+
+## Features
+
+- [Trackers](https://www.gutsphere.com/features/trackers)
+- [Insights](https://www.gutsphere.com/features/insights)
+- [Guidance](https://www.gutsphere.com/features/guidance)
+- [Care](https://www.gutsphere.com/features/care)
+- [Colonoscopy prep](https://www.gutsphere.com/features/colonoscopy-prep)
+- [Endoscopy prep](https://www.gutsphere.com/features/endoscopy-prep)
+
+## Planned / migrating from legacy Webflow
+
+- Contact (`/contact`) — contact form (replacing Webflow `/contact-us`)
+- Advisory (`/advisory`) — advisory intake form
+- Resources (`/resources`) — guides and downloadable resources hub
+
+## Optional
+
+- [Sitemap](https://www.gutsphere.com/sitemap.xml)
+- [Robots](https://www.gutsphere.com/robots.txt)

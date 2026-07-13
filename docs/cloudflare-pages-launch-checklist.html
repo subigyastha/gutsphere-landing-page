@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gutsphere — Cloudflare Pages Launch Checklist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sand: #F5EEE8;
+      --sand-light: #FAF6F2;
+      --card: #FFFFFF;
+      --coral: #EF5350;
+      --text: #1C1917;
+      --secondary: #57534E;
+      --muted: #A8A29E;
+      --border: #E7E0DA;
+      --green: #2E7D32;
+      --green-bg: rgba(46, 125, 50, 0.1);
+      --amber: #92400E;
+      --amber-bg: #FEF3C7;
+      --red: #B91C1C;
+      --red-bg: #FEE2E2;
+      --blue: #1D4ED8;
+      --blue-bg: #DBEAFE;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand);
+      color: var(--text);
+      line-height: 1.55;
+      padding: 32px 16px 64px;
+    }
+    h1, h2, h3, h4 { font-family: 'Inter', sans-serif; font-weight: 600; }
+    .wrap { max-width: 980px; margin: 0 auto; }
+    .hero {
+      background: linear-gradient(145deg, #2A2522 0%, #1A1614 100%);
+      color: #F5F0EC;
+      border-radius: 24px;
+      padding: 40px 36px;
+      margin-bottom: 20px;
+    }
+    .hero .eyebrow {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #F87171; margin-bottom: 12px;
+    }
+    .hero h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; margin-bottom: 12px; }
+    .hero p { color: #C4BBB5; max-width: 64ch; font-size: 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px; padding: 6px 14px; font-size: 13px; color: #F5F0EC;
+    }
+    .chip strong { color: #F87171; font-weight: 600; }
+    .toc {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 20px 24px; margin-bottom: 20px;
+    }
+    .toc h2 { font-size: 14px; color: var(--muted); text-transform: uppercase;
+      letter-spacing: 0.06em; margin-bottom: 12px; }
+    .toc ol { margin-left: 1.2rem; font-size: 14px; color: var(--secondary); }
+    .toc li { margin-bottom: 6px; }
+    .toc a { color: var(--coral); text-decoration: none; font-weight: 500; }
+    .toc a:hover { text-decoration: underline; }
+    .progress {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 16px 20px; margin-bottom: 20px;
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+    .progress-bar {
+      flex: 1; min-width: 160px; height: 10px; background: var(--sand);
+      border-radius: 999px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; width: 0%; background: var(--coral);
+      border-radius: 999px; transition: width 0.2s ease;
+    }
+    .progress-label { font-size: 13px; color: var(--secondary); font-weight: 600; }
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px;
+    }
+    @media (max-width: 700px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+    .stat {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 14px; text-align: center;
+    }
+    .stat .n {
+      font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 700;
+      color: var(--coral); line-height: 1.1;
+    }
+    .stat .l { font-size: 12px; color: var(--secondary); margin-top: 8px; }
+    .section {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px 28px 12px; margin-bottom: 20px;
+      scroll-margin-top: 24px;
+    }
+    .section h2 {
+      font-size: 20px; margin-bottom: 6px; display: flex; align-items: center;
+      gap: 10px; flex-wrap: wrap;
+    }
+    .section .sub { font-size: 14px; color: var(--secondary); margin-bottom: 18px; }
+    .section h3 {
+      font-size: 15px; color: var(--secondary); margin: 22px 0 10px;
+      padding-top: 8px; border-top: 1px solid var(--border);
+    }
+    .section h3:first-of-type { border-top: none; padding-top: 0; }
+    .section h4 { font-size: 14px; margin: 14px 0 8px; }
+    .badge {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 6px;
+    }
+    .badge.done { background: var(--green-bg); color: var(--green); }
+    .badge.warn { background: var(--amber-bg); color: var(--amber); }
+    .badge.block { background: var(--red-bg); color: var(--red); }
+    .badge.info { background: var(--blue-bg); color: var(--blue); }
+    table {
+      width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px;
+    }
+    th, td {
+      text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th {
+      font-family: 'Inter', sans-serif; font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.05em; color: var(--muted); font-weight: 600;
+    }
+    code, .mono {
+      font-size: 12px; background: var(--sand-light); padding: 2px 6px;
+      border-radius: 4px; font-family: ui-monospace, Consolas, monospace;
+    }
+    pre {
+      background: #1A1614; color: #F5F0EC; border-radius: 12px;
+      padding: 14px 16px; overflow-x: auto; font-size: 12px;
+      font-family: ui-monospace, Consolas, monospace; margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .checklist { list-style: none; margin: 0 0 12px; padding: 0; }
+    .checklist li {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 11px 0; border-bottom: 1px solid var(--border); font-size: 14px;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist input[type="checkbox"] {
+      width: 18px; height: 18px; margin-top: 2px; accent-color: var(--coral); flex-shrink: 0;
+    }
+    .checklist .item-body { flex: 1; }
+    .checklist .item-title { font-weight: 600; color: var(--text); margin-bottom: 2px; }
+    .checklist .item-note { color: var(--secondary); font-size: 13px; }
+    .callout {
+      border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; font-size: 14px;
+    }
+    .callout.warn { background: var(--amber-bg); color: var(--amber); border: 1px solid #FDE68A; }
+    .callout.block { background: var(--red-bg); color: var(--red); border: 1px solid #FECACA; }
+    .callout.ok { background: var(--green-bg); color: var(--green); border: 1px solid #BBF7D0; }
+    .callout.info { background: var(--blue-bg); color: var(--blue); border: 1px solid #BFDBFE; }
+    .steps { counter-reset: step; margin: 0 0 16px; padding: 0; list-style: none; }
+    .steps > li {
+      position: relative; padding: 14px 14px 14px 52px; margin-bottom: 10px;
+      background: var(--sand-light); border: 1px solid var(--border); border-radius: 12px;
+      font-size: 14px; color: var(--secondary);
+    }
+    .steps > li::before {
+      counter-increment: step; content: counter(step);
+      position: absolute; left: 14px; top: 14px;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--coral); color: white;
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .steps > li strong { color: var(--text); display: block; margin-bottom: 4px; }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .pill {
+      font-size: 12px; padding: 6px 10px; border-radius: 8px;
+      background: var(--sand-light); border: 1px solid var(--border); color: var(--secondary);
+    }
+    .pill code { background: transparent; padding: 0; }
+    footer {
+      text-align: center; font-size: 13px; color: var(--muted); margin-top: 28px;
+    }
+    .actions {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px;
+    }
+    .btn {
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+      border: 1px solid var(--border); background: var(--sand-light);
+      color: var(--text); border-radius: 8px; padding: 8px 12px; cursor: pointer;
+    }
+    .btn:hover { border-color: var(--coral); color: var(--coral); }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .btn, .progress { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="eyebrow">Internal · Launch runbook</p>
+      <h1>Cloudflare Pages launch checklist</h1>
+      <p>
+        Step-by-step instructions to host the Gutsphere marketing SPA on Cloudflare Pages,
+        cut over <code style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;color:#F5F0EC">www.gutsphere.com</code>
+        from Webflow, restore analytics, and plan remaining pages (contact, advisory, resources, Substack).
+      </p>
+      <div class="meta">
+        <span class="chip"><strong>Host</strong> Cloudflare Pages</span>
+        <span class="chip"><strong>DNS</strong> Cloudflare (existing)</span>
+        <span class="chip"><strong>Date</strong> 13 Jul 2026</span>
+        <span class="chip"><strong>Doc</strong> docs/cloudflare-pages-launch-checklist.html</span>
+      </div>
+    </header>
+
+    <nav class="toc">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#overview">Overview &amp; decisions</a></li>
+        <li><a href="#phase-0">Phase 0 — Repo prep</a></li>
+        <li><a href="#phase-1">Phase 1 — Create Pages project</a></li>
+        <li><a href="#phase-2">Phase 2 — Preview QA (<code>*.pages.dev</code>)</a></li>
+        <li><a href="#phase-3">Phase 3 — Analytics restore</a></li>
+        <li><a href="#phase-4">Phase 4 — Forms before cutover</a></li>
+        <li><a href="#phase-5">Phase 5 — DNS cutover from Webflow</a></li>
+        <li><a href="#phase-6">Phase 6 — Post-cutover</a></li>
+        <li><a href="#url-matrix">Webflow URL matrix &amp; redirects</a></li>
+        <li><a href="#backlog">Post-launch backlog</a></li>
+        <li><a href="#timeline">Suggested timeline</a></li>
+      </ol>
+    </nav>
+
+    <div class="progress">
+      <span class="progress-label">Checklist progress: <span id="progress-count">0 / 0</span></span>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="actions">
+        <button type="button" class="btn" id="btn-clear">Clear checked</button>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="n">Pages</div><div class="l">Static SPA host</div></div>
+      <div class="stat"><div class="n">1×</div><div class="l">DNS flip for www</div></div>
+      <div class="stat"><div class="n">~39</div><div class="l">Webflow URLs mapped</div></div>
+      <div class="stat"><div class="n">4</div><div class="l">Analytics tools to restore</div></div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <section class="section" id="overview">
+      <h2>1. Overview &amp; decisions <span class="badge done">Locked</span></h2>
+      <p class="sub">What we decided and why — for anyone joining mid-launch.</p>
+
+      <table>
+        <thead><tr><th>Topic</th><th>Decision</th></tr></thead>
+        <tbody>
+          <tr><td>Host</td><td><strong>Cloudflare Pages</strong> (DNS already on Cloudflare)</td></tr>
+          <tr><td>Not using</td><td>GitHub Pages, Webflow hosting for this React repo, Kamal/Azure for <code>www</code></td></tr>
+          <tr><td>App product</td><td>Stays on Azure/Kamal at <code>app.gutsphere.com</code> — unchanged</td></tr>
+          <tr><td>SPA routing</td><td>Automatic — <strong>do not</strong> add root <code>404.html</code></td></tr>
+          <tr><td>Redirects</td><td><code>public/_redirects</code> (Webflow → SPA)</td></tr>
+          <tr><td>Cache headers</td><td><code>public/_headers</code></td></tr>
+          <tr><td>AI crawlers</td><td><code>public/llms.txt</code></td></tr>
+          <tr><td>Companion QA</td><td><code>docs/deployment-readiness-report.html</code></td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout ok">
+        Users keep <strong>www.gutsphere.com</strong>. Cutover is a one-time DNS change from Webflow to Pages in the Cloudflare dashboard — not ongoing domain management.
+      </div>
+      <div class="callout warn">
+        <strong>Before flipping DNS:</strong> ideally ship <code>/contact</code> and <code>/advisory</code> (or accept interim redirects to home). Forms on Webflow will stop working for <code>www</code> after cutover.
+      </div>
+    </section>
+
+    <!-- PHASE 0 -->
+    <section class="section" id="phase-0">
+      <h2>2. Phase 0 — Repo prep <span class="badge info">Before Pages</span></h2>
+      <p class="sub">Do this on a clean branch before connecting Cloudflare.</p>
+
+      <ol class="steps">
+        <li>
+          <strong>Confirm Cloudflare files exist in the repo</strong>
+          These should already be present:
+          <div class="pill-row" style="margin-top:8px">
+            <span class="pill"><code>public/_redirects</code></span>
+            <span class="pill"><code>public/_headers</code></span>
+            <span class="pill"><code>public/llms.txt</code></span>
+            <span class="pill"><code>public/robots.txt</code></span>
+            <span class="pill"><code>public/sitemap.xml</code></span>
+            <span class="pill"><code>.nvmrc</code> → 20</span>
+          </div>
+        </li>
+        <li>
+          <strong>Build locally and verify</strong>
+          <pre>npm install
+npm run build
+npm run preview</pre>
+          Open the preview URL and smoke-test home + one hub page.
+        </li>
+        <li>
+          <strong>Commit &amp; push production assets</strong>
+          Include <code>public/images/**</code>, OG image, icons, redirects, headers, <code>llms.txt</code>.
+        </li>
+      </ol>
+
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="p0-1" data-persist />
+          <label class="item-body" for="p0-1">
+            <div class="item-title"><code>_redirects</code>, <code>_headers</code>, <code>llms.txt</code> committed</div>
+            <div class="item-note">Vite copies everything from <code>public/</code> into <code>dist/</code></div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p0-2" data-persist />
+          <label class="item-body" for="p0-2">
+            <div class="item-title"><code>npm run build</code> succeeds with no TypeScript errors</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p0-3" data-persist />
+          <label class="item-body" for="p0-3">
+            <div class="item-title">No root <code>public/404.html</code> present</div>
+            <div class="item-note">Required for Cloudflare Pages automatic SPA mode</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p0-4" data-persist />
+          <label class="item-body" for="p0-4">
+            <div class="item-title">Production branch pushed to GitHub</div>
+            <div class="item-note">Usually <code>main</code></div>
+          </label>
+        </li>
+      </ul>
+    </section>
+
+    <!-- PHASE 1 -->
+    <section class="section" id="phase-1">
+      <h2>3. Phase 1 — Create Pages project <span class="badge info">Cloudflare UI</span></h2>
+      <p class="sub">Connect the GitHub repo and configure the first production build.</p>
+
+      <ol class="steps">
+        <li>
+          <strong>Open Cloudflare Dashboard</strong>
+          Go to <strong>Workers &amp; Pages</strong> → <strong>Create</strong> → <strong>Pages</strong> → <strong>Connect to Git</strong>.
+        </li>
+        <li>
+          <strong>Authorize GitHub</strong>
+          Select the Gutsphere Landing repository and grant access if prompted.
+        </li>
+        <li>
+          <strong>Enter build settings exactly</strong>
+          <table>
+            <thead><tr><th>Field</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td>Project name</td><td>e.g. <code>gutsphere-landing</code></td></tr>
+              <tr><td>Production branch</td><td><code>main</code></td></tr>
+              <tr><td>Framework preset</td><td>Vite (or None)</td></tr>
+              <tr><td>Build command</td><td><code>npm run build</code></td></tr>
+              <tr><td>Build output directory</td><td><code>dist</code></td></tr>
+              <tr><td>Root directory</td><td><code>/</code> (leave default)</td></tr>
+              <tr><td>Env var</td><td><code>NODE_VERSION</code> = <code>20</code></td></tr>
+            </tbody>
+          </table>
+        </li>
+        <li>
+          <strong>Save and deploy</strong>
+          Wait for a green build. Copy the URL: <code>https://&lt;project&gt;.pages.dev</code>.
+        </li>
+      </ol>
+
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="p1-1" data-persist />
+          <label class="item-body" for="p1-1">
+            <div class="item-title">Pages project created and linked to GitHub</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p1-2" data-persist />
+          <label class="item-body" for="p1-2">
+            <div class="item-title">Build settings match the table above</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p1-3" data-persist />
+          <label class="item-body" for="p1-3">
+            <div class="item-title">First production deploy is green</div>
+            <div class="item-note">Open build logs if it fails — usually Node version or output dir</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p1-4" data-persist />
+          <label class="item-body" for="p1-4">
+            <div class="item-title">Preview URL saved for the team</div>
+            <div class="item-note"><code>https://____________.pages.dev</code></div>
+          </label>
+        </li>
+      </ul>
+    </section>
+
+    <!-- PHASE 2 -->
+    <section class="section" id="phase-2">
+      <h2>4. Phase 2 — Preview QA <span class="badge warn">Blocker for DNS</span></h2>
+      <p class="sub">Test only on <code>*.pages.dev</code> (or staging subdomain). Do not flip <code>www</code> yet.</p>
+
+      <div class="callout info">
+        Also open <code>docs/deployment-readiness-report.html</code> for the general SPA QA list.
+      </div>
+
+      <h3>Homepage &amp; conversion</h3>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="p2-1" data-persist />
+          <label class="item-body" for="p2-1">
+            <div class="item-title"><code>/</code> loads fully</div>
+            <div class="item-note">Hero, NameNoName images, problem media, pricing, FAQ</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p2-2" data-persist />
+          <label class="item-body" for="p2-2">
+            <div class="item-title">Hero demo iframe loads from <code>demo.gutsphere.com</code></div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p2-3" data-persist />
+          <label class="item-body" for="p2-3">
+            <div class="item-title">Start free / sticky CTA / store badges hit <code>app.gutsphere.com</code></div>
+            <div class="item-note">Check UTM params in the URL</div>
+          </label>
+        </li>
+      </ul>
+
+      <h3>SPA deep links (refresh / new tab)</h3>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="p2-4" data-persist />
+          <label class="item-body" for="p2-4">
+            <div class="item-title"><code>/about</code>, <code>/for</code>, <code>/faq</code>, <code>/journey</code> work on refresh</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p2-5" data-persist />
+          <label class="item-body" for="p2-5">
+            <div class="item-title"><code>/conditions/ibs</code> and <code>/compare/symptom-trackers</code> work on refresh</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p2-6" data-persist />
+          <label class="item-body" for="p2-6">
+            <div class="item-title"><code>/privacy</code> and <code>/terms</code> load</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p2-7" data-persist />
+          <label class="item-body" for="p2-7">
+            <div class="item-title">Unknown path shows in-app 404 (not blank)</div>
+            <div class="item-note">e.g. <code>/this-does-not-exist</code></div>
+          </label>
+        </li>
+      </ul>
+
+      <h3>Redirects &amp; static files</h3>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="p2-8" data-persist />
+          <label class="item-body" for="p2-8">
+            <div class="item-title"><code>/about-us</code> → <code>/about</code> (301)</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p2-9" data-persist />
+          <label class="item-body" for="p2-9">
+            <div class="item-title"><code>/ibs</code> → <code>/conditions/ibs</code></div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p2-10" data-persist />
+          <label class="item-body" for="p2-10">
+            <div class="item-title"><code>/terms-and-conditions</code> → <code>/terms</code></div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p2-11" data-persist />
+          <label class="item-body" for="p2-11">
+            <div class="item-title"><code>/robots.txt</code>, <code>/sitemap.xml</code>, <code>/llms.txt</code> return 200</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p2-12" data-persist />
+          <label class="item-body" for="p2-12">
+            <div class="item-title">Footer newsletter form still posts toward Substack subscribe</div>
+            <div class="item-note"><code>newsletter.gutsphere.com/subscribe</code></div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p2-13" data-persist />
+          <label class="item-body" for="p2-13">
+            <div class="item-title">No console / network 404s for images on homepage</div>
+          </label>
+        </li>
+      </ul>
+
+      <h3>Optional staging domain</h3>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="p2-14" data-persist />
+          <label class="item-body" for="p2-14">
+            <div class="item-title">Optional: bind <code>staging.gutsphere.com</code> to Pages for team review</div>
+          </label>
+        </li>
+      </ul>
+    </section>
+
+    <!-- PHASE 3 -->
+    <section class="section" id="phase-3">
+      <h2>5. Phase 3 — Analytics restore <span class="badge warn">Do on preview first</span></h2>
+      <p class="sub">Extracted from live Webflow homepage (13 Jul 2026). Prefer one GTM container.</p>
+
+      <table>
+        <thead><tr><th>Tool</th><th>ID</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>Google Tag Manager</td><td><code>GTM-5ZCP7TNW</code></td><td>Add to <code>index.html</code> (preferred)</td></tr>
+          <tr><td>GA4</td><td><code>G-FLM2GR9L49</code></td><td>Via GTM if already configured</td></tr>
+          <tr><td>Mixpanel</td><td><code>76c3a63f60575cde28d455570ccba13d</code></td><td>Via GTM or init in app; map <code>cta_click</code></td></tr>
+          <tr><td>Hotjar</td><td><code>6484334</code></td><td>Via GTM</td></tr>
+          <tr><td>Microsoft Clarity</td><td>Confirm in GTM/Webflow</td><td>Via GTM</td></tr>
+          <tr><td>Bing UET</td><td>Not found in HTML</td><td>Check Bing Webmaster if needed</td></tr>
+          <tr><td>ShareThis</td><td><code>66fbd6eb…</code></td><td>Skip unless marketing wants it</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout info">
+        Recommended: install <strong>GTM only</strong> in code; keep Hotjar / Clarity / Mixpanel / GA inside GTM so marketing can change tags without a deploy.
+      </div>
+
+      <ol class="steps">
+        <li>
+          <strong>Add GTM snippet to <code>index.html</code></strong>
+          Use the same container <code>GTM-5ZCP7TNW</code> as Webflow when possible (preserves history).
+        </li>
+        <li>
+          <strong>Keep <code>src/analytics.ts</code></strong>
+          Push SPA CTA events to <code>dataLayer</code> and/or Mixpanel.
+        </li>
+        <li>
+          <strong>Verify on preview</strong>
+          GTM Preview mode + Mixpanel Live + Hotjar recordings on <code>*.pages.dev</code>.
+        </li>
+      </ol>
+
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="p3-1" data-persist />
+          <label class="item-body" for="p3-1">
+            <div class="item-title">GTM <code>GTM-5ZCP7TNW</code> installed and fires on preview</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p3-2" data-persist />
+          <label class="item-body" for="p3-2">
+            <div class="item-title">GA4 page views visible (via GTM or gtag)</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p3-3" data-persist />
+          <label class="item-body" for="p3-3">
+            <div class="item-title">Mixpanel receiving events (or deferred with ticket)</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p3-4" data-persist />
+          <label class="item-body" for="p3-4">
+            <div class="item-title">Hotjar / Clarity confirmed or explicitly skipped</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p3-5" data-persist />
+          <label class="item-body" for="p3-5">
+            <div class="item-title">Primary CTA click produces expected event</div>
+            <div class="item-note">variant should be production id (e.g. style-13)</div>
+          </label>
+        </li>
+      </ul>
+    </section>
+
+    <!-- PHASE 4 -->
+    <section class="section" id="phase-4">
+      <h2>6. Phase 4 — Forms before cutover <span class="badge block">Strongly recommended</span></h2>
+      <p class="sub">Webflow forms die for www after DNS flip. Build SPA forms first, or accept temporary home redirects.</p>
+
+      <h3>Contact</h3>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="p4-1" data-persist />
+          <label class="item-body" for="p4-1">
+            <div class="item-title">Build SPA page <code>/contact</code></div>
+            <div class="item-note">Match Webflow fields: name, email, message (+ topic). Honeypot + success state.</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p4-2" data-persist />
+          <label class="item-body" for="p4-2">
+            <div class="item-title">Choose form backend</div>
+            <div class="item-note">Formspree / Getform / Basin · or Cloudflare Worker + Resend · or Web3Forms</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p4-3" data-persist />
+          <label class="item-body" for="p4-3">
+            <div class="item-title">Update <code>CONTACT_URL</code> → <code>/contact</code></div>
+            <div class="item-note">In <code>src/constants.ts</code> (today points at Webflow <code>/contact-us</code>)</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p4-4" data-persist />
+          <label class="item-body" for="p4-4">
+            <div class="item-title">Update <code>_redirects</code>: <code>/contact-us</code> → <code>/contact</code></div>
+          </label>
+        </li>
+      </ul>
+
+      <h3>Advisory</h3>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="p4-5" data-persist />
+          <label class="item-body" for="p4-5">
+            <div class="item-title">Build SPA page <code>/advisory</code></div>
+            <div class="item-note">Mirror Webflow <code>wf-form-Advisory-Form</code> fields</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p4-6" data-persist />
+          <label class="item-body" for="p4-6">
+            <div class="item-title">Update <code>_redirects</code>: <code>/advisory</code> → <code>/advisory</code> (real page, not home)</div>
+          </label>
+        </li>
+      </ul>
+
+      <h3>Substack (inline, no leave-site redirect)</h3>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="p4-7" data-persist />
+          <label class="item-body" for="p4-7">
+            <div class="item-title">Improve footer subscribe UX</div>
+            <div class="item-note">Keep POST to <code>newsletter.gutsphere.com/subscribe</code> or embed Substack form; show in-page success</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p4-8" data-persist />
+          <label class="item-body" for="p4-8">
+            <div class="item-title">Test subscribe on preview — confirmation without navigating away</div>
+          </label>
+        </li>
+      </ul>
+
+      <div class="callout warn">
+        Until contact/advisory ship, <code>_redirects</code> currently soft-lands <code>/contact-us</code> and <code>/advisory</code> on <code>/</code> so cutover does not 404 — but forms will be unavailable. Prefer shipping pages in this phase.
+      </div>
+    </section>
+
+    <!-- PHASE 5 -->
+    <section class="section" id="phase-5">
+      <h2>7. Phase 5 — DNS cutover from Webflow <span class="badge block">Production</span></h2>
+      <p class="sub">One-time change in Cloudflare DNS. App / demo / newsletter subdomains stay untouched.</p>
+
+      <ol class="steps">
+        <li>
+          <strong>Day before: lower TTL</strong>
+          On the <code>www</code> record, set TTL to ~300 seconds if it is currently high.
+        </li>
+        <li>
+          <strong>Confirm Pages deploy is green</strong>
+          Latest production deployment on Cloudflare Pages must be healthy.
+        </li>
+        <li>
+          <strong>Add custom domain in Pages</strong>
+          Pages project → <strong>Custom domains</strong> → add <code>www.gutsphere.com</code>.
+          Cloudflare usually creates/updates the DNS record in the same zone.
+        </li>
+        <li>
+          <strong>Point www at Pages</strong>
+          Remove or replace the old Webflow CNAME. Use proxied (orange cloud) if that is your normal setup.
+        </li>
+        <li>
+          <strong>Apex redirect</strong>
+          Redirect Rule: <code>gutsphere.com</code> → <code>https://www.gutsphere.com</code> (301).
+        </li>
+        <li>
+          <strong>SSL</strong>
+          SSL/TLS mode: <strong>Full (strict)</strong>.
+        </li>
+        <li>
+          <strong>Do not change</strong>
+          Leave alone: <code>app</code>, <code>demo</code>, <code>newsletter</code> DNS records.
+        </li>
+        <li>
+          <strong>Keep Webflow as rollback</strong>
+          Do not delete the Webflow project for 1–2 weeks.
+        </li>
+        <li>
+          <strong>If assets look stale</strong>
+          Caching → <strong>Purge Everything</strong>.
+        </li>
+      </ol>
+
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="p5-1" data-persist />
+          <label class="item-body" for="p5-1">
+            <div class="item-title">TTL lowered on <code>www</code></div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p5-2" data-persist />
+          <label class="item-body" for="p5-2">
+            <div class="item-title">Pages custom domain <code>www.gutsphere.com</code> active</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p5-3" data-persist />
+          <label class="item-body" for="p5-3">
+            <div class="item-title">Webflow CNAME removed / replaced</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p5-4" data-persist />
+          <label class="item-body" for="p5-4">
+            <div class="item-title">Apex → www 301 rule in place</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p5-5" data-persist />
+          <label class="item-body" for="p5-5">
+            <div class="item-title">SSL Full (strict) confirmed</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p5-6" data-persist />
+          <label class="item-body" for="p5-6">
+            <div class="item-title"><code>app</code> / <code>demo</code> / <code>newsletter</code> DNS unchanged</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p5-7" data-persist />
+          <label class="item-body" for="p5-7">
+            <div class="item-title">Production smoke test on real <code>www</code></div>
+            <div class="item-note">Home, deep link refresh, one redirect, one CTA, privacy/terms</div>
+          </label>
+        </li>
+      </ul>
+    </section>
+
+    <!-- PHASE 6 -->
+    <section class="section" id="phase-6">
+      <h2>8. Phase 6 — Post-cutover <span class="badge done">After go-live</span></h2>
+      <p class="sub">SEO, social, monitoring, then retire Webflow.</p>
+
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="p6-1" data-persist />
+          <label class="item-body" for="p6-1">
+            <div class="item-title">Google Search Console — submit sitemap</div>
+            <div class="item-note"><code>https://www.gutsphere.com/sitemap.xml</code></div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p6-2" data-persist />
+          <label class="item-body" for="p6-2">
+            <div class="item-title">Re-scrape OG image</div>
+            <div class="item-note">Facebook Sharing Debugger / LinkedIn / Twitter card validator</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p6-3" data-persist />
+          <label class="item-body" for="p6-3">
+            <div class="item-title">Spot-check top Webflow redirects from URL matrix</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p6-4" data-persist />
+          <label class="item-body" for="p6-4">
+            <div class="item-title">Analytics live on production (GTM Preview off)</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p6-5" data-persist />
+          <label class="item-body" for="p6-5">
+            <div class="item-title">Monitor 404s for 48–72 hours</div>
+            <div class="item-note">Search Console / Cloudflare analytics / GA</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="p6-6" data-persist />
+          <label class="item-body" for="p6-6">
+            <div class="item-title">After 1–2 weeks stable: downgrade or cancel Webflow</div>
+          </label>
+        </li>
+      </ul>
+    </section>
+
+    <!-- URL MATRIX -->
+    <section class="section" id="url-matrix">
+      <h2>9. Webflow URL matrix <span class="badge info">Reference</span></h2>
+      <p class="sub">From live <code>www.gutsphere.com/sitemap.xml</code> (13 Jul 2026). Implemented in <code>public/_redirects</code>.</p>
+
+      <h3>Covered / redirected to SPA</h3>
+      <table>
+        <thead><tr><th>Webflow</th><th>SPA target</th><th>Type</th></tr></thead>
+        <tbody>
+          <tr><td><code>/</code></td><td><code>/</code></td><td>Direct</td></tr>
+          <tr><td><code>/about-us</code></td><td><code>/about</code></td><td>301</td></tr>
+          <tr><td><code>/privacy</code></td><td><code>/privacy</code></td><td>Direct</td></tr>
+          <tr><td><code>/terms-and-conditions</code></td><td><code>/terms</code></td><td>301</td></tr>
+          <tr><td><code>/ibs</code> … <code>/diarrhea</code></td><td><code>/conditions/…</code></td><td>301</td></tr>
+          <tr><td><code>/pricing</code></td><td><code>/#pricing</code></td><td>301</td></tr>
+          <tr><td><code>/gi-health-copilot</code>, <code>/copilot-demo</code></td><td><code>/</code></td><td>301</td></tr>
+          <tr><td><code>/colonoscopy-preparation-sms-reminders</code></td><td><code>/features/colonoscopy-prep</code></td><td>301</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Gaps — build later (interim → home)</h3>
+      <table>
+        <thead><tr><th>Webflow</th><th>Build as</th><th>Priority</th></tr></thead>
+        <tbody>
+          <tr><td><code>/contact-us</code></td><td><code>/contact</code> + form</td><td><span class="badge block">P0</span></td></tr>
+          <tr><td><code>/advisory</code></td><td><code>/advisory</code> + form</td><td><span class="badge block">P0</span></td></tr>
+          <tr><td><code>/resources</code>, <code>/downloadable-resources</code></td><td><code>/resources</code> hub</td><td><span class="badge warn">P1</span></td></tr>
+          <tr><td>~18 guide/content URLs</td><td><code>/resources/:slug</code> or Substack</td><td><span class="badge warn">P1–P2</span></td></tr>
+          <tr><td><code>/roadmap</code></td><td>optional / about</td><td><span class="badge info">P2</span></td></tr>
+          <tr><td><code>/gut-health-baseline-quiz</code></td><td>keep or rebuild</td><td><span class="badge info">Decide</span></td></tr>
+          <tr><td><code>/test1</code></td><td>delete</td><td><span class="badge done">Junk</span></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Guide URLs (SEO — update redirects when resources hub ships)</h3>
+      <div class="pill-row">
+        <span class="pill"><code>/thanksgiving-checklist</code></span>
+        <span class="pill"><code>/how-to-poop-fast</code></span>
+        <span class="pill"><code>/know-your-poop-guide</code></span>
+        <span class="pill"><code>/seven-day-gut-repair-plan</code></span>
+        <span class="pill"><code>/probiotic-cheat-sheet</code></span>
+        <span class="pill"><code>/gut-brain-food-guide</code></span>
+        <span class="pill"><code>/laxative-ladder-protocol</code></span>
+        <span class="pill"><code>/children-gut-health-guide</code></span>
+        <span class="pill"><code>/bacteria-gut-microbiome</code></span>
+        <span class="pill">+ 9 more in _redirects</span>
+      </div>
+    </section>
+
+    <!-- BACKLOG -->
+    <section class="section" id="backlog">
+      <h2>10. Post-launch backlog <span class="badge warn">After www is live</span></h2>
+      <p class="sub">Remaining Webflow surface area to rebuild in the SPA.</p>
+
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="b1" data-persist />
+          <label class="item-body" for="b1">
+            <div class="item-title">P0 — <code>/contact</code> with working form backend</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="b2" data-persist />
+          <label class="item-body" for="b2">
+            <div class="item-title">P0 — <code>/advisory</code> with working form backend</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="b3" data-persist />
+          <label class="item-body" for="b3">
+            <div class="item-title">P1 — Inline Substack subscribe (no leave-site redirect)</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="b4" data-persist />
+          <label class="item-body" for="b4">
+            <div class="item-title">P1 — <code>/resources</code> hub (downloads + guides index)</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="b5" data-persist />
+          <label class="item-body" for="b5">
+            <div class="item-title">P1 — Retarget guide 301s to <code>/resources/:slug</code></div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="b6" data-persist />
+          <label class="item-body" for="b6">
+            <div class="item-title">P2 — Migrate top SEO articles into SPA or Substack</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="b7" data-persist />
+          <label class="item-body" for="b7">
+            <div class="item-title">P2 — Optional standalone <code>/pricing</code> page</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="b8" data-persist />
+          <label class="item-body" for="b8">
+            <div class="item-title">Update <code>llms.txt</code> when contact / advisory / resources ship</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="b9" data-persist />
+          <label class="item-body" for="b9">
+            <div class="item-title">Expand <code>sitemap.xml</code> for new routes</div>
+          </label>
+        </li>
+      </ul>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="section" id="timeline">
+      <h2>11. Suggested timeline</h2>
+      <p class="sub">Adjust if contact/advisory must ship before DNS.</p>
+      <table>
+        <thead><tr><th>Week</th><th>Focus</th></tr></thead>
+        <tbody>
+          <tr><td><strong>0</strong></td><td>Pages project + <code>*.pages.dev</code> QA; GTM on preview</td></tr>
+          <tr><td><strong>1</strong></td><td>Build <code>/contact</code> + <code>/advisory</code> + Substack inline; staging QA</td></tr>
+          <tr><td><strong>2</strong></td><td>DNS cutover <code>www</code> → Pages; monitor 404s &amp; analytics</td></tr>
+          <tr><td><strong>3–4</strong></td><td><code>/resources</code> hub + top SEO redirects</td></tr>
+          <tr><td><strong>5+</strong></td><td>Remaining guides; retire Webflow</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Commands</h3>
+      <pre>npm install
+npm run build
+npm run preview
+
+# After git push: Cloudflare builds automatically
+# Optional manual: wrangler pages deploy dist --project-name=gutsphere-landing</pre>
+    </section>
+
+    <footer>
+      Gutsphere · Cloudflare Pages launch checklist · 13 Jul 2026<br />
+      Open: <code>docs/cloudflare-pages-launch-checklist.html</code>
+      · Markdown twin: <code>docs/cloudflare-pages-launch-plan.md</code>
+      · QA companion: <code>docs/deployment-readiness-report.html</code>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const KEY = 'gutsphere-cf-pages-checklist-v1'
+      const boxes = Array.from(document.querySelectorAll('input[data-persist]'))
+      const fill = document.getElementById('progress-fill')
+      const count = document.getElementById('progress-count')
+
+      function load() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(KEY) || '{}')
+          boxes.forEach((el) => { if (saved[el.id]) el.checked = true })
+        } catch (_) {}
+        update()
+      }
+
+      function save() {
+        const data = {}
+        boxes.forEach((el) => { data[el.id] = el.checked })
+        localStorage.setItem(KEY, JSON.stringify(data))
+        update()
+      }
+
+      function update() {
+        const total = boxes.length
+        const done = boxes.filter((el) => el.checked).length
+        count.textContent = done + ' / ' + total
+        fill.style.width = (total ? (done / total) * 100 : 0) + '%'
+      }
+
+      boxes.forEach((el) => el.addEventListener('change', save))
+      document.getElementById('btn-clear').addEventListener('click', () => {
+        boxes.forEach((el) => { el.checked = false })
+        save()
+      })
+      load()
+    })()
+  </script>
+</body>
+</html>

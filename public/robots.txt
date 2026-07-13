@@ -19,3 +19,6 @@ Disallow: /scroll-gut
 Disallow: /system-section
 
 Sitemap: https://www.gutsphere.com/sitemap.xml
+
+# Optional AI / LLM context file
+# https://www.gutsphere.com/llms.txt

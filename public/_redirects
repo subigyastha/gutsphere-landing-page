@@ -1,0 +1,61 @@
+# SPA-style fallback is automatic on Cloudflare Pages when there is NO root 404.html.
+# Use this file for permanent Webflow → SPA URL migrations (301).
+
+# Canonical / naming
+/about-us                 /about  301
+/terms-and-conditions     /terms  301
+# Contact + advisory: point to /contact and /advisory AFTER those SPA pages ship.
+# Until then, soft-land on home so cutover does not 404 form entry points.
+/contact-us               /  301
+/advisory                 /  301
+
+# Conditions (flat Webflow → nested SPA)
+/ibs                      /conditions/ibs  301
+/ibd                      /conditions/ibd  301
+/gerd                     /conditions/gerd  301
+/constipation             /conditions/constipation  301
+/bloating                 /conditions/bloating  301
+/diarrhea                 /conditions/diarrhea  301
+
+# Product / demo aliases
+/gi-health-copilot        /  301
+/copilot-demo             /  301
+/pricing                  /#pricing  301
+/colonoscopy-preparation-sms-reminders  /features/colonoscopy-prep  301
+
+# Junk
+/test1                    /  301
+
+# Content / resources — interim soft landings until /resources hub ships
+# Change targets to /resources and /resources/:slug when that hub is live.
+/resources                /  301
+/downloadable-resources   /  301
+/roadmap                  /about  301
+/gut-health-baseline-quiz /  301
+
+# Guide URLs → homepage interim (replace with /resources/... when ready)
+/thanksgiving-checklist                    /  301
+/bowel-movement-tracking-esophagus-to-anus /  301
+/generative-ai-resources                   /  301
+/ai-agents-in-healthcare                   /  301
+/children-gut-health-guide                 /  301
+/bacteria-gut-microbiome                   /  301
+/bacteria-gastrointestinal-diseases        /  301
+/gut-loving-chia-breakfast-delight         /  301
+/how-the-food-you-eat-affects-your-gut     /  301
+/how-to-poop-fast                          /  301
+/boost-your-gut-health-with-fiber          /  301
+/the-5-essential-pillars-of-a-healthy-gut  /  301
+/know-your-poop-guide                      /  301
+/fix-your-gut-bacteria-fast             /  301
+/seven-day-gut-repair-plan                 /  301
+/probiotic-cheat-sheet                     /  301
+/gut-brain-food-guide                      /  301
+/laxative-ladder-protocol                  /  301
+
+# After /contact, /advisory, and /resources ship in the SPA, update the rules above to:
+#   /contact-us → /contact
+#   /advisory → /advisory
+#   /resources → /resources
+#   /downloadable-resources → /resources
+#   guide URLs → /resources/:slug
