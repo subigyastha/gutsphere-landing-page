@@ -2428,7 +2428,9 @@
   background: transparent;
 }
 
-.copilot-v2 .cp2-pain-media img {
+.copilot-v2 .cp2-pain-media img,
+.copilot-v2 .cp2-pain-media video,
+.copilot-v2 .cp2-pain-media .cp2-pain-media-video {
   display: block;
   width: 100%;
   height: 100%;
@@ -2438,9 +2440,57 @@
   transition: opacity 0.2s ease;
 }
 
+.copilot-v2 .cp2-pain-media-player {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.copilot-v2 .cp2-pain-media-tap {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: color-mix(in srgb, var(--gs-text-primary) 12%, transparent);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.copilot-v2 .cp2-pain-media-tap:focus-visible {
+  outline: 2px solid var(--gs-coral);
+  outline-offset: 2px;
+}
+
+.copilot-v2 .cp2-pain-media-tap-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--gs-card);
+  color: var(--gs-coral);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 28px -12px color-mix(in srgb, var(--gs-text-primary) 40%, transparent);
+}
+
+.copilot-v2 .cp2-pain-media-tap-icon svg {
+  width: 20px;
+  height: 20px;
+  margin-left: 2px;
+}
+
 .copilot-v2 .cp2-pain-media--scatter img,
 .copilot-v2 .cp2-pain-media--battery img,
-.copilot-v2 .cp2-pain-media--clock img {
+.copilot-v2 .cp2-pain-media--clock img,
+.copilot-v2 .cp2-pain-media--scatter video,
+.copilot-v2 .cp2-pain-media--battery video,
+.copilot-v2 .cp2-pain-media--clock video,
+.copilot-v2 .cp2-pain-media--scatter .cp2-pain-media-video,
+.copilot-v2 .cp2-pain-media--battery .cp2-pain-media-video,
+.copilot-v2 .cp2-pain-media--clock .cp2-pain-media-video {
   transform: scale(1.6);
 }
 
@@ -6076,6 +6126,7 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 12px 32px -12px color-mix(in srgb, var(--gs-text-primary) 35%, transparent);
+  pointer-events: none;
 }
 
 .copilot-v2 .cp2-proof-play svg {
@@ -6098,6 +6149,7 @@
   font-family: var(--font-body);
   font-size: 12.5px;
   font-weight: 600;
+  pointer-events: none;
 }
 
 .copilot-v2 .cp2-proof-video-dot {

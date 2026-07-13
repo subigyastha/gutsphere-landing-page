@@ -5,14 +5,13 @@ type StoryVideoProps = StoryVideoConfig & {
   badgeLabel?: string
 }
 
-export function StoryVideo({ youtubeId, title, duration, badgeLabel }: StoryVideoProps) {
+export function StoryVideo({ youtubeId, title, badgeLabel }: StoryVideoProps) {
   const [playing, setPlaying] = useState(false)
   const poster = youtubeThumbnail(youtubeId)
 
   const onPlay = useCallback(() => setPlaying(true), [])
 
-  const badge =
-    badgeLabel ?? (duration ? `Watch story (${duration})` : 'Watch story')
+  const badge = badgeLabel ?? 'Watch story'
 
   return (
     <div className="cp2-proof-video">

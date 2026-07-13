@@ -388,7 +388,6 @@ export const STORY_VIDEOS = {
   sabina: {
     youtubeId: '67Bil1BjP6g',
     title: 'Sabina Azzahra — lived experience',
-    duration: '2:45',
   },
   founder: {
     youtubeId: 'u0UaCXUGGFA',
@@ -410,6 +409,7 @@ export function youtubeEmbedUrl(
   const params = new URLSearchParams({
     rel: '0',
     modestbranding: '1',
+    playsinline: '1',
     ...(options?.autoplay ? { autoplay: '1' } : {}),
   })
   return `https://www.youtube-nocookie.com/embed/${videoId}?${params}`

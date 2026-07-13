@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { PROBLEM_IMAGES, type ProblemImage } from './problemImages'
 
 const PAINS = [
@@ -20,7 +20,10 @@ const PAINS = [
 ]
 
 function ProblemMedia({ image }: { image: ProblemImage }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
   const [reducedMotion, setReducedMotion] = useState(false)
+  const [needsTap, setNeedsTap] = useState(false)
+  const [useGifFallback, setUseGifFallback] = useState(false)
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -30,10 +33,50 @@ function ProblemMedia({ image }: { image: ProblemImage }) {
     return () => mq.removeEventListener('change', onChange)
   }, [])
 
-  if (reducedMotion) {
+  useEffect(() => {
+    if (reducedMotion || useGifFallback) return
+
+    const video = videoRef.current
+    if (!video) return
+
+    const attemptPlay = async () => {
+      try {
+        await video.play()
+        setNeedsTap(false)
+      } catch {
+        setNeedsTap(true)
+      }
+    }
+
+    const onCanPlay = () => {
+      void attemptPlay()
+    }
+
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      void attemptPlay()
+    } else {
+      video.addEventListener('canplay', onCanPlay)
+    }
+
+    return () => video.removeEventListener('canplay', onCanPlay)
+  }, [reducedMotion, useGifFallback, image.mp4])
+
+  const onTapPlay = async () => {
+    const video = videoRef.current
+    if (!video) return
+
+    try {
+      await video.play()
+      setNeedsTap(false)
+    } catch {
+      setUseGifFallback(true)
+    }
+  }
+
+  if (reducedMotion || useGifFallback) {
     return (
       <img
-        src={image.poster}
+        src={useGifFallback ? image.src : image.poster}
         alt={image.alt}
         width={640}
         height={360}
@@ -44,27 +87,39 @@ function ProblemMedia({ image }: { image: ProblemImage }) {
   }
 
   return (
-    <video
-      muted
-      autoPlay
-      loop
-      playsInline
-      poster={image.poster}
-      width={640}
-      height={360}
-      aria-label={image.alt}
-    >
-      <source src={image.webm} type="video/webm" />
-      <source src={image.mp4} type="video/mp4" />
-      <img
-        src={image.src}
-        alt={image.alt}
+    <div className={`cp2-pain-media-player${needsTap ? ' needs-tap' : ''}`}>
+      <video
+        ref={videoRef}
+        className="cp2-pain-media-video"
+        muted
+        autoPlay
+        loop
+        playsInline
+        preload="auto"
+        poster={image.poster}
         width={640}
         height={360}
-        loading="lazy"
-        decoding="async"
-      />
-    </video>
+        aria-label={image.alt}
+        onError={() => setUseGifFallback(true)}
+      >
+        <source src={image.mp4} type="video/mp4" />
+        <source src={image.webm} type="video/webm" />
+      </video>
+      {needsTap ? (
+        <button
+          type="button"
+          className="cp2-pain-media-tap"
+          onClick={() => void onTapPlay()}
+          aria-label={`Play animation: ${image.alt}`}
+        >
+          <span className="cp2-pain-media-tap-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </span>
+        </button>
+      ) : null}
+    </div>
   )
 }
 
