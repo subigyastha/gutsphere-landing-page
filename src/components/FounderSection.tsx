@@ -116,7 +116,7 @@ export function FounderSection() {
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 {gapColumns.map((column) => (
                   <div key={column.label} className="rounded-xl bg-gs-card/80 px-4 py-4">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-gs-coral">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gs-coral">
                       {column.label}
                     </p>
                     <ul className="mt-3 space-y-2">

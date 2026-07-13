@@ -16,28 +16,40 @@ import {
   type MotionValue,
 } from 'motion/react'
 import {
-  ArrowLeft,
+  Bell,
   Calendar,
   Check,
+  ChevronRight,
+  Heart,
   LineChart,
+  MessageCircle,
+  PenLine,
   Sparkles,
-  Stethoscope,
-  Utensils,
+  Sun,
+  Thermometer,
 } from 'lucide-react'
+import { platformUrl } from '../../constants'
 
 const TOTAL_STATES = 7
 const OPENING = 0
 const CLOSING = 6
 
-const HEADER_SAFE = 80
-const NAV_SAFE = 60
-const VIEWPORT = 608
+const HEADER_SAFE = 60
+const NAV_SAFE = 64
+const VIEWPORT = 760
 
 const CHIP_CLASS =
-  'inline-flex items-center rounded-full border border-gs-border bg-gs-sand-light px-2.5 py-1 text-[11px] font-medium text-gs-text-secondary'
+  'inline-flex items-center rounded-full border border-gs-border bg-gs-sand-light px-3 py-1 text-[13px] font-medium text-gs-text-secondary'
 
 const ACCENT_CHIP_CLASS =
-  'inline-flex items-center rounded-full bg-gs-coral/10 px-2.5 py-1 text-[11px] font-semibold text-gs-coral'
+  'inline-flex items-center rounded-full bg-gs-coral/12 px-3 py-1 text-[13px] font-semibold text-gs-coral'
+
+const PHONE_TITLE = 'font-display text-[16px] font-semibold leading-snug text-gs-text-primary'
+const PHONE_BODY = 'text-[14px] leading-snug text-gs-text-secondary'
+const PHONE_META = 'text-[13px] text-gs-text-muted'
+
+const CARD_SHELL =
+  'rounded-2xl border border-gs-border bg-gs-card p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
 
 type StepKey = 'log' | 'connect' | 'care' | 'insight' | 'appointment'
 
@@ -60,56 +72,56 @@ type Step = {
 
 const STORIES: Story[] = [
   {
-    eyebrow: 'ONE FLARE, START TO FINISH',
-    headline: 'Here\u2019s what a connected timeline actually looks like.',
+    eyebrow: 'One flare, start to finish',
+    headline: 'Here’s what a connected timeline actually looks like.',
     body: 'Follow one flare from the moment it hits to the questions you bring into your next GI appointment.',
-    caption: 'NOW: START · TIMELINE PREVIEW',
+    caption: 'Now: start · timeline preview',
   },
   {
     label: 'Tuesday · 9:14 PM',
     headline: 'A rough flare hits.',
-    body: 'You\u2019re wiped, but logging it takes fifteen seconds — a tap, a slider, done.',
-    caption: 'NOW: 1 / 5 · LOG',
+    body: 'You’re wiped, but logging it takes fifteen seconds — a tap, a slider, done.',
+    caption: 'Now: 1 / 5 · log',
   },
   {
     label: 'The Gutsphere engine',
     headline: 'Gutsphere connects the dots for you.',
     body: 'The Gutsphere engine links this flare to the takeout you logged at lunch and three short nights of sleep in a row.',
-    caption: 'NOW: 2 / 5 · CONNECT',
+    caption: 'Now: 2 / 5 · connect',
   },
   {
     label: 'Wednesday morning',
     headline: 'On a hard day, it keeps things simple.',
-    body: 'It doesn\u2019t hand you a to-do list — it surfaces a calmer routine and one small thing to try.',
-    caption: 'NOW: 3 / 5 · CARE',
+    body: 'It doesn’t hand you a to-do list — it surfaces a calmer routine and one small thing to try.',
+    caption: 'Now: 3 / 5 · care',
   },
   {
     label: 'Six weeks in',
     headline: 'The pattern becomes clear.',
-    body: 'A pattern you couldn\u2019t see on your own becomes visible: dairy plus poor sleep, again and again.',
-    caption: 'NOW: 4 / 5 · INSIGHT',
+    body: 'A pattern you couldn’t see on your own becomes visible: dairy plus poor sleep, again and again.',
+    caption: 'Now: 4 / 5 · insight',
   },
   {
     label: 'Your next GI appointment',
     headline: 'You walk in more prepared.',
-    body: 'You bring a clean timeline and three questions worth asking — so you\u2019re not explaining everything from memory.',
-    caption: 'NOW: 5 / 5 · APPOINTMENT READY',
+    body: 'You bring a clean timeline and three questions worth asking — so you’re not explaining everything from memory.',
+    caption: 'Now: 5 / 5 · appointment ready',
   },
   {
-    eyebrow: 'READY FOR YOUR NEXT FLARE',
+    eyebrow: 'Ready for your next flare',
     headline: 'Turn scattered symptoms into a timeline you can use.',
     body: 'Start with one quick log. Gutsphere helps connect what happened, what may have shaped it, and what to bring into your next care decision.',
-    caption: 'TIMELINE FEATURE PREVIEW',
+    caption: 'Timeline feature preview',
   },
 ]
 
 const OPENING_CHIPS = [
-  'Symptom log',
-  'Meals',
+  'Symptoms',
+  'Nutrition',
   'Sleep',
   'Care',
   'Patterns',
-  'Appointment prep',
+  'Visit prep',
 ] as const
 
 const CHIP_SCATTER = [
@@ -121,130 +133,217 @@ const CHIP_SCATTER = [
   { x: 52, y: 64, r: 5 },
 ] as const
 
-function StatRow({ children }: { children: ReactNode }) {
+function IconWell({
+  children,
+  className = '',
+}: {
+  children: ReactNode
+  className?: string
+}) {
   return (
-    <div className="mt-2 flex items-center gap-2 text-[13px] text-gs-text-secondary">
-      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gs-coral/70" />
+    <span
+      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gs-sand-light text-gs-text-secondary ${className}`.trim()}
+    >
       {children}
+    </span>
+  )
+}
+
+function ListRow({
+  icon,
+  title,
+  subtitle,
+  trailing,
+}: {
+  icon: ReactNode
+  title: string
+  subtitle: string
+  trailing?: ReactNode
+}) {
+  return (
+    <div className="flex items-start gap-3 border-b border-gs-divider py-3 last:border-b-0 last:pb-0 first:pt-0">
+      <IconWell>{icon}</IconWell>
+      <div className="min-w-0 flex-1">
+        <p className={PHONE_TITLE}>{title}</p>
+        <p className={`mt-0.5 ${PHONE_BODY} text-gs-text-secondary`}>{subtitle}</p>
+      </div>
+      {trailing}
     </div>
   )
 }
 
 function CheckRow({ children }: { children: ReactNode }) {
   return (
-    <div className="flex items-start gap-2.5 text-[13px] text-gs-text-secondary">
-      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gs-coral/12">
-        <Check className="h-3 w-3 text-gs-coral" strokeWidth={2.5} />
+    <div className="flex items-start gap-2.5 text-[15px] text-gs-text-secondary">
+      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gs-coral/15">
+        <Check className="h-3.5 w-3.5 text-gs-coral" strokeWidth={2.5} />
       </span>
       <span>{children}</span>
     </div>
   )
 }
 
+/** Track · symptom log — mirrors Quick Add capture */
 const LogCard = memo(function LogCard() {
   return (
     <div>
-      <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-wide text-gs-text-muted">
-        <span>Log · Tue 9:14 PM</span>
-        <span>severity</span>
+      <div className="flex items-center gap-3">
+        <IconWell>
+          <Thermometer className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
+        </IconWell>
+        <div className="min-w-0 flex-1">
+          <p className={PHONE_TITLE}>Symptom log</p>
+          <p className={PHONE_META}>Tue · 9:14 PM</p>
+        </div>
+        <span className="rounded-full bg-gs-green/12 px-2.5 py-0.5 text-[12px] font-semibold text-gs-green">
+          Saved
+        </span>
       </div>
-      <div className="mt-3 flex gap-1">
+
+      <p className={`mt-3 ${PHONE_META} font-medium`}>Severity</p>
+      <div className="mt-1.5 flex gap-1">
         {[0, 1, 2, 3, 4].map((i) => (
           <span
             key={i}
-            className={`h-1.5 flex-1 rounded-full ${i < 4 ? 'bg-gs-coral' : 'bg-gs-border'}`}
+            className={`h-2 flex-1 rounded-full ${i < 4 ? 'bg-gs-coral' : 'bg-gs-border'}`}
           />
         ))}
       </div>
-      <StatRow>Bloating · cramps</StatRow>
-      <span className={`${ACCENT_CHIP_CLASS} mt-3`}>Saved · 15s</span>
+
+      <div className="mt-3 flex flex-wrap gap-1.5">
+        <span className={CHIP_CLASS}>Bloating</span>
+        <span className={CHIP_CLASS}>Cramps</span>
+      </div>
+      <p className={`mt-3 ${PHONE_META}`}>Logged in about 15 seconds</p>
     </div>
   )
 })
 
+/** Engine result — insight emphasis, non-diagnostic */
 const ConnectCard = memo(function ConnectCard({ active }: { active: boolean }) {
   return (
     <div>
-      <span className={`${ACCENT_CHIP_CLASS} gap-1`}>
-        <Sparkles className="h-3 w-3" aria-hidden="true" />
-        Gutsphere engine
-      </span>
-      <div className="mt-3 flex flex-wrap gap-1.5">
-        <span className={CHIP_CLASS}>late meal</span>
-        <span className={CHIP_CLASS}>short sleep ×3</span>
+      <div className="flex items-center gap-2">
+        <span className={`${ACCENT_CHIP_CLASS} gap-1.5`}>
+          <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+          Gutsphere engine
+        </span>
+        <span className={PHONE_META}>Tue · 11:02 PM</span>
       </div>
+
+      <p className={`mt-3 ${PHONE_TITLE}`}>Possible thread found</p>
+      <p className={`mt-1 ${PHONE_BODY}`}>
+        Your data suggests this flare may link to what you logged earlier.
+      </p>
+
+      <div className="mt-3 flex flex-wrap gap-1.5">
+        <span className={CHIP_CLASS}>Late meal</span>
+        <span className={CHIP_CLASS}>Short sleep ×3</span>
+      </div>
+
       <motion.div
-        className="mt-3 flex items-center gap-2 rounded-xl border border-gs-coral/35 bg-gs-coral/6 px-3 py-2.5"
+        className="mt-3 rounded-xl border border-gs-insight-border bg-gs-insight-bg px-3 py-2.5"
         initial={false}
-        animate={active ? { opacity: 1, scale: 1 } : { opacity: 0.85, scale: 0.98 }}
+        animate={active ? { opacity: 1, scale: 1 } : { opacity: 0.9, scale: 0.98 }}
         transition={{ duration: 0.35, ease: 'easeOut' }}
       >
-        <span className="h-2 w-2 shrink-0 rounded-full bg-gs-coral" />
-        <span className="text-[13px] font-semibold text-gs-text-primary">Possible thread found</span>
+        <p className={PHONE_BODY}>
+          <span className="font-semibold text-gs-text-primary">Signal:</span> flare after takeout +
+          three short nights
+        </p>
       </motion.div>
     </div>
   )
 })
 
+/** Care · self-care habit rows */
 const CareCard = memo(function CareCard() {
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-wide text-gs-text-muted">
-        <span>Today · gentle</span>
-        <span>care</span>
+    <div>
+      <div className="mb-1 flex items-center justify-between gap-2">
+        <div>
+          <p className={PHONE_TITLE}>Flare support</p>
+          <p className={PHONE_META}>Today · gentle</p>
+        </div>
+        <span className={`${ACCENT_CHIP_CLASS} gap-1.5 shrink-0`}>
+          <Calendar className="h-3.5 w-3.5" aria-hidden="true" />
+          Recommended now
+        </span>
       </div>
-      <div className="space-y-2.5 rounded-xl bg-gs-sand-light/80 p-3">
-        <CheckRow>Warm, simple breakfast</CheckRow>
-        <CheckRow>10-min walk, no pressure</CheckRow>
-      </div>
-      <span className={ACCENT_CHIP_CLASS}>One small thing</span>
+
+      <ListRow
+        icon={<Heart className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />}
+        title="Warm, simple breakfast"
+        subtitle="Easy on digestion — no pressure to be perfect"
+      />
+      <ListRow
+        icon={<Sun className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />}
+        title="10-min walk"
+        subtitle="One small thing when energy is low"
+        trailing={<ChevronRight className="mt-2.5 h-5 w-5 text-gs-text-hint" aria-hidden="true" />}
+      />
     </div>
   )
 })
 
+/** Patterns · signal → meaning → confidence */
 const InsightCard = memo(function InsightCard() {
-  const heights = [38, 86, 30, 74, 46, 22]
-  const highlights = [1, 3]
+  const heights = [38, 86, 30, 74, 46, 22, 68, 34, 80]
+  const highlights = [1, 3, 6, 8]
+
   return (
     <div>
-      <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-wide text-gs-text-muted">
-        <span>6-week pattern</span>
-        <span>insight</span>
+      <div className="flex items-start justify-between gap-2">
+        <p className={`${PHONE_TITLE} leading-snug`}>Dairy + poor sleep → flare</p>
+        <span className="shrink-0 rounded-full bg-gs-green/12 px-2.5 py-0.5 text-[12px] font-semibold text-gs-green">
+          Moderate evidence
+        </span>
       </div>
+      <p className={`mt-1.5 ${PHONE_BODY}`}>
+        This pattern appears to show up after dairy on short-sleep nights.
+      </p>
+
       <div className="mt-3 flex h-14 items-end gap-1">
         {heights.map((h, i) => (
           <span
             key={i}
-            className={`flex-1 rounded-sm ${highlights.includes(i) ? 'bg-gs-coral' : 'bg-gs-border/80'}`}
+            className={`flex-1 rounded-sm ${highlights.includes(i) ? 'bg-gs-coral' : 'bg-gs-coral/25'}`}
             style={{ height: `${h}%` }}
           />
         ))}
       </div>
-      <StatRow>Dairy + poor sleep</StatRow>
-      <StatRow>Repeated flare link</StatRow>
+
+      <div className="mt-3">
+        <div className="h-2 overflow-hidden rounded-full bg-gs-border">
+          <div className="h-full w-[62%] rounded-full bg-gs-green" />
+        </div>
+        <p className={`mt-1.5 ${PHONE_META}`}>62% confidence · 6-week window</p>
+      </div>
     </div>
   )
 })
 
+/** Care · visit prep / navigation */
 const AppointmentCard = memo(function AppointmentCard() {
   return (
     <div>
-      <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-wide text-gs-text-muted">
-        <span>Visit summary</span>
-        <span>ready</span>
+      <div className="flex items-center gap-3">
+        <IconWell>
+          <Calendar className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
+        </IconWell>
+        <div className="min-w-0 flex-1">
+          <p className={PHONE_TITLE}>Visit summary</p>
+          <p className={PHONE_META}>Ready for your GI appointment</p>
+        </div>
       </div>
-      <div className="relative mt-4 h-1.5 rounded-full bg-gs-border">
-        {[0, 33, 66, 100].map((left) => (
-          <span
-            key={left}
-            className="absolute top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gs-coral"
-            style={{ left: `${left}%` }}
-          />
-        ))}
+
+      <div className="mt-3 space-y-2 rounded-xl bg-gs-sand-light p-3">
+        <CheckRow>Timeline ready</CheckRow>
+        <CheckRow>Pattern notes included</CheckRow>
+        <CheckRow>3 questions to ask</CheckRow>
       </div>
-      <StatRow>Timeline ready</StatRow>
-      <StatRow>Pattern notes included</StatRow>
-      <span className={`${ACCENT_CHIP_CLASS} mt-3`}>3 questions to ask</span>
+
+      <span className={`${ACCENT_CHIP_CLASS} mt-3`}>Prepare for visit</span>
     </div>
   )
 })
@@ -292,54 +391,63 @@ const STEPS: Step[] = [
   },
 ]
 
+const NAV_TABS = [
+  { label: 'Today', icon: Sun },
+  { label: 'Track', icon: PenLine },
+  { label: 'Patterns', icon: LineChart },
+  { label: 'Care', icon: Heart },
+  { label: 'Chat', icon: MessageCircle },
+] as const
+
 function PhoneHeader() {
   return (
-    <div className="absolute inset-x-0 top-0 z-30 border-b border-gs-border/60 bg-gs-card/85 px-4 pb-3 pt-2 backdrop-blur-sm">
-      <div className="flex items-center justify-between text-[10px] font-medium text-gs-text-muted">
-        <span>9:41</span>
-        <span className="flex gap-1" aria-hidden="true">
-          <span className="h-2.5 w-3.5 rounded-sm border border-current" />
+    <div className="absolute inset-x-0 top-0 z-30 border-b border-gs-border bg-gs-sand px-3 py-3">
+      <div className="flex items-center justify-between">
+        <span
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-gs-sand-light text-[12px] font-semibold text-gs-coral"
+          aria-hidden="true"
+        >
+          SC
         </span>
-      </div>
-      <div className="mt-2 flex items-center gap-2">
-        <ArrowLeft className="h-4 w-4 text-gs-text-muted" aria-hidden="true" />
-        <div>
-          <p className="font-display text-[15px] font-semibold text-gs-text-primary">Your flare</p>
-          <p className="text-[11px] text-gs-text-muted">5 steps · start to finish</p>
-        </div>
+        <p className="font-display text-[17px] font-semibold text-gs-text-primary">Care</p>
+        <span
+          className="relative flex h-9 w-9 items-center justify-center text-gs-text-secondary"
+          aria-hidden="true"
+        >
+          <Bell className="h-5 w-5" strokeWidth={1.8} />
+          <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-gs-coral px-0.5 text-[9px] font-semibold text-white">
+            2
+          </span>
+        </span>
       </div>
     </div>
   )
 }
 
 function PhoneBottomNav() {
-  const tabs = [
-    { label: 'Today', icon: Calendar, active: false },
-    { label: 'Pattern', icon: LineChart, active: false },
-    { label: 'Track', icon: Utensils, active: true },
-    { label: 'Care', icon: Stethoscope, active: false },
-    { label: 'Copilot', icon: Sparkles, active: false },
-  ]
-
   return (
-    <div className="absolute inset-x-0 bottom-0 z-30 border-t border-gs-border/60 bg-gs-card/90 px-2 pb-2 pt-1 backdrop-blur-sm">
-      <div className="flex items-end justify-between">
-        {tabs.map((tab) => {
+    <div className="absolute inset-x-0 bottom-0 z-30 border-t border-gs-border bg-gs-card px-1.5 pb-2.5 pt-2">
+      <div className="flex items-center justify-between">
+        {NAV_TABS.map((tab) => {
           const Icon = tab.icon
-          if (tab.active) {
-            return (
-              <div key={tab.label} className="-mt-5 flex flex-col items-center gap-0.5">
-                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gs-coral shadow-lg shadow-gs-coral/30">
-                  <Icon className="h-5 w-5 text-white" strokeWidth={2.2} />
-                </span>
-                <span className="text-[10px] font-semibold text-gs-coral">{tab.label}</span>
-              </div>
-            )
-          }
+          const active = tab.label === 'Care'
           return (
-            <div key={tab.label} className="flex flex-col items-center gap-0.5 px-1 pb-1">
-              <Icon className="h-4 w-4 text-gs-text-muted" strokeWidth={2} />
-              <span className="text-[10px] text-gs-text-muted">{tab.label}</span>
+            <div
+              key={tab.label}
+              className={`flex min-w-0 flex-1 flex-col items-center gap-0.5 py-0.5 ${
+                active ? 'text-gs-coral' : 'text-gs-text-secondary'
+              }`}
+            >
+              <span
+                className={`flex h-8 w-11 items-center justify-center rounded-full ${
+                  active ? 'bg-gs-coral/16 ring-1 ring-gs-coral/30' : ''
+                }`}
+              >
+                <Icon className="h-5 w-5" strokeWidth={active ? 2.4 : 2} />
+              </span>
+              <span className={`text-[11px] ${active ? 'font-bold' : 'font-semibold'}`}>
+                {tab.label}
+              </span>
             </div>
           )
         })}
@@ -383,16 +491,16 @@ function OpeningScreen({ organize }: { organize: MotionValue<number> }) {
 
   if (reduceMotion) {
     return (
-      <div className="relative h-full px-4 pt-[6rem] pb-[5rem]">
+      <div className="relative h-full bg-gs-sand px-4 pt-[4.5rem] pb-[5rem]">
         <div className="mx-auto flex max-w-[15rem] flex-col items-center gap-2">
           {OPENING_CHIPS.map((chip) => (
             <span key={chip} className={CHIP_CLASS}>
               {chip}
             </span>
           ))}
-          <div className="mt-4 w-full rounded-[1.375rem] border border-gs-border bg-gs-card p-4">
-            <p className="font-display text-[14px] font-semibold text-gs-text-primary">Building your timeline</p>
-            <p className="mt-1 text-[12px] text-gs-text-muted">
+          <div className={`mt-4 w-full ${CARD_SHELL}`}>
+            <p className={PHONE_TITLE}>Building your timeline</p>
+            <p className={`mt-1 ${PHONE_BODY} text-gs-text-muted`}>
               Connecting symptoms, food, sleep, care notes, and patterns.
             </p>
             <div className="mt-3 h-1.5 rounded-full bg-gs-coral" />
@@ -403,7 +511,7 @@ function OpeningScreen({ organize }: { organize: MotionValue<number> }) {
   }
 
   return (
-    <div className="relative h-full pt-[6rem] pb-[5rem]">
+    <div className="relative h-full bg-gs-sand pt-[4.5rem] pb-[5rem]">
       <div className="relative mx-auto flex h-full max-w-[15rem] items-center justify-center">
         {OPENING_CHIPS.map((chip, i) => (
           <OpeningChip key={chip} label={chip} index={i} organize={organize} />
@@ -428,9 +536,9 @@ function OpeningScreen({ organize }: { organize: MotionValue<number> }) {
           <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-gs-coral/12 ring-4 ring-gs-coral/10">
             <Sparkles className="h-6 w-6 text-gs-coral" aria-hidden="true" />
           </div>
-          <div className="rounded-[1.375rem] border border-gs-border bg-gs-card p-4 shadow-[0_12px_32px_-20px_rgba(28,25,23,0.28)]">
-            <p className="font-display text-[14px] font-semibold text-gs-text-primary">Building your timeline</p>
-            <p className="mt-1 text-[12px] leading-snug text-gs-text-muted">
+          <div className={CARD_SHELL}>
+            <p className={PHONE_TITLE}>Building your timeline</p>
+            <p className={`mt-1 ${PHONE_BODY} text-gs-text-muted`}>
               Connecting symptoms, food, sleep, care notes, and patterns.
             </p>
             <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-gs-border">
@@ -466,18 +574,18 @@ function TimelineFeed({ active }: { active: number }) {
   }, [active])
 
   return (
-    <div className="relative h-full overflow-hidden">
+    <div className="relative h-full overflow-hidden bg-gs-sand">
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 z-20 h-16 bg-gradient-to-b from-gs-card to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 z-20 h-16 bg-gradient-to-b from-gs-sand to-transparent"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-14 bg-gradient-to-t from-gs-card to-transparent"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-14 bg-gradient-to-t from-gs-sand to-transparent"
         aria-hidden="true"
       />
 
       <motion.div
-        className="relative z-0 px-4"
+        className="relative z-0 px-3"
         animate={{ y: targetY }}
         initial={false}
         transition={{ type: 'spring', stiffness: 90, damping: 20 }}
@@ -492,13 +600,13 @@ function TimelineFeed({ active }: { active: number }) {
               ref={(el) => {
                 itemRefs.current[i] = el
               }}
-              className="relative mb-8 flex gap-3"
+              className="relative mb-8 flex gap-2.5"
             >
-              <div className="flex w-10 shrink-0 flex-col items-center pt-1">
-                <span className="text-[9px] font-semibold uppercase tracking-wider text-gs-text-muted">
+              <div className="flex w-9 shrink-0 flex-col items-center pt-1">
+                <span className="text-[10px] font-semibold tracking-wide text-gs-text-muted">
                   {step.month}
                 </span>
-                <span className="font-display text-[15px] font-bold leading-none text-gs-text-primary">
+                <span className="font-display text-[17px] font-semibold leading-none text-gs-text-primary">
                   {step.day}
                 </span>
                 {isActive ? (
@@ -511,15 +619,14 @@ function TimelineFeed({ active }: { active: number }) {
               </div>
 
               <motion.div
-                className={`min-w-0 flex-1 rounded-[1.375rem] border bg-gs-card p-4 shadow-[0_12px_32px_-20px_rgba(28,25,23,0.28)] ${
+                className={`min-w-0 flex-1 rounded-2xl border bg-gs-card p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04)] ${
                   isActive
-                    ? 'border-gs-coral/50 opacity-100 shadow-[0_16px_40px_-18px_rgba(239,83,80,0.22)]'
+                    ? 'border-gs-coral/40 opacity-100'
                     : 'border-gs-border opacity-45'
                 }`}
                 animate={{ scale: isActive ? 1 : 0.97 }}
                 transition={{ duration: 0.4, ease: 'easeOut' }}
               >
-                <p className="mb-2 text-[11px] font-medium text-gs-text-muted">{step.node}</p>
                 {step.key === 'connect' ? <ConnectCard active={isActive} /> : step.card}
               </motion.div>
             </div>
@@ -530,7 +637,7 @@ function TimelineFeed({ active }: { active: number }) {
       </motion.div>
 
       <div
-        className="pointer-events-none absolute left-[1.35rem] top-[14rem] bottom-[14rem] w-px border-l border-dashed border-gs-border"
+        className="pointer-events-none absolute left-[1.15rem] top-[14rem] bottom-[14rem] w-px border-l border-dashed border-gs-border"
         aria-hidden="true"
       />
     </div>
@@ -539,14 +646,20 @@ function TimelineFeed({ active }: { active: number }) {
 
 function ClosingScreen() {
   return (
-    <div className="flex h-full flex-col px-4 pt-[6rem] pb-[5rem]">
-      <div className="flex items-center gap-2">
-        <span className={`${ACCENT_CHIP_CLASS} gap-1`}>
-          <Check className="h-3 w-3" aria-hidden="true" />
-          Timeline ready
-        </span>
+    <div className="flex h-full flex-col bg-gs-sand px-4 pt-[4.5rem] pb-[5rem]">
+      <div className="flex items-center gap-3">
+        <IconWell>
+          <Check className="h-5 w-5 text-gs-coral" strokeWidth={2.2} aria-hidden="true" />
+        </IconWell>
+        <div>
+          <p className="font-display text-[17px] font-semibold text-gs-text-primary">
+            Timeline ready
+          </p>
+          <p className={PHONE_META}>One flare, connected end to end</p>
+        </div>
       </div>
-      <div className="mt-4 rounded-[1.375rem] border border-gs-coral/35 bg-gs-coral/6 p-4">
+
+      <div className="mt-4 rounded-2xl border border-gs-insight-border bg-gs-insight-bg p-4">
         <div className="space-y-2.5">
           <CheckRow>5 moments connected</CheckRow>
           <CheckRow>1 pattern identified</CheckRow>
@@ -554,12 +667,14 @@ function ClosingScreen() {
           <CheckRow>3 questions prepared</CheckRow>
         </div>
       </div>
-      <button
-        type="button"
-        className="mt-auto w-full rounded-full bg-gs-coral py-3.5 text-[15px] font-semibold text-white"
+
+      <a
+        href={platformUrl('web', 'one-flare-phone')}
+        className="cp2-btn mt-auto w-full text-[16px]"
+        data-cta="primary"
       >
         Start tracking
-      </button>
+      </a>
     </div>
   )
 }
@@ -577,13 +692,10 @@ function Phone({
 
   return (
     <div
-      className="relative w-[19rem] max-w-[84vw] rounded-[2.625rem] bg-gs-card p-3 shadow-[0_24px_64px_-28px_rgba(28,25,23,0.35),0_8px_24px_-12px_rgba(28,25,23,0.18)]"
+      className="relative w-[min(360px,88vw)] aspect-[9/19.2] rounded-[44px] border border-gs-border bg-gs-card p-[3px] shadow-[0_46px_90px_-46px_rgba(28,25,23,0.35),0_18px_40px_-28px_rgba(28,25,23,0.12)]"
       aria-hidden="true"
     >
-      <div className="pointer-events-none absolute inset-x-6 top-0 h-16 rounded-t-[2rem] bg-gradient-to-b from-gs-coral/8 to-transparent" />
-      <div className="mx-auto mb-2 h-5 w-24 rounded-full bg-stone-900" aria-hidden="true" />
-
-      <div className="relative h-[38rem] overflow-hidden rounded-[1.875rem] bg-gs-sand-light/40">
+      <div className="relative h-full overflow-hidden rounded-[41px] bg-gs-sand">
         <PhoneHeader />
         <PhoneBottomNav />
 
@@ -620,7 +732,7 @@ function StoryCopy({ state, showClosingCtas }: { state: number; showClosingCtas?
         className="max-w-xl"
       >
         {story.eyebrow && (
-          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gs-coral">
+          <p className="text-[12px] font-semibold uppercase tracking-widest text-gs-coral">
             {story.eyebrow}
           </p>
         )}
@@ -635,22 +747,14 @@ function StoryCopy({ state, showClosingCtas }: { state: number; showClosingCtas?
           {story.headline}
         </h2>
         <p className="mt-4 text-[17px] leading-relaxed text-gs-text-secondary">{story.body}</p>
-        <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.12em] text-gs-text-muted">
-          {story.caption}
-        </p>
+        <p className="mt-5 text-[12px] font-medium text-gs-text-muted">{story.caption}</p>
 
         {showClosingCtas && (
           <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="#start"
-              className="inline-flex items-center justify-center rounded-full bg-gs-coral px-6 py-3 text-[15px] font-semibold text-white"
-            >
+            <a href="#start" className="cp2-btn">
               Start free
             </a>
-            <a
-              href="#journey"
-              className="inline-flex items-center justify-center rounded-full border border-gs-border bg-gs-card px-6 py-3 text-[15px] font-semibold text-gs-text-primary"
-            >
+            <a href="#journey" className="cp2-btn ghost">
               Explore your journey
             </a>
             <p className="w-full text-[12px] text-gs-text-muted">Timeline feature preview</p>
@@ -677,7 +781,7 @@ function DesktopPinnedSection() {
 
   return (
     <div ref={trackRef} className="relative h-[500vh]">
-      <div className="sticky top-0 flex h-screen items-center bg-gs-card">
+      <div className="sticky top-0 flex h-screen items-center bg-gs-sand">
         <div className="mx-auto grid w-full max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-10 px-6 lg:gap-16 lg:px-10">
           <div className="min-w-0">
             <div className="mb-6 flex items-center gap-2" aria-hidden="true">
@@ -701,15 +805,16 @@ function DesktopPinnedSection() {
 
 function MobileTimeline() {
   return (
-    <div className="px-5 pb-10 pt-8">
-      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gs-coral">
+    <div className="bg-gs-sand px-5 pb-10 pt-8">
+      <p className="text-[12px] font-semibold uppercase tracking-widest text-gs-coral">
         One flare, start to finish
       </p>
       <h2 className="mt-3 font-display text-[1.75rem] font-semibold leading-tight text-gs-text-primary">
         Here&apos;s what a connected timeline actually looks like.
       </h2>
       <p className="mt-3 text-[16px] leading-relaxed text-gs-text-secondary">
-        Follow one flare from the moment it hits to the questions you bring into your next GI appointment.
+        Follow one flare from the moment it hits to the questions you bring into your next GI
+        appointment.
       </p>
 
       <ol className="relative mt-8 space-y-8 border-l-2 border-gs-coral/25 pl-6">
@@ -722,15 +827,17 @@ function MobileTimeline() {
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.45, ease: 'easeOut' }}
           >
-            <span className="absolute -left-[1.62rem] top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-gs-card ring-2 ring-gs-coral">
+            <span className="absolute -left-[1.62rem] top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-gs-sand ring-2 ring-gs-coral">
               <span className="h-1.5 w-1.5 rounded-full bg-gs-coral" />
             </span>
             {story.label && (
-              <p className="text-[12px] font-medium uppercase tracking-wide text-gs-text-muted">{story.label}</p>
+              <p className="text-[12px] font-medium text-gs-text-muted">{story.label}</p>
             )}
-            <h3 className="mt-1 font-display text-[1.15rem] font-semibold text-gs-text-primary">{story.headline}</h3>
+            <h3 className="mt-1 font-display text-[1.15rem] font-semibold text-gs-text-primary">
+              {story.headline}
+            </h3>
             <p className="mt-2 text-[15px] leading-relaxed text-gs-text-secondary">{story.body}</p>
-            <div className="mt-4 rounded-[1.375rem] border border-gs-border bg-gs-card p-4 shadow-[0_12px_32px_-20px_rgba(28,25,23,0.2)]">
+            <div className={`mt-4 ${CARD_SHELL}`}>
               {STEPS[i].key === 'connect' ? <ConnectCard active /> : STEPS[i].card}
             </div>
           </motion.li>
@@ -738,29 +845,23 @@ function MobileTimeline() {
       </ol>
 
       <motion.div
-        className="mt-10 rounded-[1.375rem] border border-gs-coral/30 bg-gs-coral/6 p-5"
+        className="mt-10 rounded-2xl border border-gs-insight-border bg-gs-insight-bg p-5"
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-60px' }}
         transition={{ duration: 0.45, ease: 'easeOut' }}
       >
-        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gs-coral">
+        <p className="text-[12px] font-semibold uppercase tracking-widest text-gs-coral">
           Ready for your next flare
         </p>
         <h3 className="mt-2 font-display text-[1.35rem] font-semibold text-gs-text-primary">
           Turn scattered symptoms into a timeline you can use.
         </h3>
         <div className="mt-5 flex flex-wrap gap-3">
-          <a
-            href="#start"
-            className="inline-flex items-center justify-center rounded-full bg-gs-coral px-5 py-2.5 text-[14px] font-semibold text-white"
-          >
+          <a href="#start" className="cp2-btn">
             Start free
           </a>
-          <a
-            href="#journey"
-            className="inline-flex items-center justify-center rounded-full border border-gs-border bg-gs-card px-5 py-2.5 text-[14px] font-semibold text-gs-text-primary"
-          >
+          <a href="#journey" className="cp2-btn ghost">
             Explore your journey
           </a>
         </div>
@@ -775,7 +876,7 @@ export default function OneFlareStartFinishSection() {
     <MotionConfig reducedMotion="user">
       <section
         id="walkthrough"
-        className="bg-gs-card"
+        className="bg-gs-sand"
         aria-labelledby="one-flare-heading"
       >
         <h2 id="one-flare-heading" className="sr-only">

@@ -24,7 +24,7 @@ export function Style4Hero() {
   return (
     <section
       data-landing-hero
-      className="section-pad relative overflow-hidden bg-white style4-mesh-bg"
+      className="section-pad relative overflow-hidden bg-gs-card style4-mesh-bg"
       aria-labelledby="style4-hero-heading"
     >
       <div
@@ -43,7 +43,7 @@ export function Style4Hero() {
               variant="gradient"
               className="flex h-full flex-col justify-center p-6 sm:p-8 lg:p-10"
             >
-              <p className="relative z-[1] mb-4 inline-flex w-fit items-center rounded-full border border-gs-insight-border bg-white/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-gs-coral backdrop-blur-sm">
+              <p className="relative z-[1] mb-4 inline-flex w-fit items-center rounded-full border border-gs-insight-border bg-gs-card/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-gs-coral backdrop-blur-sm">
                 GI health copilot
               </p>
               <h1

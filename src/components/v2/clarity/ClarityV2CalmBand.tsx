@@ -11,7 +11,7 @@ export function ClarityV2CalmBand() {
     >
       <CoralSectionGraphics variant="visit" />
       <div className="container-narrow relative z-10 text-center">
-        <p className="text-sm font-semibold uppercase tracking-wide text-white">
+        <p className="text-sm font-semibold uppercase tracking-widest text-white">
           Before your visit
         </p>
         <h2 id="clarity-v2-calm-heading" className="section-heading mx-auto mt-2 max-w-3xl !text-white">

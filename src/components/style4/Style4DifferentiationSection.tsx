@@ -41,7 +41,7 @@ export function Style4DifferentiationSection() {
       <div className="mt-8 grid style4-cell-gap sm:mt-10 lg:grid-cols-2">
         <Style4Reveal>
           <Style4Card variant="muted" interactive className="h-full p-6 sm:p-8">
-            <p className="mb-6 text-sm font-semibold uppercase tracking-widest text-gs-text-muted">
+            <p className="mb-6 text-sm font-semibold tracking-widest text-gs-text-muted">
               Before Gutsphere
             </p>
             <ul className="space-y-3">
@@ -90,7 +90,7 @@ export function Style4DifferentiationSection() {
             {comparison.map((row) => (
               <div key={row.tracker} className="grid sm:grid-cols-2">
                 <div className="px-5 py-4 sm:px-6">
-                  <dt className="text-xs font-semibold uppercase tracking-wider text-gs-text-muted sm:sr-only">
+                  <dt className="text-xs font-semibold tracking-wider text-gs-text-muted sm:sr-only">
                     Regular trackers
                   </dt>
                   <dd className="text-sm text-gs-text-secondary sm:text-base">{row.tracker}</dd>

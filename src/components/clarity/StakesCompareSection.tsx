@@ -24,7 +24,7 @@ export function StakesCompareSection() {
 
       <div className="mt-12 grid gap-6 lg:grid-cols-2">
         <div className="card-surface border-gs-border p-6 sm:p-8">
-          <p className="mb-6 text-sm font-semibold uppercase tracking-wide text-gs-text-muted">
+          <p className="mb-6 text-sm font-semibold tracking-wide text-gs-text-muted">
             Without Gutsphere
           </p>
           <ul className="space-y-5">
@@ -46,7 +46,7 @@ export function StakesCompareSection() {
         </div>
 
         <div className="card-surface border-gs-insight-border bg-gs-insight-bg p-6 sm:p-8">
-          <p className="mb-6 text-sm font-semibold uppercase tracking-wide text-gs-coral">
+          <p className="mb-6 text-sm font-semibold uppercase tracking-widest text-gs-coral">
             With Gutsphere
           </p>
           <ul className="space-y-5">

@@ -13,7 +13,9 @@ export function PatternInsightCard({
       : 'gs-insight-section rounded-2xl px-5 py-4'
 
   const eyebrowClass =
-    variant === 'on-primary' ? 'text-xs font-medium text-white' : 'text-xs font-medium text-gs-coral'
+    variant === 'on-primary'
+      ? 'text-xs font-semibold uppercase tracking-wider text-white'
+      : 'text-xs font-semibold uppercase tracking-wider text-gs-coral'
   const titleClass =
     variant === 'on-primary'
       ? 'mt-2 font-display text-base font-semibold text-white sm:text-lg'

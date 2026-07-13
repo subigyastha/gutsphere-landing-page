@@ -20,7 +20,7 @@ export function TestimonialsSection({
     <section className={`section-pad bg-gs-card ${className}`} aria-labelledby={id}>
       <div className="container-narrow">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-wide text-gs-coral">{eyebrow}</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-gs-coral">{eyebrow}</p>
           <h2 id={id} className="section-heading mt-3">
             {heading}
           </h2>

@@ -11,7 +11,7 @@ export function ClarityV2PatternBand() {
       <div className="container-narrow relative z-10">
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-white">
+            <p className="text-sm font-semibold uppercase tracking-widest text-white">
               See what connects
             </p>
             <h2 id="clarity-v2-pattern-heading" className="section-heading mt-2 max-w-xl !text-white">

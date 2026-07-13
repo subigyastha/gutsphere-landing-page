@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gutsphere — UI Consistency Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sand: #F5EEE8;
+      --sand-light: #FAF6F2;
+      --card: #FFFFFF;
+      --coral: #EF5350;
+      --text: #1C1917;
+      --secondary: #57534E;
+      --muted: #A8A29E;
+      --border: #E7E0DA;
+      --green: #2E7D32;
+      --green-bg: rgba(46, 125, 50, 0.12);
+      --amber-bg: #FEF3C7;
+      --amber-text: #92400E;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand);
+      color: var(--text);
+      line-height: 1.55;
+      padding: 32px 16px 64px;
+    }
+    h1, h2, h3 { font-family: 'Inter', sans-serif; font-weight: 600; }
+    .wrap { max-width: 980px; margin: 0 auto; }
+    .hero {
+      background: linear-gradient(145deg, #2A2522 0%, #1A1614 100%);
+      color: #F5F0EC;
+      border-radius: 24px;
+      padding: 40px 36px;
+      margin-bottom: 28px;
+    }
+    .hero .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: #F87171; margin-bottom: 12px; }
+    .hero h1 { font-size: clamp(28px, 4vw, 36px); line-height: 1.15; margin-bottom: 12px; }
+    .hero p { color: #C4BBB5; max-width: 70ch; font-size: 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px; padding: 6px 14px; font-size: 13px; color: #F5F0EC;
+    }
+    .chip strong { color: #F87171; font-weight: 600; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+    @media (max-width: 700px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+    .stat {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 16px; text-align: center;
+    }
+    .stat .n { font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 700; color: var(--coral); }
+    .stat .l { font-size: 13px; color: var(--secondary); margin-top: 8px; }
+    .section {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px 28px 16px; margin-bottom: 20px;
+    }
+    .section h2 { font-size: 20px; margin-bottom: 16px; }
+    .section > p.lead { color: var(--secondary); margin-bottom: 18px; font-size: 15px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 8px; }
+    th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 0.06em; color: var(--muted); }
+    tr:last-child td { border-bottom: none; }
+    .status {
+      display: inline-block; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+    }
+    .status.fixed { background: var(--green-bg); color: var(--green); }
+    .status.kept { background: rgba(239,83,80,0.1); color: var(--coral); }
+    .status.na { background: var(--sand-light); color: var(--secondary); }
+    code { font-size: 12px; background: var(--sand-light); padding: 2px 6px; border-radius: 6px; }
+    .demo-row { display: flex; flex-wrap: wrap; gap: 16px; margin: 16px 0 8px; align-items: center; }
+    .demo-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 14px 28px; border-radius: 999px; font-weight: 600; font-size: 16px; border: none;
+    }
+    .demo-btn.correct { background: var(--coral); color: #fff; }
+    .demo-btn.ghost { background: transparent; color: var(--coral); border: 1.5px solid var(--border); border-radius: 999px; }
+    .rule {
+      background: var(--sand-light); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px 18px; margin-top: 12px; font-size: 14px;
+    }
+    .rule strong { display: block; margin-bottom: 6px; font-family: 'Inter', sans-serif; }
+    ul.notes { margin: 12px 0 0 20px; color: var(--secondary); font-size: 14px; }
+    ul.notes li { margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="eyebrow">Design system · audit reference</p>
+      <h1>UI consistency tracker</h1>
+      <p>
+        Living reference for Gutsphere landing UI. Updated Jul 13, 2026 after backlog cleanup.
+        Landing is <strong style="color:#F5F0EC">light theme only</strong> — no dark mode.
+      </p>
+      <div class="meta">
+        <span class="chip">Last update: <strong>Jul 13, 2026</strong></span>
+        <span class="chip">Theme: <strong>Light only</strong></span>
+        <span class="chip">CTA buttons: <strong>Kept current</strong></span>
+        <span class="chip">Backlog: <strong>Cleared</strong></span>
+      </div>
+    </header>
+
+    <div class="stats">
+      <div class="stat"><div class="n">8</div><div class="l">Fixed total</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">Open high</div></div>
+      <div class="stat"><div class="n">2</div><div class="l">Kept by design</div></div>
+      <div class="stat"><div class="n">1</div><div class="l">Theme = light</div></div>
+    </div>
+
+    <section class="section">
+      <h2>Primary button rule (kept)</h2>
+      <p class="lead">Coral fill → white label (<code>#fff</code>). Current <code>cp2-btn</code> pill style kept as requested — not unified to <code>Button.tsx</code> rounded-xl.</p>
+      <div class="demo-row">
+        <span class="demo-btn correct">Start free</span>
+        <span class="demo-btn ghost">Explore journey</span>
+      </div>
+      <div class="rule">
+        <strong>Intentionally kept</strong>
+        Mobile final CTA may invert to white + coral on the bottom band. Dual button systems (<code>cp2-btn</code> pill vs legacy <code>Button</code>) remain — do not force-merge.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Fixed this pass</h2>
+      <table>
+        <thead>
+          <tr><th>Issue</th><th>What changed</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Primary CTA dark text on coral (One flare + Copilot anchors)</td>
+            <td><code>cp2-btn</code> + CSS guard so links keep <code>#fff</code> despite <code>a { color: inherit }</code></td>
+            <td><span class="status fixed">Fixed</span></td>
+          </tr>
+          <tr>
+            <td>Uppercase eyebrows</td>
+            <td>Restored <code>text-transform: uppercase</code> on <code>.cp2-eyebrow</code>, final/VR/system/about eyebrows, Style4Eyebrow, who-for trust/stage, and inline section labels</td>
+            <td><span class="status fixed">Fixed</span></td>
+          </tr>
+          <tr>
+            <td>Legacy system demos used gray/white/pink</td>
+            <td><code>GutsphereSystemSection*.tsx</code>, <code>SystemSectionVersions.tsx</code>, <code>SystemSectionLanding.tsx</code> → <code>--gs-*</code> tokens, coral accent, sand canvas</td>
+            <td><span class="status fixed">Fixed</span></td>
+          </tr>
+          <tr>
+            <td>One-flare nav “Pattern”</td>
+            <td>Renamed to <strong>Patterns</strong> to match app bottom nav</td>
+            <td><span class="status fixed">Fixed</span></td>
+          </tr>
+          <tr>
+            <td>Dark mode backlog item</td>
+            <td>Landing stays single light theme. No dark token layer added. Renamed journey cloud utility <code>--dark</code> → <code>--storm</code> (visual weather, not theme)</td>
+            <td><span class="status fixed">Fixed / N/A</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>Kept by request</h2>
+      <table>
+        <thead>
+          <tr><th>Item</th><th>Decision</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CTA button style / dual button systems</td>
+            <td>Keep current <code>cp2-btn</code> treatment; do not force Button.tsx merge</td>
+            <td><span class="status kept">Kept</span></td>
+          </tr>
+          <tr>
+            <td>Mobile final CTA inversion</td>
+            <td>Keep current bottom-band pattern</td>
+            <td><span class="status kept">Kept</span></td>
+          </tr>
+          <tr>
+            <td>Dark mode</td>
+            <td>Not needed — light theme only</td>
+            <td><span class="status na">Removed from backlog</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>Checklist before shipping UI</h2>
+      <ul class="notes">
+        <li>Coral primary → label is <code>#fff</code></li>
+        <li>Copilot CTAs use <code>cp2-btn</code> / <code>cp2-btn ghost</code></li>
+        <li>Surfaces use <code>--gs-*</code> tokens — no new <code>bg-white</code> / <code>text-gray-*</code></li>
+        <li>Eyebrows: uppercase with wide letter-spacing (<code>text-transform: uppercase</code> / <code>tracking-widest</code>)</li>
+        <li>Landing is light theme only — do not add dark-mode variants</li>
+        <li>Phone mocks: match hero frame (360px, thin bezel, no notch/status bar)</li>
+      </ul>
+    </section>
+  </div>
+</body>
+</html>

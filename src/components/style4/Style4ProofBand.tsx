@@ -28,7 +28,7 @@ export function Style4ProofBand() {
 
       <Style4Reveal delay={100}>
         <Style4Card interactive className="mx-auto mt-8 max-w-4xl p-6 sm:mt-10 sm:p-8">
-          <p className="text-center text-xs font-semibold uppercase tracking-wide text-gs-coral">
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-gs-coral">
             Trusted by {NAVIGATOR_COUNT} people
           </p>
           <h3 className="section-heading mt-3 text-center style4-gradient-text">

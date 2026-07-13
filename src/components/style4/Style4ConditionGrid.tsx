@@ -20,7 +20,7 @@ export function Style4ConditionGrid() {
       </div>
 
       <Style4Reveal className="mt-10 sm:mt-12" delay={100}>
-        <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-gs-text-muted">
+        <p className="mb-4 text-sm font-semibold tracking-widest text-gs-text-muted">
           All conditions
         </p>
         <div className="grid style4-cell-gap sm:grid-cols-2 lg:grid-cols-3">

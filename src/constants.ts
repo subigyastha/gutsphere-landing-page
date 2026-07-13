@@ -5,7 +5,7 @@ export const IOS_APP_URL =
 export const ANDROID_APP_URL =
   'https://play.google.com/store/apps/details?id=com.gutsphere.androidapp'
 
-export type PlatformLinkPlacement = 'hero' | 'hero-picker' | 'footer-cta'
+export type PlatformLinkPlacement = 'hero' | 'hero-picker' | 'footer-cta' | 'one-flare-phone'
 export type PlatformUtmContent = 'web' | 'ios' | 'android'
 
 const PLATFORM_BASE: Record<PlatformUtmContent, string> = {

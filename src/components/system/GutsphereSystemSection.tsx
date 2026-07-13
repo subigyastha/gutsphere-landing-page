@@ -7,23 +7,22 @@ const stages = [
     id: 'track',
     title: 'Track',
     icon: ClipboardList,
-    color: 'bg-pink-500',
     description: 'Symptoms, food, sleep & stress in seconds.',
     screen: (
-      <div className="flex h-full flex-col bg-gradient-to-br from-pink-50 to-white p-6">
+      <div className="flex h-full flex-col bg-gs-sand p-6">
         <div className="mb-8 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium shadow">
-            Today • Mild bloating
+          <div className="inline-flex items-center gap-2 rounded-full border border-gs-border bg-gs-card px-4 py-2 text-sm font-medium text-gs-text-primary shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+            Today · Mild bloating
           </div>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-3">
           {['Abdominal Pain', 'Energy Level', 'Meals'].map((item) => (
             <div
               key={item}
-              className="flex items-center justify-between rounded-2xl bg-white p-4 shadow"
+              className="flex items-center justify-between rounded-2xl border border-gs-border bg-gs-card p-4"
             >
-              <span>{item}</span>
-              <div className="text-pink-500">✓</div>
+              <span className="text-gs-text-primary">{item}</span>
+              <span className="font-semibold text-gs-coral">✓</span>
             </div>
           ))}
         </div>
@@ -34,15 +33,18 @@ const stages = [
     id: 'care',
     title: 'Care',
     icon: Heart,
-    color: 'bg-rose-500',
     description: 'Gentle, responsive self-care recommendations.',
     screen: (
-      <div className="h-full bg-gradient-to-br from-rose-50 to-white p-6">
-        <div className="py-8 text-center">
-          <Heart className="mx-auto mb-6 h-16 w-16 text-rose-500" />
-          <h3 className="mb-2 text-xl font-semibold">Gentle Suggestion</h3>
-          <p className="text-gray-600">Try ginger tea + 10 min walk for your logged symptoms.</p>
+      <div className="flex h-full flex-col justify-center bg-gs-sand p-6 text-center">
+        <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-gs-sand-light text-gs-coral">
+          <Heart className="h-7 w-7" strokeWidth={1.8} />
         </div>
+        <h3 className="mb-2 font-display text-xl font-semibold text-gs-text-primary">
+          Gentle suggestion
+        </h3>
+        <p className="text-gs-text-secondary">
+          Try ginger tea + 10 min walk for your logged symptoms.
+        </p>
       </div>
     ),
   },
@@ -50,22 +52,21 @@ const stages = [
     id: 'navigate',
     title: 'Navigate',
     icon: Compass,
-    color: 'bg-teal-500',
     description: 'Know when to see a doctor and how to prepare.',
     screen: (
-      <div className="flex h-full flex-col bg-gradient-to-br from-teal-50 to-white p-6">
-        <div className="mb-6 rounded-3xl bg-white p-5 shadow">
+      <div className="flex h-full flex-col bg-gs-sand p-6">
+        <div className="mb-6 rounded-2xl border border-gs-border bg-gs-card p-5">
           <div className="mb-4 flex justify-between text-sm">
-            <span>Next Appointment</span>
-            <span className="font-medium text-teal-600">In 6 days</span>
+            <span className="text-gs-text-secondary">Next appointment</span>
+            <span className="font-medium text-gs-coral">In 6 days</span>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-teal-100">
-            <div className="h-full w-2/3 rounded-full bg-teal-500" />
+          <div className="h-2 overflow-hidden rounded-full bg-gs-border">
+            <div className="h-full w-2/3 rounded-full bg-gs-coral" />
           </div>
         </div>
-        <div className="space-y-3 text-xs text-gray-600">
-          <div>• Questions to ask your GI</div>
-          <div>• Symptom history summary ready</div>
+        <div className="space-y-3 text-sm text-gs-text-secondary">
+          <div>· Questions to ask your GI</div>
+          <div>· Symptom history summary ready</div>
         </div>
       </div>
     ),
@@ -74,14 +75,14 @@ const stages = [
     id: 'understand',
     title: 'Understand',
     icon: Lightbulb,
-    color: 'bg-amber-500',
     description: 'Patterns become clear evidence.',
     screen: (
-      <div className="h-full bg-gradient-to-br from-amber-50 to-white p-6">
-        <div className="mb-8 text-center">
-          <div className="mb-4 text-5xl">📈</div>
-          <h3 className="font-semibold">Your Pattern</h3>
-          <p className="text-amber-600">Bloating peaks after dairy</p>
+      <div className="flex h-full flex-col justify-center bg-gs-sand p-6 text-center">
+        <div className="mb-4 rounded-2xl border border-gs-insight-border bg-gs-insight-bg p-5">
+          <h3 className="font-display font-semibold text-gs-text-primary">Your pattern</h3>
+          <p className="mt-2 text-sm text-gs-text-secondary">
+            Bloating appears to peak after dairy
+          </p>
         </div>
       </div>
     ),
@@ -107,19 +108,21 @@ export function GutsphereSystemSection() {
     : stages[autoIndex]
 
   return (
-    <section className="bg-white py-24">
+    <section className="bg-gs-sand py-24">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-5xl font-bold tracking-tight">An Operating System for Your Gut</h2>
-          <p className="mx-auto max-w-2xl text-xl text-gray-600">
+          <h2 className="mb-4 font-display text-5xl font-semibold tracking-tight text-gs-text-primary">
+            An operating system for your gut
+          </h2>
+          <p className="mx-auto max-w-2xl text-xl text-gs-text-secondary">
             Four connected stages that work together as one intelligent system.
           </p>
         </div>
 
         <div className="flex flex-col items-center justify-center gap-16 lg:flex-row lg:gap-20">
           <div className="relative shrink-0">
-            <div className="h-[640px] w-[320px] rounded-[52px] bg-black p-3 shadow-2xl ring-1 ring-gray-900/10">
-              <div className="relative h-full w-full overflow-hidden rounded-[42px] border border-zinc-800 bg-zinc-950">
+            <div className="h-[640px] w-[320px] rounded-[52px] border border-gs-border bg-gs-card p-[3px] shadow-[0_24px_64px_-28px_rgba(28,25,23,0.28)]">
+              <div className="relative h-full w-full overflow-hidden rounded-[49px] bg-gs-sand">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentStage?.id}
@@ -132,8 +135,6 @@ export function GutsphereSystemSection() {
                     {currentStage?.screen}
                   </motion.div>
                 </AnimatePresence>
-
-                <div className="absolute top-0 left-1/2 z-10 h-6 w-28 -translate-x-1/2 rounded-b-3xl bg-black" />
               </div>
             </div>
           </div>
@@ -156,25 +157,25 @@ export function GutsphereSystemSection() {
                     }
                   }}
                   whileHover={{ y: -8, scale: 1.02 }}
-                  className={`group cursor-pointer rounded-3xl border-2 bg-white p-8 transition-all duration-300 ${
+                  className={`group cursor-pointer rounded-2xl border-2 bg-gs-card p-8 transition-all duration-300 ${
                     isActive
-                      ? 'border-pink-500 shadow-xl shadow-pink-100'
-                      : 'border-gray-100 hover:border-gray-200'
+                      ? 'border-gs-coral shadow-[0_12px_40px_rgba(239,83,80,0.12)]'
+                      : 'border-gs-border hover:border-gs-coral/30'
                   }`}
                   style={{ marginTop: index % 2 === 1 ? '40px' : '0px' }}
                 >
-                  <div
-                    className={`mb-6 flex h-14 w-14 items-center justify-center rounded-2xl transition-colors ${stage.color}`}
-                  >
-                    <Icon className="h-8 w-8 text-white" />
+                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-gs-sand-light text-gs-text-secondary">
+                    <Icon className="h-7 w-7" strokeWidth={1.8} />
                   </div>
 
-                  <h3 className="mb-3 text-3xl font-semibold">{stage.title}</h3>
-                  <p className="leading-relaxed text-gray-600">{stage.description}</p>
+                  <h3 className="mb-3 font-display text-3xl font-semibold text-gs-text-primary">
+                    {stage.title}
+                  </h3>
+                  <p className="leading-relaxed text-gs-text-secondary">{stage.description}</p>
 
-                  <div className="mt-6 flex items-center gap-1.5 text-xs text-gray-400">
+                  <div className="mt-6 flex items-center gap-1.5 text-xs text-gs-text-muted">
                     {isActive ? (
-                      <>Tap again to pause • Live demo</>
+                      <>Tap again to pause · Live demo</>
                     ) : (
                       <>Click to preview in phone</>
                     )}
@@ -186,8 +187,8 @@ export function GutsphereSystemSection() {
         </div>
 
         <div className="mt-20 text-center">
-          <p className="text-2xl font-medium text-gray-800">
-            You pilot your health. <span className="text-pink-600">Gutsphere keeps the map.</span>
+          <p className="font-display text-2xl font-medium text-gs-text-primary">
+            You pilot your health. <span className="text-gs-coral">Gutsphere keeps the map.</span>
           </p>
         </div>
       </div>

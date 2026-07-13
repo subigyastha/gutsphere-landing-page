@@ -17,7 +17,7 @@ export function Style4PatternCard() {
         <Style4Card variant="coral" interactive className="mt-8 p-6 sm:mt-10 sm:p-8 lg:p-10">
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-white">
+            <p className="text-sm font-semibold uppercase tracking-widest text-white">
               Pattern insight
             </p>
             <p className="mt-3 text-base leading-7 text-white sm:text-lg">

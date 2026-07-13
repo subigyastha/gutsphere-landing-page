@@ -6,7 +6,7 @@ export function ClarityV2ProofSection() {
   return (
     <SectionShell background="card" ariaLabelledBy="clarity-v2-proof-heading">
       <div className="mx-auto max-w-3xl text-center">
-        <p className="text-xs font-semibold uppercase tracking-wide text-gs-coral">
+        <p className="text-xs font-semibold uppercase tracking-widest text-gs-coral">
           Trusted by {NAVIGATOR_COUNT} people
         </p>
         <h2 id="clarity-v2-proof-heading" className="section-heading mt-3">

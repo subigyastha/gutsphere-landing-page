@@ -87,7 +87,7 @@ function TurbulenceScene({
 }) {
   return (
     <>
-      <div className="journey-scene-clouds journey-scene-clouds--dark" aria-hidden="true" />
+      <div className="journey-scene-clouds journey-scene-clouds--storm" aria-hidden="true" />
       <div className="journey-scene-lightning" aria-hidden="true" />
       <div className="journey-scene-chips">
         {obstacles.map((label, i) => (

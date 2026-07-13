@@ -193,9 +193,165 @@ function ExploreMenuContent() {
   )
 }
 
+function MobileChevron() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+      <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function MobileNavPanel({ onClose }: { onClose: () => void }) {
+  const handleLinkClick = () => onClose()
+
+  return (
+    <div
+      id="cp2-mobile-menu"
+      className="cp2-nav-mobile-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Navigation menu"
+    >
+      <nav className="cp2-nav-mobile-scroll" aria-label="Menu">
+        <div className="cp2-nav-mobile-stack">
+          <details className="cp2-nav-mobile-topacc" open>
+            <summary>
+              Explore
+              <MobileChevron />
+            </summary>
+            <div className="cp2-nav-mobile-topacc-panel">
+              {EXPLORE_LINKS.map((link) => (
+                <a key={link.href} href={link.href} className="cp2-nav-mobile-link" onClick={handleLinkClick}>
+                  {link.label}
+                  <small>{link.blurb}</small>
+                </a>
+              ))}
+            </div>
+          </details>
+
+          <details className="cp2-nav-mobile-topacc">
+            <summary>
+              Conditions
+              <MobileChevron />
+            </summary>
+            <div className="cp2-nav-mobile-topacc-panel">
+              {conditionHubConditions.map((c) => (
+                <a
+                  key={c.slug}
+                  href={`/conditions/${c.slug}`}
+                  className="cp2-nav-mobile-link"
+                  onClick={handleLinkClick}
+                >
+                  {c.label}
+                  <small>{c.blurb}</small>
+                </a>
+              ))}
+              <a href="/#start" className="cp2-nav-mobile-link cp2-nav-mobile-cta" onClick={handleLinkClick}>
+                Not sure? Start here
+              </a>
+            </div>
+          </details>
+
+          <details className="cp2-nav-mobile-topacc">
+            <summary>
+              Symptoms
+              <MobileChevron />
+            </summary>
+            <div className="cp2-nav-mobile-topacc-panel">
+              {conditionHubSymptoms.map((c) => (
+                <a
+                  key={c.slug}
+                  href={`/conditions/${c.slug}`}
+                  className="cp2-nav-mobile-link"
+                  onClick={handleLinkClick}
+                >
+                  {c.label}
+                  <small>{c.blurb}</small>
+                </a>
+              ))}
+              <a href="/#start" className="cp2-nav-mobile-link cp2-nav-mobile-cta" onClick={handleLinkClick}>
+                Not sure? Start here
+              </a>
+            </div>
+          </details>
+
+          <details className="cp2-nav-mobile-topacc">
+            <summary>
+              {SOLUTIONS_NAV_LABEL}
+              <MobileChevron />
+            </summary>
+            <div className="cp2-nav-mobile-topacc-panel">
+              <div className="cp2-nav-mobile-accordions">
+                {productSolutionGroups.map((group) => {
+                  const items = productSolutionItems.filter((item) => item.group === group.id)
+                  return (
+                    <details key={group.id} className="cp2-nav-mobile-acc">
+                      <summary>
+                        {group.label}
+                        <MobileChevron />
+                      </summary>
+                      <div className="cp2-nav-mobile-acc-panel">
+                        <a
+                          href={group.href}
+                          className="cp2-nav-mobile-link cp2-nav-mobile-overview"
+                          onClick={handleLinkClick}
+                        >
+                          All {group.label.toLowerCase()}
+                          <small>{group.summary}</small>
+                        </a>
+                        {items.map((item) => (
+                          <a
+                            key={item.label}
+                            href={item.href}
+                            className="cp2-nav-mobile-link"
+                            onClick={handleLinkClick}
+                          >
+                            {item.label}
+                            <small>{item.blurb}</small>
+                          </a>
+                        ))}
+                      </div>
+                    </details>
+                  )
+                })}
+              </div>
+              <a href="/features" className="cp2-nav-mobile-link cp2-nav-mobile-cta" onClick={handleLinkClick}>
+                Browse all features
+              </a>
+            </div>
+          </details>
+
+          <details className="cp2-nav-mobile-topacc">
+            <summary>
+              More
+              <MobileChevron />
+            </summary>
+            <div className="cp2-nav-mobile-topacc-panel">
+              <a href="/#pricing" className="cp2-nav-mobile-link" onClick={handleLinkClick}>
+                Pricing
+              </a>
+            </div>
+          </details>
+        </div>
+      </nav>
+
+      <div className="cp2-nav-mobile-actions">
+        <a href={SIGNUP_URL} className="cp2-nav-mobile-login" onClick={handleLinkClick}>
+          Log in
+        </a>
+        <a href="/#start" className="cp2-btn cp2-nav-mobile-start" onClick={handleLinkClick}>
+          Start free
+        </a>
+      </div>
+    </div>
+  )
+}
+
 export function CopilotNav() {
   const { pathname } = useLocation()
   const pricingActive = useActiveSection(['pricing'])
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const menuBtnRef = useRef<HTMLButtonElement>(null)
 
   const conditionSlug = pathname.startsWith('/conditions/') ? pathname.split('/')[2] : null
   const exploreActive =
@@ -209,8 +365,37 @@ export function CopilotNav() {
   const conditionsActive = Boolean(conditionSlug && CONDITION_SLUGS.has(conditionSlug))
   const symptomsActive = Boolean(conditionSlug && SYMPTOM_SLUGS.has(conditionSlug))
 
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [pathname])
+
+  useEffect(() => {
+    if (!mobileOpen) return
+
+    const html = document.documentElement
+    const body = document.body
+    const prevHtmlOverflow = html.style.overflow
+    const prevBodyOverflow = body.style.overflow
+    html.style.overflow = 'hidden'
+    body.style.overflow = 'hidden'
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileOpen(false)
+    }
+    document.addEventListener('keydown', onKeyDown)
+
+    return () => {
+      html.style.overflow = prevHtmlOverflow
+      body.style.overflow = prevBodyOverflow
+      document.removeEventListener('keydown', onKeyDown)
+      menuBtnRef.current?.focus({ preventScroll: true })
+    }
+  }, [mobileOpen])
+
+  const closeMobile = () => setMobileOpen(false)
+
   return (
-    <header className="cp2-nav">
+    <header className={`cp2-nav${mobileOpen ? ' is-menu-open' : ''}`}>
       <div className="cp2-nav-in">
         <div className="cp2-nav-pill">
           <GutsphereLogoLink href="/" className="cp2-brand" height={28} />
@@ -247,54 +432,27 @@ export function CopilotNav() {
             </a>
           </nav>
 
-          <details className="cp2-nav-mobile">
-            <summary className="cp2-nav-menu-btn" aria-label="Open menu">
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </summary>
-            <nav className="cp2-nav-menu-panel" aria-label="Menu">
-              <span className="cp2-nav-menu-group">Explore</span>
-              {EXPLORE_LINKS.map((link) => (
-                <a key={link.href} href={link.href}>
-                  {link.label}
-                </a>
-              ))}
-              <span className="cp2-nav-menu-group">Conditions</span>
-              <div className="cp2-nav-menu-conditions">
-                {conditionHubConditions.map((c) => (
-                  <a key={c.slug} href={`/conditions/${c.slug}`}>
-                    {c.label}
-                  </a>
-                ))}
-              </div>
-              <span className="cp2-nav-menu-group">Symptoms</span>
-              <div className="cp2-nav-menu-conditions">
-                {conditionHubSymptoms.map((c) => (
-                  <a key={c.slug} href={`/conditions/${c.slug}`}>
-                    {c.label}
-                  </a>
-                ))}
-              </div>
-              <span className="cp2-nav-menu-group">{SOLUTIONS_NAV_LABEL}</span>
-              {productSolutionGroups.map((group) => (
-                <a key={group.id} href={group.href}>
-                  {group.label}
-                </a>
-              ))}
-              <span className="cp2-nav-menu-subgroup">{PROCEDURE_PREP_NAV_LABEL}</span>
-              {procedurePrepItems.map((item) => (
-                <a key={item.label} href={item.href}>
-                  {item.label}
-                </a>
-              ))}
-              <span className="cp2-nav-menu-group">More</span>
-              <a href="/#pricing">Pricing</a>
-              <a href="/#start" className="cp2-btn cp2-nav-cta-mobile">
-                Start free
-              </a>
-            </nav>
-          </details>
+          <div className="cp2-nav-mobile">
+            <button
+              ref={menuBtnRef}
+              type="button"
+              className={`cp2-nav-menu-btn${mobileOpen ? ' is-open' : ''}`}
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileOpen}
+              aria-controls="cp2-mobile-menu"
+              onClick={() => setMobileOpen((open) => !open)}
+            >
+              {mobileOpen ? (
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+                </svg>
+              ) : (
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
 
         <div className="cp2-nav-actions">
@@ -306,6 +464,8 @@ export function CopilotNav() {
           </a>
         </div>
       </div>
+
+      {mobileOpen ? <MobileNavPanel onClose={closeMobile} /> : null}
     </header>
   )
 }

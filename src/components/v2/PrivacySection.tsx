@@ -144,7 +144,7 @@ export function PrivacySection() {
     <section id="privacy" className="section-pad bg-gs-sand-light" aria-labelledby="privacy-heading">
       <div className="container-narrow">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-wide text-gs-coral">Trust, built in</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-gs-coral">Trust, built in</p>
           <h2 id="privacy-heading" className="section-heading mt-3">
             Your health record stays yours
           </h2>
