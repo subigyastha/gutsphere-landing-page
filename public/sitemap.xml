@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.gutsphere.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.gutsphere.com/for</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.gutsphere.com/about</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.gutsphere.com/privacy</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://www.gutsphere.com/terms</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://www.gutsphere.com/faq</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.gutsphere.com/journey</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.gutsphere.com/compare</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.gutsphere.com/compare/symptom-trackers</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.gutsphere.com/compare/ai-chat</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.gutsphere.com/compare/telehealth</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.gutsphere.com/compare/test-kits</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.gutsphere.com/features/trackers</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.gutsphere.com/features/insights</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.gutsphere.com/features/guidance</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.gutsphere.com/features/care</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.gutsphere.com/features/colonoscopy-prep</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.gutsphere.com/features/endoscopy-prep</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.gutsphere.com/conditions/ibs</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.gutsphere.com/conditions/ibd</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.gutsphere.com/conditions/gerd</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.gutsphere.com/conditions/constipation</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.gutsphere.com/conditions/bloating</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.gutsphere.com/conditions/diarrhea</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+</urlset>

@@ -110,7 +110,14 @@ export function FinalCTASection() {
     <section className="cp2-final cp2-final--split" id="cta" aria-labelledby="cp2-final-heading">
       <div className="cp2-final-split cp2-final-split--blend">
         <div className="cp2-final-split-bg" aria-hidden="true">
-          <img src={CTA_IMAGE} alt="" loading="lazy" decoding="async" />
+          <img
+            src={CTA_IMAGE}
+            alt=""
+            width={1200}
+            height={900}
+            loading="lazy"
+            decoding="async"
+          />
         </div>
         <div className="cp2-wrap cp2-final-split-inner">
           <div className="cp2-final-split-content cp2-final-on-light">

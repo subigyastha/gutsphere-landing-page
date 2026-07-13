@@ -36,12 +36,12 @@ export function CompareHubPage() {
             <h1 className="mp-hero-title cp2-reveal">{COMPARE_HUB.title}</h1>
             <p className="mp-hero-lead cp2-reveal">{COMPARE_HUB.lead}</p>
             <div className="mp-hero-actions cp2-reveal">
-              <Link to={`/compare/${featured.slug}`} className="cp2-btn">
+              <a href="/#start" className="cp2-btn" data-cta="primary">
+                Start free
+              </a>
+              <Link to={`/compare/${featured.slug}`} className="cp2-btn ghost">
                 Start with trackers
               </Link>
-              <a href="/#compare" className="cp2-btn ghost">
-                Why one system
-              </a>
             </div>
           </div>
         </section>
@@ -92,8 +92,8 @@ export function CompareHubPage() {
                 the layer that connects daily life to care, so nothing you learn gets stranded.
               </p>
             </div>
-            <a href="/#compare" className="cp2-btn">
-              See on the homepage
+            <a href="/#start" className="cp2-btn" data-cta="primary">
+              Start free
             </a>
           </div>
         </section>

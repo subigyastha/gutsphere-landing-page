@@ -36,7 +36,14 @@ export function ProblemSection() {
             return (
               <div key={pain.title} className="cp2-pain cp2-reveal">
                 <div className={`cp2-pain-media cp2-pain-media--${pain.icon}`}>
-                  <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    width={640}
+                    height={480}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
                 <h3>{pain.title}</h3>
                 <p>{pain.body}</p>

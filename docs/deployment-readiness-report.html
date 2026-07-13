@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gutsphere — Deployment Readiness Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sand: #F5EEE8;
+      --sand-light: #FAF6F2;
+      --card: #FFFFFF;
+      --coral: #EF5350;
+      --coral-glow: rgba(239, 83, 80, 0.1);
+      --text: #1C1917;
+      --secondary: #57534E;
+      --muted: #A8A29E;
+      --border: #E7E0DA;
+      --green: #2E7D32;
+      --green-bg: rgba(46, 125, 50, 0.1);
+      --amber: #92400E;
+      --amber-bg: #FEF3C7;
+      --red: #B91C1C;
+      --red-bg: #FEE2E2;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand);
+      color: var(--text);
+      line-height: 1.55;
+      padding: 32px 16px 64px;
+    }
+    h1, h2, h3 { font-family: 'Inter', sans-serif; font-weight: 600; }
+    .wrap { max-width: 960px; margin: 0 auto; }
+    .hero {
+      background: linear-gradient(145deg, #2A2522 0%, #1A1614 100%);
+      color: #F5F0EC;
+      border-radius: 24px;
+      padding: 40px 36px;
+      margin-bottom: 28px;
+    }
+    .hero .eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #F87171;
+      margin-bottom: 12px;
+    }
+    .hero h1 { font-size: clamp(28px, 4vw, 36px); line-height: 1.15; margin-bottom: 12px; }
+    .hero p { color: #C4BBB5; max-width: 62ch; font-size: 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px; padding: 6px 14px; font-size: 13px; color: #F5F0EC;
+    }
+    .chip strong { color: #F87171; font-weight: 600; }
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px;
+    }
+    @media (max-width: 700px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+    .stat {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 16px; text-align: center;
+    }
+    .stat .n {
+      font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 700;
+      color: var(--coral); line-height: 1.1;
+    }
+    .stat .l { font-size: 13px; color: var(--secondary); margin-top: 8px; }
+    .section {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px 28px 8px; margin-bottom: 20px;
+    }
+    .section h2 {
+      font-size: 20px; margin-bottom: 6px; display: flex; align-items: center; gap: 10px;
+    }
+    .section .sub { font-size: 14px; color: var(--secondary); margin-bottom: 20px; }
+    .badge {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 6px;
+    }
+    .badge.done { background: var(--green-bg); color: var(--green); }
+    .badge.warn { background: var(--amber-bg); color: var(--amber); }
+    .badge.block { background: var(--red-bg); color: var(--red); }
+    table {
+      width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 20px;
+    }
+    th, td {
+      text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th { font-family: 'Inter', sans-serif; font-size: 12px; text-transform: uppercase;
+      letter-spacing: 0.05em; color: var(--muted); font-weight: 600; }
+    td code {
+      font-size: 12px; background: var(--sand-light); padding: 2px 6px;
+      border-radius: 4px; font-family: ui-monospace, monospace;
+    }
+    ul { margin: 0 0 20px 1.2rem; font-size: 14px; color: var(--secondary); }
+    ul li { margin-bottom: 6px; }
+    ul li strong { color: var(--text); }
+    .checklist { list-style: none; margin: 0 0 20px; padding: 0; }
+    .checklist li {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 14px;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist input[type="checkbox"] {
+      width: 18px; height: 18px; margin-top: 2px; accent-color: var(--coral); flex-shrink: 0;
+    }
+    .checklist .item-body { flex: 1; }
+    .checklist .item-title { font-weight: 600; color: var(--text); margin-bottom: 2px; }
+    .checklist .item-note { color: var(--secondary); font-size: 13px; }
+    .callout {
+      border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; font-size: 14px;
+    }
+    .callout.warn { background: var(--amber-bg); color: var(--amber); border: 1px solid #FDE68A; }
+    .callout.block { background: var(--red-bg); color: var(--red); border: 1px solid #FECACA; }
+    .callout.ok { background: var(--green-bg); color: var(--green); border: 1px solid #BBF7D0; }
+    .route-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px;
+    }
+    @media (max-width: 600px) { .route-grid { grid-template-columns: 1fr; } }
+    .route {
+      font-size: 13px; padding: 8px 12px; background: var(--sand-light);
+      border-radius: 8px; border: 1px solid var(--border);
+    }
+    .route span { color: var(--muted); font-size: 12px; }
+    footer {
+      text-align: center; font-size: 13px; color: var(--muted); margin-top: 32px;
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .hero { background: #1A1614; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .checklist input { pointer-events: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="eyebrow">Internal · Deploy QA</p>
+      <h1>Deployment readiness report</h1>
+      <p>
+        Summary of code and asset changes made for the Gutsphere landing SPA production deploy,
+        plus a manual verification checklist to run before and after shipping to Vercel.
+      </p>
+      <div class="meta">
+        <span class="chip"><strong>Date</strong> 13 Jul 2026</span>
+        <span class="chip"><strong>Host</strong> Vercel + www.gutsphere.com</span>
+        <span class="chip"><strong>Build</strong> npm run build → dist/</span>
+        <span class="chip"><strong>Doc</strong> docs/deployment-readiness-report.html</span>
+      </div>
+    </header>
+
+    <div class="stats">
+      <div class="stat"><div class="n">14</div><div class="l">Lab routes redirected home</div></div>
+      <div class="stat"><div class="n">9</div><div class="l">Production route patterns</div></div>
+      <div class="stat"><div class="n">~136 KB</div><div class="l">Main JS gzip (post split)</div></div>
+      <div class="stat"><div class="n">1</div><div class="l">External blocker (Terms URL)</div></div>
+    </div>
+
+    <section class="section">
+      <h2>Executive summary <span class="badge done">Ready to ship*</span></h2>
+      <p class="sub">*After manual QA and fixing the Terms page on gutsphere.com.</p>
+      <div class="callout ok">
+        The production surface is now <strong>Copilot v2 homepage + marketing hubs only</strong>.
+        Experiment landings are no longer routable (they redirect to <code>/</code>).
+        SEO files, compressed assets, lazy-loaded routes, and a global 404 page are in place.
+      </div>
+      <div class="callout block">
+        <strong>Known external blocker:</strong> <code>https://www.gutsphere.com/terms</code> returned <strong>404</strong> during preflight.
+        Privacy and contact URLs were OK. Fix on the main site or update <code>TERMS_URL</code> in <code>src/constants.ts</code> before launch.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What changed — routing &amp; pages</h2>
+      <p class="sub">File: <code>src/App.tsx</code></p>
+      <table>
+        <thead>
+          <tr><th>Change</th><th>Detail</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge done">Kept</span></td>
+            <td>Production routes: <code>/</code>, <code>/for</code>, <code>/about</code>, <code>/faq</code>, <code>/journey</code>, <code>/compare</code>, <code>/compare/:slug</code>, <code>/features/:slug</code>, <code>/conditions/:slug</code></td>
+          </tr>
+          <tr>
+            <td><span class="badge done">Added</span></td>
+            <td>Global 404 via <code>NotFoundPage</code> — <code>&lt;Route path="*" … /&gt;</code></td>
+          </tr>
+          <tr>
+            <td><span class="badge done">Redirect</span></td>
+            <td><code>/copilot-v2</code> and 13 lab paths → <code>/</code> (record, navigators, clarity-*, journey-lab, flight, guided, copilot, onboard, flow, discovery, scroll-gut, system-section)</td>
+          </tr>
+          <tr>
+            <td><span class="badge done">Lazy load</span></td>
+            <td>Hub and deep pages use <code>React.lazy</code> + <code>Suspense</code> — homepage no longer eagerly imports all landings</td>
+          </tr>
+          <tr>
+            <td><span class="badge done">Deleted</span></td>
+            <td>Dead page files: ClarityLanding, RecordLandingV2, NavigatorsLandingV2, FaqTopicStubPage, ConditionStubPage</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="font-size:15px;margin-bottom:10px;">Legacy URLs (all redirect to home)</h3>
+      <div class="route-grid">
+        <div class="route"><code>/copilot-v2</code> <span>→ /</span></div>
+        <div class="route"><code>/record</code> <span>→ /</span></div>
+        <div class="route"><code>/navigators</code> <span>→ /</span></div>
+        <div class="route"><code>/clarity-v2</code> <span>→ /</span></div>
+        <div class="route"><code>/clarity-v4</code> <span>→ /</span></div>
+        <div class="route"><code>/journey-lab</code> <span>→ /</span></div>
+        <div class="route"><code>/flight</code> <span>→ /</span></div>
+        <div class="route"><code>/guided</code> <span>→ /</span></div>
+        <div class="route"><code>/copilot</code> <span>→ /</span></div>
+        <div class="route"><code>/onboard</code> <span>→ /</span></div>
+        <div class="route"><code>/flow</code> <span>→ /</span></div>
+        <div class="route"><code>/discovery</code> <span>→ /</span></div>
+        <div class="route"><code>/scroll-gut</code> <span>→ /</span></div>
+        <div class="route"><code>/system-section</code> <span>→ /</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What changed — SEO &amp; meta</h2>
+      <p class="sub">New: <code>src/seo/PageMeta.tsx</code>, <code>src/seo/pageMetaConfig.ts</code></p>
+      <table>
+        <thead>
+          <tr><th>Asset / file</th><th>Change</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>public/robots.txt</code></td><td>Added — allows production crawl; disallows legacy lab paths</td></tr>
+          <tr><td><code>public/sitemap.xml</code></td><td>Added — lists homepage, hubs, compare, features, conditions URLs</td></tr>
+          <tr><td><code>public/og-image.jpg</code></td><td>Added (compressed social share image; ~39 KB)</td></tr>
+          <tr><td><code>index.html</code></td><td>OG/Twitter title aligned with page title; font weights trimmed; GA4 placeholder removed</td></tr>
+          <tr><td>Per-route meta</td><td><code>PageMeta</code> updates <code>document.title</code>, description, canonical, OG/Twitter on navigation</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>What changed — performance &amp; assets</h2>
+      <table>
+        <thead>
+          <tr><th>Area</th><th>Change</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Name-no-name images</td>
+            <td>Compressed (~10 MB → ~0.4 MB). Three converted to JPG; <code>no-answers.png</code> kept for transparency. Paths updated in <code>nameNoNameStates.ts</code></td>
+          </tr>
+          <tr>
+            <td>CLS</td>
+            <td>Explicit <code>width</code>/<code>height</code> on problem GIFs, difference images, CTA image, name-no-name illustrations</td>
+          </tr>
+          <tr>
+            <td>Dead public assets</td>
+            <td>Removed: <code>problem/abstract/</code>, unused PNG fallbacks, unused badge PNGs, favicon.svg, icons.svg, flight-plane.png, landing-page.wav</td>
+          </tr>
+          <tr>
+            <td>Repo hygiene</td>
+            <td><code>Images/</code> added to <code>.gitignore</code> (design source pipeline)</td>
+          </tr>
+          <tr>
+            <td>Bundle</td>
+            <td>Main chunk ~436 KB raw / ~136 KB gzip (down from ~621 KB / ~163 KB pre-split)</td>
+          </tr>
+          <tr>
+            <td>Vercel</td>
+            <td><code>vercel.json</code> — SPA rewrite kept; cache headers added for assets and images</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout warn">
+        <strong>Not done (follow-up):</strong> Problem GIFs still served as GIF (not WebM/MP4). Legacy variant CSS still in global <code>index.css</code>. Lab component trees still in repo (unrouted only).
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What changed — funnel, analytics &amp; UI</h2>
+      <table>
+        <thead>
+          <tr><th>Item</th><th>Change</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>FinalCTA toggles</td><td>Removed — production uses fixed split layout + responsive badge styles (no dev UI on desktop)</td></tr>
+          <tr><td>Compare hub CTAs</td><td>Hero and bottom band now lead with <code>/#start</code> (Start free) instead of compare-only paths</td></tr>
+          <tr><td>Analytics</td><td><code>analytics.ts</code> uses <code>style-13</code> + <code>variantVersion()</code> for production homepage</td></tr>
+          <tr><td>GA4</td><td>Commented placeholder removed from <code>index.html</code> — wire real measurement ID when ready</td></tr>
+          <tr><td>Footer</td><td>Dynamic copyright year; medical disclaimer unchanged</td></tr>
+          <tr><td>Hero demo</td><td>Deferred iframe load via IntersectionObserver — depends on <code>https://demo.gutsphere.com/ibs/</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>Preflight results (automated, 13 Jul 2026)</h2>
+      <table>
+        <thead>
+          <tr><th>URL</th><th>Status</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>app.gutsphere.com</code></td><td><span class="badge done">200</span></td><td>Primary signup</td></tr>
+          <tr><td><code>demo.gutsphere.com/ibs/</code></td><td><span class="badge done">200</span></td><td>No X-Frame-Options block detected — iframe should embed</td></tr>
+          <tr><td><code>www.gutsphere.com/privacy</code></td><td><span class="badge done">200</span></td><td>Footer link</td></tr>
+          <tr><td><code>www.gutsphere.com/terms</code></td><td><span class="badge block">404</span></td><td><strong>Fix before launch</strong></td></tr>
+          <tr><td><code>www.gutsphere.com/contact-us</code></td><td><span class="badge done">200</span></td><td>Footer link</td></tr>
+          <tr><td>App Store / Play Store</td><td><span class="badge done">200</span></td><td>Badge CTAs in constants</td></tr>
+          <tr><td><code>npm run build</code></td><td><span class="badge done">Pass</span></td><td>dist/ includes robots, sitemap, og-image, name-no-name assets</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>Manual verification checklist</h2>
+      <p class="sub">Run on production URL after deploy. Check boxes as you go (saved in browser session).</p>
+
+      <h3 style="font-size:15px;margin:20px 0 10px;color:var(--secondary);">A — Before deploy (repo &amp; host)</h3>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="a1" />
+          <label class="item-body" for="a1">
+            <div class="item-title">Commit all new assets</div>
+            <div class="item-note">Especially <code>public/images/name-no-name/*</code>, <code>public/og-image.jpg</code>, <code>robots.txt</code>, <code>sitemap.xml</code></div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="a2" />
+          <label class="item-body" for="a2">
+            <div class="item-title">Fix Terms page or update TERMS_URL</div>
+            <div class="item-note"><code>https://www.gutsphere.com/terms</code> currently 404 — footer link will break until fixed</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="a3" />
+          <label class="item-body" for="a3">
+            <div class="item-title">Confirm Vercel project settings</div>
+            <div class="item-note">Build: <code>npm run build</code> · Output: <code>dist</code> · Custom domain: <code>www.gutsphere.com</code></div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="a4" />
+          <label class="item-body" for="a4">
+            <div class="item-title">Confirm SPA vs legal pages routing</div>
+            <div class="item-note">Ensure <code>/privacy</code> and <code>/terms</code> are served by the main site (not swallowed by SPA rewrite if same domain)</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="a5" />
+          <label class="item-body" for="a5">
+            <div class="item-title">Pricing copy matches product</div>
+            <div class="item-note">FAQ mentions Free plan + $69/year founding rate — verify against live app pricing</div>
+          </label>
+        </li>
+      </ul>
+
+      <h3 style="font-size:15px;margin:20px 0 10px;color:var(--secondary);">B — Homepage &amp; conversion</h3>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="b1" />
+          <label class="item-body" for="b1">
+            <div class="item-title"><code>/</code> loads; logo returns home</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="b2" />
+          <label class="item-body" for="b2">
+            <div class="item-title">Name-no-name section images load (no 404s)</div>
+            <div class="item-note">Four pathway illustrations in the interactive section below Journey</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="b3" />
+          <label class="item-body" for="b3">
+            <div class="item-title">Hero demo iframe loads</div>
+            <div class="item-note">Scroll to hero phone mockup — <code>demo.gutsphere.com/ibs/</code> should appear inside iframe (not blank/blocked)</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="b4" />
+          <label class="item-body" for="b4">
+            <div class="item-title">Problem GIFs load on scroll</div>
+            <div class="item-note">Three GIFs in “The real problem” section — check Network tab for 404s</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="b5" />
+          <label class="item-body" for="b5">
+            <div class="item-title">Nav “Start free” → <code>/#start</code> picker</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="b6" />
+          <label class="item-body" for="b6">
+            <div class="item-title">Sticky CTA (mobile) → app signup with UTMs</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="b7" />
+          <label class="item-body" for="b7">
+            <div class="item-title">Final CTA band → signup; no layout/badge toggles visible</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="b8" />
+          <label class="item-body" for="b8">
+            <div class="item-title">App store badges open correct store listings</div>
+          </label>
+        </li>
+      </ul>
+
+      <h3 style="font-size:15px;margin:20px 0 10px;color:var(--secondary);">C — Marketing hubs &amp; deep links</h3>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="c1" />
+          <label class="item-body" for="c1">
+            <div class="item-title">Refresh works on deep links</div>
+            <div class="item-note">Try <code>/about</code>, <code>/conditions/ibs</code>, <code>/compare/symptom-trackers</code>, <code>/features/trackers</code> — paste URL in new tab and refresh</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="c2" />
+          <label class="item-body" for="c2">
+            <div class="item-title">Per-route title updates in browser tab</div>
+            <div class="item-note">Navigate hubs — tab title should change (not stay homepage title on every route)</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="c3" />
+          <label class="item-body" for="c3">
+            <div class="item-title">Compare hub primary CTA → <code>/#start</code></div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="c4" />
+          <label class="item-body" for="c4">
+            <div class="item-title">Invalid slug shows in-app not-found (not blank page)</div>
+            <div class="item-note">e.g. <code>/conditions/not-real</code></div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="c5" />
+          <label class="item-body" for="c5">
+            <div class="item-title">Unknown path shows global 404 page</div>
+            <div class="item-note">e.g. <code>/this-does-not-exist</code> — should show “Page not found”, not blank screen</div>
+          </label>
+        </li>
+      </ul>
+
+      <h3 style="font-size:15px;margin:20px 0 10px;color:var(--secondary);">D — Legacy URLs &amp; redirects</h3>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="d1" />
+          <label class="item-body" for="d1">
+            <div class="item-title"><code>/copilot-v2</code> redirects to <code>/</code></div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="d2" />
+          <label class="item-body" for="d2">
+            <div class="item-title">Lab URLs redirect home</div>
+            <div class="item-note">Spot-check: <code>/flight</code>, <code>/clarity-v2</code>, <code>/system-section</code></div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="d3" />
+          <label class="item-body" for="d3">
+            <div class="item-title"><code>/faq/:slug</code> redirects to <code>/conditions/:slug</code></div>
+          </label>
+        </li>
+      </ul>
+
+      <h3 style="font-size:15px;margin:20px 0 10px;color:var(--secondary);">E — Legal, footer &amp; external links</h3>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="e1" />
+          <label class="item-body" for="e1">
+            <div class="item-title">Privacy link opens and loads</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="e2" />
+          <label class="item-body" for="e2">
+            <div class="item-title">Terms link opens and loads</div>
+            <div class="item-note">Blocked until Terms page exists on gutsphere.com</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="e3" />
+          <label class="item-body" for="e3">
+            <div class="item-title">Contact link opens</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="e4" />
+          <label class="item-body" for="e4">
+            <div class="item-title">Newsletter form submits successfully</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="e5" />
+          <label class="item-body" for="e5">
+            <div class="item-title">Medical disclaimer visible in footer</div>
+          </label>
+        </li>
+      </ul>
+
+      <h3 style="font-size:15px;margin:20px 0 10px;color:var(--secondary);">F — SEO &amp; social</h3>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="f1" />
+          <label class="item-body" for="f1">
+            <div class="item-title"><code>/robots.txt</code> and <code>/sitemap.xml</code> reachable on production</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="f2" />
+          <label class="item-body" for="f2">
+            <div class="item-title">OG image preview works</div>
+            <div class="item-note">Test with LinkedIn Post Inspector or Twitter Card Validator — expect <code>og-image.jpg</code></div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="f3" />
+          <label class="item-body" for="f3">
+            <div class="item-title">Canonical URL correct on homepage</div>
+            <div class="item-note"><code>https://www.gutsphere.com/</code></div>
+          </label>
+        </li>
+      </ul>
+
+      <h3 style="font-size:15px;margin:20px 0 10px;color:var(--secondary);">G — Performance &amp; quality</h3>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="g1" />
+          <label class="item-body" for="g1">
+            <div class="item-title">No console errors on homepage</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="g2" />
+          <label class="item-body" for="g2">
+            <div class="item-title">No network 404s for images or assets</div>
+            <div class="item-note">DevTools → Network → filter Img / Media</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="g3" />
+          <label class="item-body" for="g3">
+            <div class="item-title">Mobile sticky CTA does not overlap final CTA</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="g4" />
+          <label class="item-body" for="g4">
+            <div class="item-title">Lighthouse mobile smoke (optional but recommended)</div>
+            <div class="item-note">Targets: LCP &lt; 2.5s, CLS &lt; 0.1</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="g5" />
+          <label class="item-body" for="g5">
+            <div class="item-title">Reduced motion: no jarring animations when OS prefers reduced motion</div>
+          </label>
+        </li>
+      </ul>
+
+      <h3 style="font-size:15px;margin:20px 0 10px;color:var(--secondary);">H — Analytics (when ready)</h3>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="h1" />
+          <label class="item-body" for="h1">
+            <div class="item-title">GA4 measurement ID added to index.html</div>
+            <div class="item-note">Placeholder was removed — events in analytics.ts only fire when gtag is present</div>
+          </label>
+        </li>
+        <li>
+          <input type="checkbox" id="h2" />
+          <label class="item-body" for="h2">
+            <div class="item-title">Primary CTA click fires <code>cta_click</code> with variant <code>style-13</code></div>
+          </label>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Post-launch follow-up (not blocking)</h2>
+      <ul>
+        <li>Delete unrouted lab component trees (<code>flight/</code>, <code>guided/</code>, <code>v2/</code>, etc.) and legacy <code>LandingLayout</code></li>
+        <li>Split legacy CSS out of global <code>index.css</code></li>
+        <li>Convert problem GIFs to WebM/MP4 + poster frames</li>
+        <li>Consider prerender/SSR for marketing URLs for stronger SEO</li>
+        <li>Remaining conversion polish in <code>docs/improvement-backlog.md</code></li>
+      </ul>
+    </section>
+
+    <footer>
+      Gutsphere landing · deployment readiness · generated 13 Jul 2026<br />
+      Open locally: <code>docs/deployment-readiness-report.html</code>
+    </footer>
+  </div>
+</body>
+</html>

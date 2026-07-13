@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+.mp-route-fallback {
+  min-height: 40vh;
+}
+
 :root {
   --gs-coral: #ef5350;
   --gs-coral-glow: rgba(239, 83, 80, 0.07);

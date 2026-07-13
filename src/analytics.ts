@@ -1,15 +1,13 @@
 /**
  * Fires a conversion event when primary CTAs are clicked.
- * Wire to GA4/PostHog by replacing the body below or setting window.gtag.
+ * Calls window.gtag when a measurement script is present.
  */
-import type { LandingVariant } from './constants'
-
-const VALID_VARIANTS: LandingVariant[] = ['style-1', 'style-2', 'style-3', 'style-4']
+import { variantVersion, type LandingVariant } from './constants'
 
 function getVariant(): LandingVariant {
   const variant = document.documentElement.dataset.variant as LandingVariant | undefined
-  if (variant && VALID_VARIANTS.includes(variant)) return variant
-  return 'style-1'
+  if (variant?.startsWith('style-')) return variant
+  return 'style-13'
 }
 
 export function initAnalytics() {
@@ -21,7 +19,7 @@ export function initAnalytics() {
     const payload = {
       event: 'cta_click',
       variant,
-      version: variant === 'style-3' || variant === 'style-4' ? 'v2' : 'v1',
+      version: variantVersion(variant),
       cta_label: target.textContent?.trim() ?? 'Start free',
       cta_location: target.closest('header') ? 'header' : target.closest('section')?.id ?? 'unknown',
     }

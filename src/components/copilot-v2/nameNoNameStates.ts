@@ -1,4 +1,4 @@
-import { SIGNUP_URL } from '../../constants'
+﻿import { SIGNUP_URL } from '../../constants'
 
 export type NameNoNameStateId =
   | 'symptoms-no-name'
@@ -53,7 +53,7 @@ export const NAME_NO_NAME_STATES: readonly NameNoNameState[] = [
   },
   {
     id: 'told-normal',
-    title: 'I’m waiting—or keep getting dismissed',
+    title: "I'm waiting—or keep getting dismissed",
     description:
       'Tests, referrals, results, or appointments are taking too long, and the story is not moving forward.',
     outcomeHeadline: 'Keep your story moving while the system moves slowly.',
@@ -64,14 +64,14 @@ export const NAME_NO_NAME_STATES: readonly NameNoNameState[] = [
     },
     cta: 'Build my care timeline',
     ctaHref: '/for#finding-answers',
-    image: '/images/name-no-name/waiting-dismissed.png',
+    image: '/images/name-no-name/waiting-dismissed.jpg',
     imageAlt: 'A person preserving their health story while waiting for care.',
     accent: 'lavender',
     blend: '#f2e9df',
   },
   {
     id: 'diagnosis-doesnt-fit',
-    title: 'I have a diagnosis, but it doesn’t fit',
+    title: "I have a diagnosis, but it doesn't fit",
     description:
       'The label leaves important symptoms unexplained, or the plan built around it is not helping.',
     outcomeHeadline: 'A diagnosis should not erase the parts that remain unexplained.',
@@ -83,14 +83,14 @@ export const NAME_NO_NAME_STATES: readonly NameNoNameState[] = [
     },
     cta: 'Revisit my full story',
     ctaHref: '/for#finding-answers',
-    image: '/images/name-no-name/diagnosis-doesnt-fit.png',
+    image: '/images/name-no-name/diagnosis-doesnt-fit.jpg',
     imageAlt: 'A woman examining a diagnosis that does not explain the full picture.',
     accent: 'ochre',
     blend: '#f3e7db',
   },
   {
     id: 'diagnosed',
-    title: 'I have a diagnosis, but it’s still hard',
+    title: "I have a diagnosis, but it's still hard",
     description:
       'A name exists, but the day-to-day, flares, routines, and treatment are still difficult to manage.',
     outcomeHeadline: 'Turn the diagnosis into support for real life.',
@@ -101,7 +101,7 @@ export const NAME_NO_NAME_STATES: readonly NameNoNameState[] = [
     },
     cta: 'Support my day-to-day',
     ctaHref: '/for#in-treatment',
-    image: '/images/name-no-name/diagnosed-still-hard.png',
+    image: '/images/name-no-name/diagnosed-still-hard.jpg',
     imageAlt: 'A person organizing treatment, routines, and daily life after diagnosis.',
     accent: 'teal',
     blend: '#efe8df',

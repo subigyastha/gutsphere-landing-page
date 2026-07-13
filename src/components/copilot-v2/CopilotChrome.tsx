@@ -601,7 +601,7 @@ export function CopilotFooter() {
         </p>
 
         <div className="cp2-foot-bottom">
-          <span>© 2026 Gutsphere</span>
+          <span>© {new Date().getFullYear()} Gutsphere</span>
           <div className="cp2-foot-legal">
             <a href={PRIVACY_URL}>Privacy</a>
             <a href={TERMS_URL}>Terms</a>

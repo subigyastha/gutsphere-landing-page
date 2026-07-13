@@ -53,3 +53,6 @@ coverage/
 
 # Local tooling
 .cursor/
+
+# Design source pipeline (optimized outputs live in public/)
+Images/

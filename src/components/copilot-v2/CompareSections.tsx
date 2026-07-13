@@ -122,7 +122,14 @@ export function DifferenceSection() {
                 <p>{card.body}</p>
               </div>
               <div className="cp2-diff-card-media">
-                <img src={card.src} alt={card.alt} loading="lazy" decoding="async" />
+                <img
+                  src={card.src}
+                  alt={card.alt}
+                  width={800}
+                  height={600}
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
             </article>
           ))}
