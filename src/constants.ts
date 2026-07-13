@@ -386,7 +386,7 @@ export interface StoryVideoConfig {
 /** Landing-page story clips — user interview & founder note */
 export const STORY_VIDEOS = {
   sabina: {
-    youtubeId: '67Bil1BjP6g',
+    youtubeId: 'lNmMUlNtdDM',
     title: 'Sabina Azzahra — lived experience',
   },
   founder: {
