@@ -1,5 +1,4 @@
 ﻿import { SIGNUP_URL } from '../../constants'
-import { NAME_NO_NAME_IMAGES } from './nameNoNameImages'
 
 export type NameNoNameStateId =
   | 'symptoms-no-name'
@@ -25,8 +24,6 @@ export interface NameNoNameState {
   ctaHref: string
   secondaryHref?: string
   secondaryLabel?: string
-  image: string
-  imageAlt: string
   accent: NameNoNameAccent
   /** Card surface sampled to match illustration edge for immersive blend */
   blend: string
@@ -47,8 +44,6 @@ export const NAME_NO_NAME_STATES: readonly NameNoNameState[] = [
     ctaHref: SIGNUP_URL,
     secondaryHref: '/for#finding-answers',
     secondaryLabel: 'See Finding answers situations',
-    image: NAME_NO_NAME_IMAGES['symptoms-no-name'].src,
-    imageAlt: NAME_NO_NAME_IMAGES['symptoms-no-name'].alt,
     accent: 'coral',
     blend: '#f4e4d6',
   },
@@ -65,8 +60,6 @@ export const NAME_NO_NAME_STATES: readonly NameNoNameState[] = [
     },
     cta: 'Build my care timeline',
     ctaHref: '/for#finding-answers',
-    image: NAME_NO_NAME_IMAGES['told-normal'].src,
-    imageAlt: NAME_NO_NAME_IMAGES['told-normal'].alt,
     accent: 'lavender',
     blend: '#f2e9df',
   },
@@ -84,8 +77,6 @@ export const NAME_NO_NAME_STATES: readonly NameNoNameState[] = [
     },
     cta: 'Revisit my full story',
     ctaHref: '/for#finding-answers',
-    image: NAME_NO_NAME_IMAGES['diagnosis-doesnt-fit'].src,
-    imageAlt: NAME_NO_NAME_IMAGES['diagnosis-doesnt-fit'].alt,
     accent: 'ochre',
     blend: '#f3e7db',
   },
@@ -102,8 +93,6 @@ export const NAME_NO_NAME_STATES: readonly NameNoNameState[] = [
     },
     cta: 'Support my day-to-day',
     ctaHref: '/for#in-treatment',
-    image: NAME_NO_NAME_IMAGES.diagnosed.src,
-    imageAlt: NAME_NO_NAME_IMAGES.diagnosed.alt,
     accent: 'teal',
     blend: '#efe8df',
   },

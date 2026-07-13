@@ -9,7 +9,7 @@ Work through these top to bottom. Check items off as they ship.
 
 ## Shipped since launch (2026-07-13)
 
-- [x] Fix name-no-name images missing in production (root cause: `.gitignore` `Images/` matched `public/images/` on Windows case-insensitive git)
+- [x] Fix name-no-name images missing in production (root cause: `.gitignore` `Images/` matched `public/images/` on Windows case-insensitive git; assets now live in `public/images/no-name/` with `nameNoNameImages.ts`)
 - [x] Fix mojibake titles (`Gutsphere â€” …` → proper UTF-8 em dashes in `index.html`)
 - [x] OG/Twitter card with logo + hero message (`public/og-image.jpg`, meta width/height/alt)
 - [x] Mobile footer flicker from sticky CTA layout thrash (always-reserve padding; no backdrop-filter; hysteresis)
