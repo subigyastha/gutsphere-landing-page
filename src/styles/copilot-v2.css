@@ -2653,105 +2653,415 @@
   line-height: 1.55;
 }
 
-/* ---------- system flow ---------- */
+/* ---------- system flywheel ---------- */
 
-.copilot-v2 .cp2-sys-note {
-  font-family: var(--font-body);
-  font-size: 14.5px;
-  color: var(--gs-text-secondary);
-  margin-top: 20px;
-  line-height: 1.55;
+.copilot-v2 .sys-fly-head {
+  max-width: 54ch;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
-.copilot-v2 .cp2-sys-note strong {
-  font-weight: 700;
+.copilot-v2 .sys-fly-head p {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.copilot-v2 .sys-fly-supporting {
+  margin-top: 14px;
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
   color: var(--gs-text-primary);
 }
 
-.copilot-v2 .cp2-sys-preview-bridge {
-  margin: 14px 0 0;
-  max-width: 52rem;
-  font-family: var(--font-body);
-  font-size: 14.5px;
-  line-height: 1.55;
-  color: var(--gs-text-secondary);
+.copilot-v2 .sys-fly-card {
+  --sys-accent: #ef5350;
+  margin-top: clamp(32px, 4vw, 48px);
+  background: linear-gradient(165deg, #faf6f2 0%, #fff 48%, #f7f1eb 100%);
+  border: 1px solid color-mix(in srgb, var(--gs-coral) 22%, var(--gs-border));
+  border-radius: 28px;
+  padding: clamp(18px, 2.5vw, 28px);
+  box-shadow: 0 18px 40px -30px color-mix(in srgb, var(--gs-text-primary) 45%, transparent);
 }
 
-.copilot-v2 .cp2-flowd {
-  display: flex;
-  align-items: stretch;
-  margin-top: 44px;
-}
-
-.copilot-v2 .cp2-flowd-group {
-  display: contents;
-}
-
-.copilot-v2 .cp2-fnode {
-  flex: 1;
-  background: var(--gs-card);
-  border: 1px solid var(--gs-border);
-  border-radius: var(--cp2-radius);
-  padding: 24px 20px;
-  box-shadow: var(--cp2-shadow-card);
-}
-
-.copilot-v2 .cp2-fic {
-  display: inline-flex;
-  width: 46px;
-  height: 46px;
-  border-radius: 13px;
+.copilot-v2 .sys-fly-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 36px);
   align-items: center;
-  justify-content: center;
-  background: var(--gs-coral-glow);
-  color: var(--gs-coral);
-  margin-bottom: 15px;
 }
 
-.copilot-v2 .cp2-fic svg {
-  width: 23px;
-  height: 23px;
+.copilot-v2 .sys-fly-wheel {
+  position: relative;
+  width: min(100%, 520px);
+  aspect-ratio: 1;
+  margin: 0 auto;
 }
 
-.copilot-v2 .cp2-fnode h3 {
-  font-size: 19px;
-  margin-bottom: 8px;
+.copilot-v2 .sys-fly-arcs {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: color-mix(in srgb, var(--gs-coral) 38%, transparent);
+  pointer-events: none;
 }
 
-.copilot-v2 .cp2-fnode p {
-  font-size: 14px;
-  color: var(--gs-text-secondary);
-  line-height: 1.5;
+.copilot-v2 .sys-fly-arc {
+  stroke: color-mix(in srgb, var(--gs-coral) 28%, #e7e0da);
+  stroke-width: 2;
+  stroke-dasharray: 3 7;
+  stroke-linecap: round;
+  transition: stroke 0.28s ease, stroke-width 0.28s ease, opacity 0.28s ease;
+  opacity: 0.72;
 }
 
-.copilot-v2 .cp2-fconn {
-  flex: 0 0 66px;
+.copilot-v2 .sys-fly-arc.is-active {
+  stroke: var(--gs-coral);
+  stroke-width: 2.6;
+  opacity: 1;
+  animation: sys-fly-dash 1.8s linear infinite;
+}
+
+.copilot-v2 .sys-fly-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(42%, 168px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fff 0%, #faf6f2 68%, #f5eee8 100%);
+  border: 1px solid color-mix(in srgb, var(--gs-coral) 18%, var(--gs-border));
+  box-shadow:
+    0 0 0 8px color-mix(in srgb, var(--gs-coral) 6%, transparent),
+    0 12px 28px -18px color-mix(in srgb, var(--gs-coral) 35%, transparent);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  text-align: center;
+  padding: 14px;
+  transition: box-shadow 0.3s ease;
+}
+
+.copilot-v2 .sys-fly-card[data-accent] .sys-fly-core {
+  box-shadow:
+    0 0 0 8px color-mix(in srgb, var(--sys-accent) 8%, transparent),
+    0 12px 28px -18px color-mix(in srgb, var(--sys-accent) 30%, transparent);
+}
+
+.copilot-v2 .sys-fly-core-eyebrow {
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gs-coral);
+  font-weight: 600;
+}
+
+.copilot-v2 .sys-fly-core-headline {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: clamp(15px, 2.2vw, 18px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--gs-text-primary);
+  line-height: 1.2;
+}
+
+.copilot-v2 .sys-fly-core-support {
+  margin-top: 6px;
+  font-family: var(--font-body);
+  font-size: clamp(10px, 1.4vw, 11.5px);
+  line-height: 1.35;
+  color: var(--gs-text-secondary);
+  max-width: 14ch;
+}
+
+.copilot-v2 .sys-fly-stage {
+  --stage-accent: #ef5350;
+  position: absolute;
+  z-index: 2;
+  width: min(30%, 118px);
+  min-height: 88px;
+  padding: 10px 8px;
+  border-radius: 22px;
+  border: 1.5px solid var(--gs-border);
+  background: #fff;
+  color: var(--gs-text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  font: inherit;
+  appearance: none;
+  text-align: center;
+  box-shadow: 0 8px 20px -16px color-mix(in srgb, var(--gs-text-primary) 40%, transparent);
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease,
+    color 0.25s ease;
+}
+
+.copilot-v2 .sys-fly-stage[data-accent='coral'] {
+  --stage-accent: #ef5350;
+}
+
+.copilot-v2 .sys-fly-stage[data-accent='teal'] {
+  --stage-accent: #6e9f8a;
+}
+
+.copilot-v2 .sys-fly-stage[data-accent='lavender'] {
+  --stage-accent: #7e6cb5;
+}
+
+.copilot-v2 .sys-fly-stage[data-accent='ochre'] {
+  --stage-accent: #c58a35;
+}
+
+.copilot-v2 .sys-fly-stage--track {
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.copilot-v2 .sys-fly-stage--care {
+  top: 50%;
+  right: 0;
+  left: auto;
+  transform: translate(0, -50%);
+}
+
+.copilot-v2 .sys-fly-stage--navigate {
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.copilot-v2 .sys-fly-stage--understand {
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+}
+
+.copilot-v2 .sys-fly-stage--track.is-active {
+  transform: translate(-50%, 0) scale(1.03);
+}
+
+.copilot-v2 .sys-fly-stage--care.is-active {
+  transform: translate(0, -50%) scale(1.03);
+}
+
+.copilot-v2 .sys-fly-stage--navigate.is-active {
+  transform: translate(-50%, 0) scale(1.03);
+}
+
+.copilot-v2 .sys-fly-stage--understand.is-active {
+  transform: translate(0, -50%) scale(1.03);
+}
+
+.copilot-v2 .sys-fly-stage.is-active {
+  border-color: color-mix(in srgb, var(--stage-accent) 55%, var(--gs-border));
+  background: color-mix(in srgb, var(--stage-accent) 10%, #fff);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--stage-accent) 14%, transparent),
+    0 10px 22px -16px color-mix(in srgb, var(--stage-accent) 45%, transparent);
+}
+
+.copilot-v2 .sys-fly-stage:focus-visible {
+  outline: 3px solid var(--gs-coral-light);
+  outline-offset: 3px;
+}
+
+.copilot-v2 .sys-fly-stage-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--stage-accent);
+  background: color-mix(in srgb, var(--stage-accent) 12%, transparent);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.copilot-v2 .sys-fly-stage.is-active .sys-fly-stage-icon {
+  transform: scale(1.06);
+  background: color-mix(in srgb, var(--stage-accent) 18%, transparent);
+}
+
+.copilot-v2 .sys-fly-stage-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.copilot-v2 .sys-fly-stage-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.copilot-v2 .sys-fly-stage-name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--gs-text-primary);
+}
+
+.copilot-v2 .sys-fly-stage-desc {
+  font-family: var(--font-body);
+  font-size: 11px;
+  line-height: 1.25;
+  color: var(--gs-text-muted);
+}
+
+.copilot-v2 .sys-fly-panel-anim {
+  animation: sys-fly-panel-in 0.28s ease both;
+}
+
+.copilot-v2 .sys-fly-detail {
+  min-width: 0;
+  padding: 4px 2px 4px 4px;
+}
+
+.copilot-v2 .sys-fly-detail-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--sys-accent, var(--gs-coral));
+}
+
+.copilot-v2 .sys-fly-detail-headline {
+  margin-top: 10px;
+  font-size: clamp(22px, 2.6vw, 28px);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.copilot-v2 .sys-fly-detail-desc {
+  margin-top: 12px;
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: var(--gs-text-secondary);
+}
+
+.copilot-v2 .sys-fly-signals {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.copilot-v2 .sys-fly-signals li {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  line-height: 1.3;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--gs-border);
+  color: var(--gs-text-secondary);
+}
+
+.copilot-v2 .sys-fly-feeds {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid color-mix(in srgb, var(--sys-accent) 14%, var(--gs-border));
+}
+
+.copilot-v2 .sys-fly-feeds-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
   color: var(--gs-coral);
 }
 
-.copilot-v2 .cp2-fconn span {
+.copilot-v2 .sys-fly-feeds-copy {
+  margin-top: 6px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--gs-text-secondary);
+}
+
+.copilot-v2 .sys-fly-multi {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--gs-sand-light) 70%, #fff);
+  border: 1px solid var(--gs-border);
+}
+
+.copilot-v2 .sys-fly-multi-heading {
   font-family: var(--font-body);
-  font-size: 9px;
-  letter-spacing: 0.04em;
+  font-size: 11px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  font-weight: 600;
   color: var(--gs-text-muted);
+}
+
+.copilot-v2 .sys-fly-multi-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+}
+
+.copilot-v2 .sys-fly-multi-list li {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gs-text-primary);
+  position: relative;
+  padding-left: 12px;
+}
+
+.copilot-v2 .sys-fly-multi-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gs-coral);
+}
+
+.copilot-v2 .sys-fly-note {
+  margin: clamp(28px, 3.5vw, 36px) auto 0;
+  max-width: 46ch;
   text-align: center;
-  line-height: 1.2;
-  max-width: 60px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--gs-text-secondary);
 }
 
-.copilot-v2 .cp2-fconn svg {
-  width: 24px;
-  height: 24px;
+.copilot-v2 .sys-fly-note strong {
+  font-weight: 700;
+  color: var(--gs-text-primary);
 }
 
-.copilot-v2 .cp2-loopnote {
-  margin-top: 26px;
+.copilot-v2 .sys-fly-loopnote {
+  margin-top: 22px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -2763,7 +3073,7 @@
   text-align: center;
 }
 
-.copilot-v2 .cp2-rule {
+.copilot-v2 .sys-fly-rule {
   height: 1px;
   background: var(--gs-border);
   flex: 1;
@@ -2781,6 +3091,83 @@
 
 .copilot-v2 .cp2-pilot span {
   color: var(--gs-coral);
+}
+
+@keyframes sys-fly-dash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+@keyframes sys-fly-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copilot-v2 .sys-fly-arc.is-active {
+    animation: none;
+  }
+
+  .copilot-v2 .sys-fly-panel-anim {
+    animation: none;
+  }
+}
+
+@media (max-width: 980px) {
+  .copilot-v2 .sys-fly-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .copilot-v2 .sys-fly-wheel {
+    width: min(100%, 460px);
+  }
+}
+
+@media (max-width: 640px) {
+  .copilot-v2 .sys-fly-card {
+    padding: 16px 12px 20px;
+    border-radius: 22px;
+  }
+
+  .copilot-v2 .sys-fly-wheel {
+    width: min(100%, 360px);
+  }
+
+  .copilot-v2 .sys-fly-stage {
+    width: min(28%, 100px);
+    min-height: 78px;
+    padding: 8px 6px;
+    border-radius: 18px;
+  }
+
+  .copilot-v2 .sys-fly-stage-name {
+    font-size: 12.5px;
+  }
+
+  .copilot-v2 .sys-fly-stage-desc {
+    font-size: 10px;
+  }
+
+  .copilot-v2 .sys-fly-core {
+    width: min(40%, 142px);
+    padding: 10px;
+  }
+
+  .copilot-v2 .sys-fly-core-support {
+    display: none;
+  }
+
+  .copilot-v2 .sys-fly-signals li {
+    font-size: 12px;
+  }
 }
 
 /* ---------- walkthrough timeline ---------- */
@@ -4632,21 +5019,6 @@
     margin-top: 48px;
   }
 
-  .copilot-v2 .cp2-flowd {
-    flex-direction: column;
-  }
-
-  .copilot-v2 .cp2-fconn {
-    flex: 0 0 auto;
-    flex-direction: row-reverse;
-    gap: 10px;
-    padding: 10px 0;
-  }
-
-  .copilot-v2 .cp2-fconn svg {
-    transform: rotate(90deg);
-  }
-
   .copilot-v2 .cp2-plans {
     grid-template-columns: 1fr;
   }
@@ -5244,6 +5616,34 @@
   box-shadow: var(--cp2-shadow-card);
 }
 
+.copilot-v2 .cp2-proof-video-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  background-color: var(--gs-sand-light);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.copilot-v2 .cp2-proof-video-poster:focus-visible {
+  outline: 2px solid var(--gs-coral);
+  outline-offset: 3px;
+}
+
+.copilot-v2 .cp2-proof-video-embed {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 .copilot-v2 .cp2-proof-play {
   position: absolute;
   inset: 0;
@@ -5287,13 +5687,6 @@
   border-radius: 50%;
   background: var(--gs-coral);
   flex-shrink: 0;
-}
-
-.copilot-v2 .cp2-proof-video-note {
-  margin: 10px 0 0;
-  font-size: 11.5px;
-  color: var(--gs-text-muted);
-  text-align: center;
 }
 
 /* ---------- trust band ---------- */

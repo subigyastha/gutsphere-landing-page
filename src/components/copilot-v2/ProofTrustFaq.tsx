@@ -1,12 +1,12 @@
 import { LockKeyhole, ShieldCheck, TriangleAlert } from 'lucide-react'
-import { testimonials } from '../../constants'
+import { STORY_VIDEOS, testimonials } from '../../constants'
+import { StoryVideo } from './StoryVideo'
 
 /** Featured quote — shorter pull from Sabina's full testimonial on gutsphere.com */
 const SABINA_STORY = {
   ...testimonials[0],
   quote:
     'The guidance wasn\u2019t just about symptoms\u2014it helped me monitor my whole life and truly take charge of my journey.',
-  videoDuration: '2:45',
 }
 
 export function ProofSection() {
@@ -30,27 +30,7 @@ export function ProofSection() {
             </figcaption>
           </figure>
 
-          <div className="cp2-proof-video">
-            <div
-              className="cp2-proof-video-ph"
-              role="img"
-              aria-label={`${sabina.name} — interview clip placeholder`}
-            >
-              <span className="cp2-proof-play" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </span>
-              <span className="cp2-proof-video-badge">
-                <span className="cp2-proof-video-dot" aria-hidden="true" />
-                Watch story ({sabina.videoDuration})
-              </span>
-            </div>
-            {/* PLACEHOLDER: replace cp2-proof-video-ph with Sabina's official interview embed */}
-            <p className="cp2-proof-video-note" aria-hidden="true">
-              Video coming soon
-            </p>
-          </div>
+          <StoryVideo {...STORY_VIDEOS.sabina} />
         </div>
       </div>
     </section>

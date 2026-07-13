@@ -376,6 +376,44 @@ export const NEWSLETTER_ARCHIVE_URL = 'https://newsletter.gutsphere.com/archive'
 export const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@gutsphere'
 export const INSTAGRAM_URL = 'https://www.instagram.com/gutsphere/'
 
+export interface StoryVideoConfig {
+  youtubeId: string
+  title: string
+  duration?: string
+}
+
+/** Landing-page story clips — user interview & founder note */
+export const STORY_VIDEOS = {
+  sabina: {
+    youtubeId: '67Bil1BjP6g',
+    title: 'Sabina Azzahra — lived experience',
+    duration: '2:45',
+  },
+  founder: {
+    youtubeId: 'u0UaCXUGGFA',
+    title: 'Bimal — founder story',
+  },
+} as const satisfies Record<string, StoryVideoConfig>
+
+export function youtubeThumbnail(
+  videoId: string,
+  quality: 'hqdefault' | 'maxresdefault' = 'hqdefault',
+): string {
+  return `https://img.youtube.com/vi/${videoId}/${quality}.jpg`
+}
+
+export function youtubeEmbedUrl(
+  videoId: string,
+  options?: { autoplay?: boolean },
+): string {
+  const params = new URLSearchParams({
+    rel: '0',
+    modestbranding: '1',
+    ...(options?.autoplay ? { autoplay: '1' } : {}),
+  })
+  return `https://www.youtube-nocookie.com/embed/${videoId}?${params}`
+}
+
 export type ContentFormat = 'guide' | 'video' | 'tip'
 
 export interface CuratedContentItem {

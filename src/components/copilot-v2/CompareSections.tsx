@@ -5,8 +5,9 @@ import {
   Smartphone,
   Video,
 } from 'lucide-react'
-import { ABOUT_URL } from '../../constants'
+import { ABOUT_URL, STORY_VIDEOS } from '../../constants'
 import { DIFFERENCE_CARDS } from './differenceImages'
+import { StoryVideo } from './StoryVideo'
 
 const ROWS = [
   {
@@ -148,27 +149,7 @@ export function DifferenceSection() {
             </a>
           </figure>
 
-          <div className="cp2-proof-video">
-            <div
-              className="cp2-proof-video-ph"
-              role="img"
-              aria-label="Bimal — founder story video placeholder"
-            >
-              <span className="cp2-proof-play" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </span>
-              <span className="cp2-proof-video-badge">
-                <span className="cp2-proof-video-dot" aria-hidden="true" />
-                Watch story
-              </span>
-            </div>
-            {/* PLACEHOLDER: replace with Bimal's official founder interview embed */}
-            <p className="cp2-proof-video-note" aria-hidden="true">
-              Video coming soon
-            </p>
-          </div>
+          <StoryVideo {...STORY_VIDEOS.founder} />
         </div>
       </div>
     </section>
